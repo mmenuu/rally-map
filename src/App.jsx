@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
-import MinimapControl from './MiniMap';
+// import MinimapControl from './MiniMap';
 import RoutingControl from './RoutingControl';
 
-import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents, ZoomControl } from 'react-leaflet'
 import axios from "axios";
 import './App.css'
 
@@ -38,7 +38,7 @@ function App() {
     const nodes = data.elements.map(element => ({
       id: element.id,
       position: [element.lat, element.lon],
-      name: element.tags.name,
+      name: element.tags.name ? element.tags.name : 'N/A',
       amenity: element.tags.amenity,
       opening_hours: element.tags.opening_hours ? element.tags.opening_hours : 'N/A',
     }));
@@ -64,9 +64,12 @@ function App() {
   }
 
   function removeNodeFromRoute(node) {
-    if (!navigate) {
-      setRoute(route.filter(n => n.id !== node.id));
+    if (navigate) {
+      alert('Please stop navigation first.');
+      return;
     }
+
+    setRoute(route.filter(n => n.id !== node.id));
   }
 
   function handleNavigate() {
@@ -74,55 +77,30 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='relative w-screen h-screen'>
       {route.length > 0 && (
-        <div style={{
-          position: 'absolute',
-          top: "50%",
-          left: '1rem',
-          zIndex: 1000,
-          backgroundColor: 'white',
-          padding: 10,
-          borderRadius: 10,
-          boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.5)',
-        }}>
-          <h1 style={
-            {
-              fontSize: '1.5rem',
-              marginBottom: 10,
-            }}>Waypoint</h1>
-          <ul style={{
-            listStyle: 'none',
-          }}>
+        <div className='absolute bg-white z-20 p-4 md:min-w-[325px] md:left-2 md:top-2 max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl max-h-[40vh] overflow-scroll'>
+          <h1 className='text-3xl text-center'>Roadtrip</h1>
+          <h3 className='text-xl text-center mb-4 text-gray-400'>
+            Waypoints
+          </h3>
+
+          <ul
+            className='flex flex-col space-y-2 list-none'
+          >
             {route.map((node, index) => (
-              <li style={{
-                display: 'flex',
-              }}
+              <li
+                className='flex justify-between p-3 shadow-sm bg-gray-50 group hover:text-red-400 hover:bg-red-100 hover:ring-2 hover:ring-red-400 rounded-md'
                 key={node.id}
                 onClick={() => removeNodeFromRoute(node)}
               >
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: 10,
-                }}>
-                  <span style={{
-                    fontWeight: 'bold',
-                    marginRight: 10,
-                    borderRadius: '100%',
-                    width: 24,
-                    height: 24,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'green',
-                    color: 'white',
-                  }}>{index + 1}</span>
-                  <h2 style={{
-                    fontSize: '1rem',
-                    marginBottom: 5,
-                    marginRight: 10,
-                  }}>{node.name}</h2>
+                <div className='flex justify-between items-center'>
+                  <span
+                    className='text-2xl font-semibold text-gray-400 group-hover:text-red-400'
+                  >{index + 1}</span>
+                  <h2
+                    className='text-xl font-medium ml-3 group-hover:text-red-400'
+                  >{node.name}</h2>
                 </div>
               </li>
             ))}
@@ -130,21 +108,10 @@ function App() {
           {
             route.length > 1 && (
               <button
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: 'skyblue',
-                  backgroundOpacity: 0.5,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: 10,
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
+                className={`text-${navigate ? 'red' : 'blue'}-400 font-semibold py-2 bg-${navigate ? 'red' : 'blue'}-50 px-3 rounded-md hover:bg-${navigate ? 'red' : 'blue'}-100 hover:ring-2 hover:ring-${navigate ? 'red' : 'blue'}-400 w-full mt-4`}
                 onClick={handleNavigate}
               >
-                {navigate ? 'Stop' : 'Start'}
+                {navigate ? 'Stop' : 'Start Navigation'}
               </button>
             )
           }
@@ -152,13 +119,16 @@ function App() {
       )
       }
       <MapContainer
+        className='z-10'
         center={[13.7294053, 100.7758304]}
         zoom={13}
+        zoomControl={false}
         whenReady={() => searchNodes({
           lat: 13.7294053,
           lng: 100.7758304,
         })}
-        scrollWheelZoom={false}
+
+        scrollWheelZoom={true}
         placeholder={<MapPlaceholder />}
       >
         <TileLayer
@@ -170,77 +140,51 @@ function App() {
           <Marker key={node.id} position={node.position}>
             <Popup>
               <div
+                className='flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]'
               >
-                <h1 style={{
-                  fontSize: '1.5rem',
-                  marginBottom: 10,
-                }}>{node.name}</h1>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: 10,
-                }}>
-                  <span style={{
-                    color: 'red',
-                    fontWeight: 'bold',
-                    borderRadius: 5,
-                    padding: 5,
-                    backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                  }}>{node.amenity}</span>
-                  <time>
+                <h1 className='text-2xl font-medium'>{
+                  node.name
+                }</h1>
+                <div className='flex flex-wrap justify-between items-center pb-3'>
+                  <span className='text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize'>{node.amenity}</span>
+                  <time className='text-gray-400'>
                     {node.opening_hours}
                   </time>
                 </div>
-              </div>
-
-              {
-                route.length === 0 ? (
-                  <button
-                    style={{
-                      backgroundColor: 'green',
-                      color: 'white',
-                      padding: 10,
-                      borderRadius: 5,
-                      border: 'none',
-                      cursor: 'pointer',
-                      width: '100%',
-                    }}
-                    onClick={() => addNodeToRoute(node)}
-                  >
-                    Start Trip
-                  </button>) : nodeNotInRoute(node) && !navigate ? (
+                {
+                  route.length === 0 ? (
                     <button
-                      style={{
-                        backgroundColor: 'green',
-                        color: 'white',
-                        padding: 10,
-                        borderRadius: 5,
-                        border: 'none',
-                        cursor: 'pointer',
-                        width: '100%',
-                      }}
-                      onClick={() => setRoute([...route, node])}
+                      className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
+                      onClick={() => addNodeToRoute(node)}
                     >
-                      Add to route
-                    </button>
-                  ) : (
-                  <p style={{
-                    color: 'skyblue',
-                  }}>
-                    Already in route or navigating
-                  </p>
-                )
-              }
+                      Start Trip
+                    </button>) : nodeNotInRoute(node) && !navigate ? (
+                      <button
+                        className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
+                        onClick={() => setRoute([...route, node])}
+                      >
+                        Add to route
+                      </button>
+                    ) : (
+                    <div>
+                      <p className='text-red-400'>Already in route or navigating to destination ...</p>
+                      <button className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full' onClick={() => removeNodeFromRoute(node)}>
+                        Remove from route
+                      </button>
+                    </div>
+                  )
+                }
+              </div>
             </Popup>
           </Marker>
         ))}
         <SetViewOnClick animateRef={animateRef} />
-        <MinimapControl position="topright" zoom={5} />
+        {/* <MinimapControl position="topright" zoom={5} /> */}
 
         {navigate && (
           <RoutingControl position="bottomright" color="red" waypoints={route.map(node => node.position)} />
         )}
+        <ZoomControl position="topright" />
       </MapContainer>
     </div >
   )
