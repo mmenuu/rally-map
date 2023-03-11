@@ -64,7 +64,9 @@ function App() {
   }
 
   function removeNodeFromRoute(node) {
-    setRoute(route.filter(n => n.id !== node.id));
+    if (!navigate) {
+      setRoute(route.filter(n => n.id !== node.id));
+    }
   }
 
   function handleNavigate() {
