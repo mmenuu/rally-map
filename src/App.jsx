@@ -154,6 +154,10 @@ function App() {
       <MapContainer
         center={[13.7294053, 100.7758304]}
         zoom={13}
+        whenReady={() => searchNodes({
+          lat: 13.7294053,
+          lng: 100.7758304,
+        })}
         scrollWheelZoom={false}
         placeholder={<MapPlaceholder />}
       >
