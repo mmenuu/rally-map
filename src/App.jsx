@@ -1,78 +1,10 @@
-import { useState, useRef, useCallback, useMemo } from 'react'
-import { useEventHandlers } from '@react-leaflet/core'
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMapEvent, useMap, Rectangle } from 'react-leaflet'
-import RoutingControl from './RoutingControl'
+import { useState, useRef, useEffect } from 'react'
+import MinimapControl from './MiniMap';
+import RoutingControl from './RoutingControl';
 
+import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents } from 'react-leaflet'
+import axios from "axios";
 import './App.css'
-
-const POSITION_CLASSES = {
-  bottomleft: 'leaflet-bottom leaflet-left',
-  bottomright: 'leaflet-bottom leaflet-right',
-  topleft: 'leaflet-top leaflet-left',
-  topright: 'leaflet-top leaflet-right',
-}
-
-const BOUNDS_STYLE = { weight: 1 }
-
-function MinimapBounds({ parentMap, zoom }) {
-  const minimap = useMap()
-
-  // Clicking a point on the minimap sets the parent's map center
-  const onClick = useCallback(
-    (e) => {
-      parentMap.setView(e.latlng, parentMap.getZoom())
-    },
-    [parentMap],
-  )
-  useMapEvent('click', onClick)
-
-  // Keep track of bounds in state to trigger renders
-  const [bounds, setBounds] = useState(parentMap.getBounds())
-  const onChange = useCallback(() => {
-    setBounds(parentMap.getBounds())
-    // Update the minimap's view to match the parent map's center and zoom
-    minimap.setView(parentMap.getCenter(), zoom)
-  }, [minimap, parentMap, zoom])
-
-  // Listen to events on the parent map
-  const handlers = useMemo(() => ({ move: onChange, zoom: onChange }), [])
-  useEventHandlers({ instance: parentMap }, handlers)
-
-  return <Rectangle bounds={bounds} pathOptions={BOUNDS_STYLE} />
-}
-
-function MinimapControl({ position, zoom }) {
-  const parentMap = useMap()
-  const mapZoom = zoom || 0
-
-  // Memoize the minimap so it's not affected by position changes
-  const minimap = useMemo(
-    () => (
-      <MapContainer
-        style={{ height: 125, width: 125 }}
-        center={parentMap.getCenter()}
-        zoom={mapZoom}
-        dragging={false}
-        doubleClickZoom={false}
-        scrollWheelZoom={false}
-        attributionControl={false}
-        zoomControl={false}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <MinimapBounds parentMap={parentMap} zoom={mapZoom} />
-      </MapContainer>
-    ),
-    [],
-  )
-
-  const positionClass =
-    (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright
-  return (
-    <div className={positionClass}>
-      <div className="leaflet-control leaflet-bar">{minimap}</div>
-    </div>
-  )
-}
-
 
 function SetViewOnClick({ animateRef }) {
   const map = useMapEvent('click', (e) => {
@@ -95,29 +27,208 @@ function MapPlaceholder() {
 
 function App() {
   const animateRef = useRef(true)
-  const [start, setStart] = useState([13.7294053, 100.7758304])
-  const [end, setEnd] = useState([13.7277969, 100.7648801])
-  return (
-    <MapContainer
-      center={[13.7294053, 100.7758304]}
-      zoom={13}
-      scrollWheelZoom={false}
-      placeholder={<MapPlaceholder />}
-    >
-      <TileLayer
-        attribution='Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors, <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>'
-        url={`https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/${import.meta.env.VITE_MAPBOX_STYLE}/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`}
-      />
-      <RoutingControl
-        position={'bottomright'}
-        waypoints={[start, end]}
-        color={'#757de8'}
-      />
+  const [nodes, setNodes] = useState([]);
+  const [route, setRoute] = useState([]);
+  const [navigate, setNavigate] = useState(false);
 
-      <SetViewOnClick animateRef={animateRef} />
-      <MinimapControl position="topright" />
-    </MapContainer>
+  const searchNodes = async (c) => {
+    const url = `https://overpass-api.de/api/interpreter?data=[out:json];node(around:3000,${c.lat}, ${c.lng})[%22amenity%22=%22restaurant%22];out;`;
+    const response = await axios.get(url);
+    const data = response.data;
+    const nodes = data.elements.map(element => ({
+      position: [element.lat, element.lon],
+      name: element.tags.name,
+      amenity: element.tags.amenity,
+      opening_hours: element.tags.opening_hours ? element.tags.opening_hours : 'N/A',
+    }));
+    setNodes(nodes);
+  };
+
+  function LoadNodes() {
+    const map = useMapEvents({
+      moveend() {
+        const visibleCenter = map.getCenter();
+        searchNodes(visibleCenter);
+      }
+    });
+    return null;
+  }
+
+  function addNodeToRoute(node) {
+    setRoute([...route, node]);
+  }
+
+  function nodeNotInRoute(node) {
+    return route.find(n => n.name === node.name) === undefined;
+  }
+
+  function handleNavigate() {
+    setNavigate(!navigate);
+  }
+
+  return (
+    <div>
+      {route.length > 0 && (
+        <div style={{
+          position: 'absolute',
+          top: "50%",
+          left: '1rem',
+          zIndex: 1000,
+          backgroundColor: 'white',
+          padding: 10,
+          borderRadius: 10,
+          boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.5)',
+        }}>
+          <h1 style={
+            {
+              fontSize: '1.5rem',
+              marginBottom: 10,
+            }}>Waypoint</h1>
+          <ul style={{
+            listStyle: 'none',
+          }}>
+            {route.map((node, index) => (
+              <li key={index}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: 10,
+                }}>
+                  <span style={{
+                    fontWeight: 'bold',
+                    marginRight: 10,
+                    borderRadius: '100%',
+                    width: 24,
+                    height: 24,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'green',
+                    color: 'white',
+                  }}>{index + 1}</span>
+
+                  <h2 style={{
+                    fontSize: '1rem',
+                    marginBottom: 5,
+                    marginRight: 10,
+                  }}>{node.name}</h2>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {
+            route.length > 1 && (
+              <button
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: 'skyblue',
+                  backgroundOpacity: 0.5,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: 10,
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                onClick={handleNavigate}
+              >
+                {navigate ? 'Stop' : 'Start'}
+              </button>
+            )
+          }
+        </div>
+      )
+      }
+      <MapContainer
+        center={[13.7294053, 100.7758304]}
+        zoom={13}
+        scrollWheelZoom={false}
+        placeholder={<MapPlaceholder />}
+      >
+        <TileLayer
+          attribution='Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors, <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>'
+          url={`https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/${import.meta.env.VITE_MAPBOX_STYLE}/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`}
+        />
+        <LoadNodes />
+        {nodes.length > 0 && nodes.map((node, index) => (
+          <Marker key={index} position={node.position}>
+            <Popup>
+              <div
+              >
+                <h1 style={{
+                  fontSize: '1.5rem',
+                  marginBottom: 10,
+                }}>{node.name}</h1>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
+                }}>
+                  <span style={{
+                    color: 'red',
+                    fontWeight: 'bold',
+                    borderRadius: 5,
+                    padding: 5,
+                    backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                  }}>{node.amenity}</span>
+                  <time>
+                    {node.opening_hours}
+                  </time>
+                </div>
+              </div>
+
+              {
+                route.length === 0 ? (
+                  <button
+                    style={{
+                      backgroundColor: 'green',
+                      color: 'white',
+                      padding: 10,
+                      borderRadius: 5,
+                      border: 'none',
+                      cursor: 'pointer',
+                      width: '100%',
+                    }}
+                    onClick={() => addNodeToRoute(node)}
+                  >
+                    Start Trip
+                  </button>) : nodeNotInRoute(node) && !navigate ? (
+                    <button
+                      style={{
+                        backgroundColor: 'green',
+                        color: 'white',
+                        padding: 10,
+                        borderRadius: 5,
+                        border: 'none',
+                        cursor: 'pointer',
+                        width: '100%',
+                      }}
+                      onClick={() => setRoute([...route, node])}
+                    >
+                      Add to route
+                    </button>
+                  ) : (
+                  <p style={{
+                    color: 'skyblue',
+                  }}>
+                    Already in route or navigating
+                  </p>
+                )
+              }
+            </Popup>
+          </Marker>
+        ))}
+        <SetViewOnClick animateRef={animateRef} />
+        <MinimapControl position="topright" zoom={5} />
+
+        {navigate && (
+          <RoutingControl position="bottomright" color="red" waypoints={route.map(node => node.position)} />
+        )}
+      </MapContainer>
+    </div >
   )
 }
 
-export default App
+export default App;

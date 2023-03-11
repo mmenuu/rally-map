@@ -4,6 +4,7 @@ import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
 const createRoutineMachineLayer = ({ position, waypoints, color }) => {
+
   const instance = L.Routing.control({
     position,
     waypointMode: "snap",
