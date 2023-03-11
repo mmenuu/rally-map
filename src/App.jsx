@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import MinimapControl from './MiniMap';
 import RoutingControl from './RoutingControl';
 
@@ -36,6 +36,7 @@ function App() {
     const response = await axios.get(url);
     const data = response.data;
     const nodes = data.elements.map(element => ({
+      id: element.id,
       position: [element.lat, element.lon],
       name: element.tags.name,
       amenity: element.tags.amenity,
@@ -59,7 +60,11 @@ function App() {
   }
 
   function nodeNotInRoute(node) {
-    return route.find(n => n.name === node.name) === undefined;
+    return route.find(n => n.id === node.id) === undefined;
+  }
+
+  function removeNodeFromRoute(node) {
+    setRoute(route.filter(n => n.id !== node.id));
   }
 
   function handleNavigate() {
@@ -88,7 +93,12 @@ function App() {
             listStyle: 'none',
           }}>
             {route.map((node, index) => (
-              <li key={index}>
+              <li style={{
+                display: 'flex',
+              }}
+                key={node.id}
+                onClick={() => removeNodeFromRoute(node)}
+              >
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -106,7 +116,6 @@ function App() {
                     backgroundColor: 'green',
                     color: 'white',
                   }}>{index + 1}</span>
-
                   <h2 style={{
                     fontSize: '1rem',
                     marginBottom: 5,
@@ -151,8 +160,8 @@ function App() {
           url={`https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME}/${import.meta.env.VITE_MAPBOX_STYLE}/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`}
         />
         <LoadNodes />
-        {nodes.length > 0 && nodes.map((node, index) => (
-          <Marker key={index} position={node.position}>
+        {nodes.length > 0 && nodes.map((node) => (
+          <Marker key={node.id} position={node.position}>
             <Popup>
               <div
               >
