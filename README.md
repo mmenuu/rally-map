@@ -1,3 +1,4 @@
-# rally-map
+# Rally Map
 
-Trip planning Web App.
+Roadtrip planner web application.
+
