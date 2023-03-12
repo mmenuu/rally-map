@@ -90,7 +90,7 @@ function App() {
           >
             {route.map((node, index) => (
               <li
-                className='rounded-md p-3 bg-gray-50 shadow-md'
+                className='rounded-md p-3 bg-gray-50 shadow-md cursor-grab'
                 key={node.id}
               >
                 <div className='flex justify-between items-center'>
@@ -105,7 +105,7 @@ function App() {
                           className='text-xl font-medium'
                         >{node.name}</h2>
                         <span
-                          className='text-sm text-gray-400'
+                          className='text-sm text-gray-400 capitalize'
                         >{node.amenity}</span>
                       </div>
                     </div>
@@ -138,7 +138,7 @@ function App() {
           {
             route.length > 1 && (
               !navigate ? (<button
-                className={`text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full mt-4`}
+                className={`text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 w-full hover:ring-blue-400 mt-4`}
                 onClick={handleNavigate}
               >
                 Start Navigation
@@ -153,6 +153,18 @@ function App() {
         </div>
       )
       }
+
+      {
+        route.length > 1 && (
+          <button className="absolute text-green-400 bottom-2 left-2 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 mt-4 z-20"
+            onClick={() => {
+              alert(JSON.stringify(route));
+            }}>
+            Save Trip
+          </button>
+        )
+      }
+
       <MapContainer
         className='z-10'
         center={[13.7294053, 100.7758304]}
@@ -198,7 +210,7 @@ function App() {
                         className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
                         onClick={() => setRoute([...route, node])}
                       >
-                        Add to route
+                        Add to trip
                       </button>
                     ) : (
                     <div>
@@ -212,7 +224,7 @@ function App() {
                       {
                         (!nodeNotInRoute(node) && !navigate) && (
                           <button className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full' onClick={() => removeNodeFromRoute(node)}>
-                            Remove from route
+                            Remove from trip
                           </button>
                         )
                       }
