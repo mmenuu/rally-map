@@ -107,12 +107,17 @@ function App() {
           </ul>
           {
             route.length > 1 && (
-              <button
-                className={`text-${navigate ? 'red' : 'blue'}-400 font-semibold py-2 bg-${navigate ? 'red' : 'blue'}-50 px-3 rounded-md hover:bg-${navigate ? 'red' : 'blue'}-100 hover:ring-2 hover:ring-${navigate ? 'red' : 'blue'}-400 w-full mt-4`}
+              !navigate ? (<button
+                className={`text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full mt-4`}
                 onClick={handleNavigate}
               >
-                {navigate ? 'Stop' : 'Start Navigation'}
-              </button>
+                Start Navigation
+              </button>) : (<button
+                className={`text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full mt-4`}
+                onClick={handleNavigate}
+              >
+                Stop
+              </button>)
             )
           }
         </div>
