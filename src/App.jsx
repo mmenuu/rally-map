@@ -167,10 +167,20 @@ function App() {
                       </button>
                     ) : (
                     <div>
-                      <p className='text-red-400'>Already in route or navigating to destination ...</p>
-                      <button className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full' onClick={() => removeNodeFromRoute(node)}>
-                        Remove from route
-                      </button>
+                      {
+                        navigate && (
+                          <p className="text-red-400">
+                            Please stop navigation first.
+                          </p>
+                        )
+                      }
+                      {
+                        (!nodeNotInRoute(node) && !navigate) && (
+                          <button className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full' onClick={() => removeNodeFromRoute(node)}>
+                            Remove from route
+                          </button>
+                        )
+                      }
                     </div>
                   )
                 }
