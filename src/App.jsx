@@ -204,7 +204,7 @@ function App() {
                       className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
                       onClick={() => addNodeToRoute(node)}
                     >
-                      Start Trip
+                      Start new trip
                     </button>) : nodeNotInRoute(node) && !navigate ? (
                       <button
                         className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
