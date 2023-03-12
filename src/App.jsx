@@ -79,7 +79,7 @@ function App() {
   return (
     <div className='relative w-screen h-screen'>
       {route.length > 0 && (
-        <div className='absolute bg-white z-20 p-4 md:min-w-[325px] md:left-2 md:top-2 max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl max-h-[40vh] overflow-scroll'>
+        <div className='absolute bg-white z-20 p-4 w-[325px] md:left-2 md:top-2 max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl max-h-[40vh] overflow-scroll'>
           <h1 className='text-3xl text-center'>Roadtrip</h1>
           <h3 className='text-xl text-center mb-4 text-gray-400'>
             Waypoints
@@ -90,17 +90,46 @@ function App() {
           >
             {route.map((node, index) => (
               <li
-                className='flex justify-between p-3 shadow-sm bg-gray-50 group hover:text-red-400 hover:bg-red-100 hover:ring-2 hover:ring-red-400 rounded-md'
+                className='rounded-md p-3 bg-gray-50 shadow-md'
                 key={node.id}
                 onClick={() => removeNodeFromRoute(node)}
               >
                 <div className='flex justify-between items-center'>
-                  <span
-                    className='text-2xl font-semibold text-gray-400 group-hover:text-red-400'
-                  >{index + 1}</span>
-                  <h2
-                    className='text-xl font-medium ml-3 group-hover:text-red-400'
-                  >{node.name}</h2>
+                  <div className='flex flex-col'>
+                    <div className='flex justify-between items-center'>
+                      <span
+                        className='text-2xl font-semibold text-gray-400 mr-4'
+                      >{index + 1}</span>
+
+                      <div className='flex flex-col'>
+                        <h2
+                          className='text-xl font-medium'
+                        >{node.name}</h2>
+                        <span
+                          className='text-sm text-gray-400'
+                        >{node.amenity}</span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <button style={{
+                    cursor: navigate ? 'not-allowed' : 'pointer',
+                  }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-gray-400 hover:text-red-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </li>
             ))}
