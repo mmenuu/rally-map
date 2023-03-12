@@ -92,7 +92,6 @@ function App() {
               <li
                 className='rounded-md p-3 bg-gray-50 shadow-md'
                 key={node.id}
-                onClick={() => removeNodeFromRoute(node)}
               >
                 <div className='flex justify-between items-center'>
                   <div className='flex flex-col'>
@@ -114,7 +113,9 @@ function App() {
                   </div>
                   <button style={{
                     cursor: navigate ? 'not-allowed' : 'pointer',
-                  }}>
+                  }}
+                    onClick={() => removeNodeFromRoute(node)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 text-gray-400 hover:text-red-400"
