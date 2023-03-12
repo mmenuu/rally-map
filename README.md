@@ -1,4 +1,4 @@
 # Rally Map
 
-a Roadtrip planner web application.
+a roadtrip planner web application.
 
