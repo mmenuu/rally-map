@@ -65,7 +65,7 @@ function App() {
 
   function removeNodeFromRoute(node) {
     if (navigate) {
-      alert('Please stop navigation first.');
+      alert('Please stop navigation before removing a waypoint.');
       return;
     }
 
@@ -86,7 +86,7 @@ function App() {
           </h3>
 
           <ul
-            className='flex flex-col space-y-2 list-none'
+            className='flex flex-col space-y-2 list-none mb-4'
           >
             {route.map((node, index) => (
               <li
@@ -138,12 +138,12 @@ function App() {
           {
             route.length > 1 && (
               !navigate ? (<button
-                className={`text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 w-full hover:ring-blue-400 mt-4`}
+                className={`text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 w-full hover:ring-blue-400`}
                 onClick={handleNavigate}
               >
                 Start Navigation
               </button>) : (<button
-                className={`text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full mt-4`}
+                className={`text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full`}
                 onClick={handleNavigate}
               >
                 Stop
@@ -205,31 +205,27 @@ function App() {
                       onClick={() => addNodeToRoute(node)}
                     >
                       Start new trip
-                    </button>) : nodeNotInRoute(node) && !navigate ? (
+                    </button>) : navigate ? (
+
+                      <p className="text-red-400">
+                        Please stop navigation before making changes to the route.
+                      </p>
+                    ) :
+                    nodeNotInRoute(node) ? (
                       <button
-                        className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
-                        onClick={() => setRoute([...route, node])}
+                        className='text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full'
+                        onClick={() => addNodeToRoute(node)}
                       >
                         Add to trip
                       </button>
                     ) : (
-                    <div>
-                      {
-                        navigate && (
-                          <p className="text-red-400">
-                            Please stop navigation first.
-                          </p>
-                        )
-                      }
-                      {
-                        (!nodeNotInRoute(node) && !navigate) && (
-                          <button className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full' onClick={() => removeNodeFromRoute(node)}>
-                            Remove from trip
-                          </button>
-                        )
-                      }
-                    </div>
-                  )
+                      <button
+                        className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full'
+                        onClick={() => removeNodeFromRoute(node)}
+                      >
+                        Remove from trip
+                      </button>
+                    )
                 }
               </div>
             </Popup>
