@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 // import MinimapControl from './MiniMap';
 import RoutingControl from './RoutingControl';
+import debounce from 'lodash/debounce';
 
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent, useMapEvents, ZoomControl } from 'react-leaflet'
 import axios from "axios";
@@ -31,8 +32,8 @@ function App() {
   const [route, setRoute] = useState([]);
   const [navigate, setNavigate] = useState(false);
 
-  const searchNodes = async (c) => {
-    const url = `https://overpass-api.de/api/interpreter?data=[out:json];node(around:3000,${c.lat}, ${c.lng})[%22amenity%22=%22restaurant%22];out;`;
+  const searchNodes = async ({ lat, lng }) => {
+    const url = `https://overpass-api.de/api/interpreter?data=[out:json];node(around:3000,${lat}, ${lng})[%22amenity%22=%22restaurant%22];out;`;
     const response = await axios.get(url);
     const data = response.data;
     const nodes = data.elements.map(element => ({
@@ -45,35 +46,37 @@ function App() {
     setNodes(nodes);
   };
 
-  function LoadNodes() {
-    const map = useMapEvents({
-      moveend() {
-        const visibleCenter = map.getCenter();
-        searchNodes(visibleCenter);
-      }
-    });
+  function LoadNodes({ searchNodes }) {
+    const map = useMapEvent('moveend', debounce(() => {
+      const center = map.getCenter();
+      searchNodes({
+        lat: center.lat,
+        lng: center.lng,
+      });
+    }, 1000));
+
     return null;
   }
 
   function addNodeToRoute(node) {
     setRoute([...route, node]);
+    handleRouting()
+  }
+
+  function removeNodeFromRoute(node) {
+    setRoute(route.filter(n => n.id !== node.id));
+    handleRouting()
+  }
+
+  function handleRouting() {
+    setNavigate(false);
+    setTimeout(() => {
+      setNavigate(true);
+    }, 1);
   }
 
   function nodeNotInRoute(node) {
     return route.find(n => n.id === node.id) === undefined;
-  }
-
-  function removeNodeFromRoute(node) {
-    if (navigate) {
-      alert('Please stop navigation before removing a waypoint.');
-      return;
-    }
-
-    setRoute(route.filter(n => n.id !== node.id));
-  }
-
-  function handleNavigate() {
-    setNavigate(!navigate);
   }
 
   return (
@@ -86,7 +89,7 @@ function App() {
           </h3>
 
           <ul
-            className='flex flex-col space-y-2 list-none mb-4'
+            className='flex flex-col space-y-2 list-none'
           >
             {route.map((node, index) => (
               <li
@@ -111,9 +114,7 @@ function App() {
                     </div>
 
                   </div>
-                  <button style={{
-                    cursor: navigate ? 'not-allowed' : 'pointer',
-                  }}
+                  <button className='cursor-pointer'
                     onClick={() => removeNodeFromRoute(node)}
                   >
                     <svg
@@ -135,21 +136,6 @@ function App() {
               </li>
             ))}
           </ul>
-          {
-            route.length > 1 && (
-              !navigate ? (<button
-                className={`text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 w-full hover:ring-blue-400`}
-                onClick={handleNavigate}
-              >
-                Start Navigation
-              </button>) : (<button
-                className={`text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full`}
-                onClick={handleNavigate}
-              >
-                Stop
-              </button>)
-            )
-          }
         </div>
       )
       }
@@ -182,7 +168,7 @@ function App() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`}
         />
-        <LoadNodes />
+        <LoadNodes searchNodes={searchNodes} />
         {nodes.length > 0 && nodes.map((node) => (
           <Marker key={node.id} position={node.position}>
             <Popup>
@@ -205,12 +191,7 @@ function App() {
                       onClick={() => addNodeToRoute(node)}
                     >
                       Start new trip
-                    </button>) : navigate ? (
-
-                      <p className="text-red-400">
-                        Please stop navigation before making changes to the route.
-                      </p>
-                    ) :
+                    </button>) :
                     nodeNotInRoute(node) ? (
                       <button
                         className='text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full'
@@ -236,7 +217,9 @@ function App() {
 
         {navigate && (
           <RoutingControl position="bottomright" color="red" waypoints={route.map(node => node.position)} />
-        )}
+        )
+        }
+        {console.log(navigate)}
         <ZoomControl position="topright" />
       </MapContainer>
     </div >
