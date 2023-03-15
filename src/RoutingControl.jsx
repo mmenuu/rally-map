@@ -11,7 +11,7 @@ const createRoutineMachineLayer = ({
 }) => {
   const instance = L.Routing.control({
     position,
-    waypointMode: "snap",
+    waypointMode: "connect",
     waypoints,
     addWaypoints: false,
     lineOptions: {
@@ -25,6 +25,7 @@ const createRoutineMachineLayer = ({
     show: false,
     draggableWaypoints: false,
     routeWhileDragging: false,
+    createMarker: () => null,
   });
 
   instance.on("routesfound", (e) => {
