@@ -14,7 +14,7 @@ import axios from "axios";
 import "./App.css";
 
 const startIcon = L.icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/2536/2536611.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/7244/7244208.png",
   iconSize: [29, 32],
   iconAnchor: [12, 12],
   popupAnchor: [0, -12],
@@ -29,13 +29,6 @@ const endIcon = L.icon({
 
 const navigateIcon = L.icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/9835/9835833.png",
-  iconSize: [29, 32],
-  iconAnchor: [12, 12],
-  popupAnchor: [0, -12],
-});
-
-const locationIcon = L.icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/252/252106.png",
   iconSize: [29, 32],
   iconAnchor: [12, 12],
   popupAnchor: [0, -12],
@@ -154,16 +147,15 @@ function App() {
   const handleIcon = (node) => {
     if (node.id === route[0]?.id) {
       return startIcon;
-    } 
-    else if (!nodeNotInRoute(node) && !(node.id === route[route.length - 1]?.id)) {
-      return navigateIcon
-    }
-    else if (node.id === route[route.length - 1]?.id) {
+    } else if (
+      !nodeNotInRoute(node) &&
+      !(node.id === route[route.length - 1]?.id)
+    ) {
+      return navigateIcon;
+    } else if (node.id === route[route.length - 1]?.id) {
       return endIcon;
     } else if (node.amenity === "restaurant") {
       return restaurantIcon;
-    } else {
-      return locationIcon;
     }
   };
   return (
