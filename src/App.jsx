@@ -114,8 +114,6 @@ function App() {
 
     setRoute(items);
     handleNewRouting();
-
-    console.log(items);
   };
   return (
     <div className="relative w-screen h-screen">
@@ -141,7 +139,7 @@ function App() {
                   e.preventDefault();
                 }}
               >
-                <div className="flex p-3 bg-gray-50 rounded-sm  justify-between items-center">
+                <div className="flex p-3 bg-gray-50 hover:bg-gray-100 rounded-sm  justify-between items-center">
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
                       <span className="text-2xl font-semibold text-gray-400 mr-4">
