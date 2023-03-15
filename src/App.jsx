@@ -14,7 +14,7 @@ import axios from "axios";
 import "./App.css";
 
 const startIcon = L.icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/128/7244/7244208.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/2536/2536611.png",
   iconSize: [29, 32],
   iconAnchor: [12, 12],
   popupAnchor: [0, -12],
