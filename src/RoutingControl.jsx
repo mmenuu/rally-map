@@ -22,6 +22,13 @@ const createRoutineMachineLayer = ({ position, waypoints, color }) => {
     routeWhileDragging: false,
   });
 
+  instance.on("routesfound", (e) => {
+    const { routes } = e;
+    const { summary } = routes[0];
+    const { totalDistance, totalTime } = summary;
+    console.log(totalDistance / 1000,Math.round(totalTime % 3600 / 60));
+  });
+
   return instance;
 };
 

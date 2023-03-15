@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-// import MinimapControl from './MiniMap';
 import RoutingControl from './RoutingControl';
 import debounce from 'lodash/debounce';
 
@@ -139,7 +138,6 @@ function App() {
         </div>
       )
       }
-
       {
         route.length > 1 && (
           <button className="absolute text-green-400 bottom-2 left-2 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 mt-4 z-20"
@@ -150,7 +148,6 @@ function App() {
           </button>
         )
       }
-
       <MapContainer
         className='z-10'
         center={[13.7294053, 100.7758304]}
@@ -187,21 +184,21 @@ function App() {
                 {
                   route.length === 0 ? (
                     <button
-                      className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full'
+                      className='text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full capitalize'
                       onClick={() => addNodeToRoute(node)}
                     >
-                      Start new trip
+                      Start New Trip
                     </button>) :
                     nodeNotInRoute(node) ? (
                       <button
-                        className='text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full'
+                        className='text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full capitalize'
                         onClick={() => addNodeToRoute(node)}
                       >
                         Add to trip
                       </button>
                     ) : (
                       <button
-                        className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full'
+                        className='text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full capitalize'
                         onClick={() => removeNodeFromRoute(node)}
                       >
                         Remove from trip
@@ -213,13 +210,11 @@ function App() {
           </Marker>
         ))}
         <SetViewOnClick animateRef={animateRef} />
-        {/* <MinimapControl position="topright" zoom={5} /> */}
 
         {navigate && (
           <RoutingControl position="bottomright" color="red" waypoints={route.map(node => node.position)} />
         )
         }
-        {console.log(navigate)}
         <ZoomControl position="topright" />
       </MapContainer>
     </div >
