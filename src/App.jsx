@@ -37,6 +37,9 @@ function App() {
   const [nodes, setNodes] = useState([]);
   const [route, setRoute] = useState([]);
   const [navigate, setNavigate] = useState(false);
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
+
   const [routingDetails, setRoutingDetails] = useState({
     totalDistance: null,
     totalTime: null,
@@ -101,6 +104,19 @@ function App() {
     return route.find((n) => n.id === node.id) === undefined;
   }
 
+  const handleSort = (e) => {
+    let items = [...route];
+    const dragIndex = dragItem.current;
+    const overIndex = dragOverItem.current;
+
+    items.splice(overIndex, 0, items.splice(dragIndex, 1)[0]);
+    dragItem.current = overIndex;
+
+    setRoute(items);
+    handleNewRouting();
+
+    console.log(items);
+  };
   return (
     <div className="relative w-screen h-screen">
       {route.length > 0 && (
@@ -110,7 +126,21 @@ function App() {
 
           <ul className="flex flex-col list-none">
             {route.map((node, index) => (
-              <li className="cursor-grab" key={node.id}>
+              <li
+                className="cursor-grab active:cursor-grabbing"
+                key={node.id}
+                draggable
+                onDragStart={(e) => {
+                  dragItem.current = index;
+                }}
+                onDragEnter={(e) => {
+                  dragOverItem.current = index;
+                }}
+                onDragEnd={handleSort}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                }}
+              >
                 <div className="flex p-3 bg-gray-50 rounded-sm  justify-between items-center">
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
