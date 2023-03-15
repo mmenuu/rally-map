@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import RoutingControl from "./RoutingControl";
 import debounce from "lodash/debounce";
-
+import L from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -12,6 +12,41 @@ import {
 } from "react-leaflet";
 import axios from "axios";
 import "./App.css";
+
+const startIcon = L.icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/128/7244/7244208.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const endIcon = L.icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/9452/9452425.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const navigateIcon = L.icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/9835/9835833.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const locationIcon = L.icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/252/252106.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const restaurantIcon = L.icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/651/651059.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
 
 function SetViewOnClick({ animateRef }) {
   const map = useMapEvent("click", (e) => {
@@ -115,10 +150,26 @@ function App() {
     setRoute(items);
     handleNewRouting();
   };
+
+  const handleIcon = (node) => {
+    if (node.id === route[0]?.id) {
+      return startIcon;
+    } 
+    else if (!nodeNotInRoute(node) && !(node.id === route[route.length - 1]?.id)) {
+      return navigateIcon
+    }
+    else if (node.id === route[route.length - 1]?.id) {
+      return endIcon;
+    } else if (node.amenity === "restaurant") {
+      return restaurantIcon;
+    } else {
+      return locationIcon;
+    }
+  };
   return (
     <div className="relative w-screen h-screen">
       {route.length > 0 && (
-        <div className="absolute bg-white z-20 p-4 w-[325px] md:left-2 md:top-6 max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl h-[80vh] overflow-scroll">
+        <div className="absolute bg-white z-20 p-4 w-[325px] md:left-2 md:top-2 md:bottom-2 max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl overflow-scroll">
           <h1 className="text-3xl text-center">Roadtrip</h1>
           <h3 className="text-xl text-center mb-4 text-gray-400">Waypoints</h3>
 
@@ -139,7 +190,7 @@ function App() {
                   e.preventDefault();
                 }}
               >
-                <div className="flex p-3 bg-gray-50 hover:bg-gray-100 rounded-sm  justify-between items-center">
+                <div className="flex p-3 bg-gray-50 hover:bg-blue-100 rounded-sm  justify-between items-center">
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
                       <span className="text-2xl font-semibold text-gray-400 mr-4">
@@ -201,7 +252,7 @@ function App() {
       )}
       {route.length > 1 && (
         <button
-          className="absolute text-green-400 bottom-2 left-2 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 mt-4 z-20"
+          className="absolute text-green-400 bottom-10 left-96 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 mt-4 z-20"
           onClick={() => {
             alert(JSON.stringify(route));
           }}
@@ -213,6 +264,7 @@ function App() {
         className="z-10"
         center={[13.7294053, 100.7758304]}
         zoom={13}
+        maxZoom={18}
         zoomControl={false}
         whenReady={() =>
           searchNodes({
@@ -230,7 +282,11 @@ function App() {
         <LoadNodes searchNodes={searchNodes} />
         {nodes.length > 0 &&
           nodes.map((node) => (
-            <Marker key={node.id} position={node.position}>
+            <Marker
+              key={node.id}
+              position={node.position}
+              icon={handleIcon(node)}
+            >
               <Popup>
                 <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
                   <h1 className="text-2xl font-medium">{node.name}</h1>
