@@ -15,21 +15,21 @@ import "./App.css";
 
 const startIcon = L.icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/7244/7244208.png",
-  iconSize: [29, 32],
+  iconSize: [37, 40],
   iconAnchor: [12, 12],
   popupAnchor: [0, -12],
 });
 
 const endIcon = L.icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/9452/9452425.png",
-  iconSize: [29, 32],
+  iconSize: [37, 40],
   iconAnchor: [12, 12],
   popupAnchor: [0, -12],
 });
 
 const navigateIcon = L.icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/9835/9835833.png",
-  iconSize: [29, 32],
+  iconSize: [37, 40],
   iconAnchor: [12, 12],
   popupAnchor: [0, -12],
 });
@@ -168,7 +168,7 @@ function App() {
           <ul className="flex flex-col list-none">
             {route.map((node, index) => (
               <li
-                className="cursor-grab active:cursor-grabbing"
+                  className="cursor-grab active:cursor-grabbing"
                 key={node.id}
                 draggable
                 onDragStart={(e) => {
