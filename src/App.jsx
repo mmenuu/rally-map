@@ -220,12 +220,12 @@ function App() {
                 {route.length > 1 && route.length - 1 !== index && (
                   <div className="flex items-center my-4">
                     <div className="border-b w-full"></div>
-                    <span className="w-24 ml-5 font-medium text-gray-400">
+                    <span className="w-28 ml-5 font-medium text-gray-400">
                       {routingDetails.distanceBetweenWaypoints[index]
                         ? `${parseFloat(
                             routingDetails.distanceBetweenWaypoints[index] /
                               1000
-                          ).toFixed(2)} km`
+                          ).toFixed(3)} km`
                         : "calculating..."}
                     </span>
                   </div>
@@ -233,7 +233,7 @@ function App() {
                 {route.length - 1 === index && route.length > 1 && (
                   <p className="items-center my-4 text-md font-semibold text-blue-400 text-center">
                     Total Distance:{" "}
-                    {parseFloat(routingDetails.totalDistance / 1000).toFixed(2)}{" "}
+                    {parseFloat(routingDetails.totalDistance / 1000).toFixed(3)}{" "}
                     km
                   </p>
                 )}
