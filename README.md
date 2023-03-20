@@ -21,3 +21,4 @@ Whether you're planning a weekend getaway or a cross-country adventure, Rally Ma
 ## Technologies
 - React
 - Leaflet and React-Leaflet
+- TailwindCSS
