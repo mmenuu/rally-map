@@ -62,7 +62,7 @@ function MapPlaceholder() {
 
 function App() {
   const animateRef = useRef(true);
-  const [nodes, setNodes] = useState([]);
+  const [elements, setElements] = useState([]);
   const [route, setRoute] = useState([]);
   const [navigate, setNavigate] = useState(false);
   const dragItem = useRef(null);
@@ -74,13 +74,24 @@ function App() {
     distanceBetweenWaypoints: [],
   });
 
-  const searchNodes = async ({ lat, lng }) => {
-    const url = `${
+  const searchElements = async ({ lat, lng }) => {
+    const node_api = `${
       import.meta.env.VITE_MAP_DATA_API
     }?data=[out:json];node(around:3000,${lat}, ${lng})[%22amenity%22=%22restaurant%22];out;`;
-    const response = await axios.get(url);
-    const data = response.data;
-    const nodes = data.elements.map((element) => ({
+    const node_response = await axios.get(node_api);
+    const node_data = node_response.data;
+
+    // TODO: Add ways elements to the map
+    // const way_api = `${
+    //   import.meta.env.VITE_MAP_DATA_API
+    // }?data=[out:json];way(around:3000,${lat}, ${lng})[%22amenity%22=%22restaurant%22];out;`;
+    // const way_response = await axios.get(way_api);
+    // const way_data = way_response.data;
+    // const data = [...node_data.elements, ...way_data.elements];
+
+    const data = node_data.elements;
+
+    const elementsData = data.map((element) => ({
       id: element.id,
       position: [element.lat, element.lon],
       name: element.tags.name ? element.tags.name : "N/A",
@@ -89,15 +100,15 @@ function App() {
         ? element.tags.opening_hours
         : "N/A",
     }));
-    setNodes(nodes);
+    setElements(elementsData);
   };
 
-  function LoadNodes({ searchNodes }) {
+  function LoadElements() {
     const map = useMapEvent(
       "moveend",
       debounce(() => {
         const center = map.getCenter();
-        searchNodes({
+        searchElements({
           lat: center.lat,
           lng: center.lng,
         });
@@ -107,13 +118,13 @@ function App() {
     return null;
   }
 
-  function addNodeToRoute(node) {
-    setRoute([...route, node]);
+  function addWaypointToRoute(waypoint) {
+    setRoute([...route, waypoint]);
     handleNewRouting();
   }
 
-  function removeNodeFromRoute(node) {
-    setRoute(route.filter((n) => n.id !== node.id));
+  function removeWaypointFromRoute(waypoint) {
+    setRoute(route.filter((n) => n.id !== waypoint.id));
     handleNewRouting();
   }
 
@@ -128,8 +139,8 @@ function App() {
     setRoutingDetails(details);
   }
 
-  function nodeNotInRoute(node) {
-    return route.find((n) => n.id === node.id) === undefined;
+  function waypointNotExistsInRoute(waypoint) {
+    return route.find((n) => n.id === waypoint.id) === undefined;
   }
 
   const handleSort = (e) => {
@@ -144,17 +155,17 @@ function App() {
     handleNewRouting();
   };
 
-  const handleIcon = (node) => {
-    if (node.id === route[0]?.id) {
+  const handleIcon = (element) => {
+    if (element.id === route[0]?.id) {
       return startIcon;
     } else if (
-      !nodeNotInRoute(node) &&
-      !(node.id === route[route.length - 1]?.id)
+      !waypointNotExistsInRoute(element) &&
+      !(element.id === route[route.length - 1]?.id)
     ) {
       return navigateIcon;
-    } else if (node.id === route[route.length - 1]?.id) {
+    } else if (element.id === route[route.length - 1]?.id) {
       return endIcon;
-    } else if (node.amenity === "restaurant") {
+    } else if (element.amenity === "restaurant") {
       return restaurantIcon;
     }
   };
@@ -166,10 +177,10 @@ function App() {
           <h3 className="text-xl text-center mb-4 text-gray-400">Waypoints</h3>
 
           <ul className="flex flex-col list-none">
-            {route.map((node, index) => (
+            {route.map((waypoint, index) => (
               <li
-                  className="cursor-grab active:cursor-grabbing"
-                key={node.id}
+                className="cursor-grab active:cursor-grabbing"
+                key={waypoint.id}
                 draggable
                 onDragStart={(e) => {
                   dragItem.current = index;
@@ -190,16 +201,16 @@ function App() {
                       </span>
 
                       <div className="flex flex-col">
-                        <h2 className="text-xl font-medium">{node.name}</h2>
+                        <h2 className="text-xl font-medium">{waypoint.name}</h2>
                         <span className="text-sm text-gray-400 capitalize">
-                          {node.amenity}
+                          {waypoint.amenity}
                         </span>
                       </div>
                     </div>
                   </div>
                   <button
                     className="cursor-pointer"
-                    onClick={() => removeNodeFromRoute(node)}
+                    onClick={() => removeWaypointFromRoute(waypoint)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +270,7 @@ function App() {
         maxZoom={18}
         zoomControl={false}
         whenReady={() =>
-          searchNodes({
+          searchElements({
             lat: 13.7294053,
             lng: 100.7758304,
           })
@@ -271,41 +282,43 @@ function App() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`}
         />
-        <LoadNodes searchNodes={searchNodes} />
-        {nodes.length > 0 &&
-          nodes.map((node) => (
+        <LoadElements />
+        {elements.length > 0 &&
+          elements.map((element) => (
             <Marker
-              key={node.id}
-              position={node.position}
-              icon={handleIcon(node)}
+              key={element.id}
+              position={element.position}
+              icon={handleIcon(element)}
             >
               <Popup>
                 <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
-                  <h1 className="text-2xl font-medium">{node.name}</h1>
+                  <h1 className="text-2xl font-medium">{element.name}</h1>
                   <div className="flex flex-wrap justify-between items-center pb-3">
                     <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
-                      {node.amenity}
+                      {element.amenity}
                     </span>
-                    <time className="text-gray-400">{node.opening_hours}</time>
+                    <time className="text-gray-400">
+                      {element.opening_hours}
+                    </time>
                   </div>
                   {route.length === 0 ? (
                     <button
                       className="text-green-400 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 w-full capitalize"
-                      onClick={() => addNodeToRoute(node)}
+                      onClick={() => addWaypointToRoute(element)}
                     >
                       Start New Trip
                     </button>
-                  ) : nodeNotInRoute(node) ? (
+                  ) : waypointNotExistsInRoute(element) ? (
                     <button
                       className="text-blue-400 font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 w-full capitalize"
-                      onClick={() => addNodeToRoute(node)}
+                      onClick={() => addWaypointToRoute(element)}
                     >
                       Add to trip
                     </button>
                   ) : (
                     <button
                       className="text-red-400 font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 w-full capitalize"
-                      onClick={() => removeNodeFromRoute(node)}
+                      onClick={() => removeWaypointFromRoute(element)}
                     >
                       Remove from trip
                     </button>
@@ -320,7 +333,7 @@ function App() {
           <RoutingControl
             position="bottomright"
             color="#856be3"
-            waypoints={route.map((node) => node.position)}
+            waypoints={route.map((waypoint) => waypoint.position)}
             onRouting={handleRouting}
           />
         )}
