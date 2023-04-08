@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 import RoutingControl from "../components/RoutingControl";
 import debounce from "lodash/debounce";
 import {
@@ -44,6 +46,8 @@ function MapPage() {
   const [navigate, setNavigate] = useState(false);
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
+  const navigatePage = useNavigate();
+  const { logout } = useAuth();
 
   const [routingDetails, setRoutingDetails] = useState({
     totalDistance: null,
@@ -147,6 +151,16 @@ function MapPage() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigatePage("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <div className="relative w-screen h-screen">
       {route.length > 0 && (
@@ -241,6 +255,29 @@ function MapPage() {
           Save Trip
         </button>
       )}
+
+      <div className="absolute z-20 bottom-2 left-2">
+        <button
+          className="bg-white p-2 rounded-md shadow-md hover:shadow-lg"
+          onClick={handleLogout}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-gray-400 hover:text-red-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M7 16l-4-4m0 0l4-4m-4 4h18m-7 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+        </button>
+      </div>
+
       <MapContainer
         className="z-10"
         center={[13.7294053, 100.7758304]}
