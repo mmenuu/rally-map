@@ -1,8 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AuthContext } from "./context/authContext";
-import useAuth from "./hooks/useAuth";
+import { AuthProvider } from "./context/authContext";
 
 import HomePage from "./routes/home";
 import LoginPage from "./routes/login";
@@ -34,12 +33,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const { user, login, register, logout } = useAuth();
   return (
-    <AuthContext.Provider
-      value={{ user, login, register, logout }}
-    >
+    <AuthProvider>
       <RouterProvider router={router} />
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
