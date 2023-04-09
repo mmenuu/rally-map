@@ -19,8 +19,8 @@ const MapPage = lazy(() => import("./routes/map"));
 
 const ProtectedRoute = () => {
   const { user } = useAuth();
-
-  if (!user) {
+  const localStorageUser = localStorage.getItem("user");
+  if (!localStorageUser && !user) {
     return <Navigate to="/login" />;
   }
 

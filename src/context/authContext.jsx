@@ -16,9 +16,16 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setUser((async () => await userServices.getProfile(token)) || null);
+    const userInLocalStorage = localStorage.getItem("user");
+    const getProfile = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await setUser((async () => await userServices.getProfile()) || null);
+      }
+    };
+
+    if (!userInLocalStorage) {
+      getProfile();
     }
   }, [isAuthenticated]);
 
