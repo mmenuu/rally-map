@@ -22,8 +22,7 @@ import "../styles/Map.css";
 
 function SetViewOnClick({ animateRef }) {
   const map = useMapEvent("click", (e) => {
-    const { lat, lng } = e.latlng;
-    map.setView({ lat, lng }, map.getZoom(), {
+    map.setView(e.latlng, map.getZoom(), {
       animate: animateRef.current || false,
     });
   });
@@ -74,7 +73,12 @@ function MapPage() {
         "|"
       )}"](around:${radiusInMeters},${lat},${lng});out;`
     );
-    console.log(data.elements);
+
+    console.log(
+      `${ApiUrl}node["amenity"~"${amenityTypes.join(
+        "|"
+      )}"](around:${radiusInMeters},${lat},${lng});out;`
+    );
 
     const elementsTransformed = data.elements.map((element) => ({
       id: element.id,
@@ -137,16 +141,6 @@ function MapPage() {
   };
 
   const handleIcon = (element) => {
-    const amenityIconMap = {
-      restaurant: restaurantIcon,
-      cafe: restaurantIcon,
-      bar: restaurantIcon,
-      pub: restaurantIcon,
-      fast_food: restaurantIcon,
-      biergarten: restaurantIcon,
-      food_court: restaurantIcon,
-    };
-
     if (element.id === route[0]?.id) {
       return startIcon;
     } else if (
@@ -156,8 +150,8 @@ function MapPage() {
       return navigateIcon;
     } else if (element.id === route[route.length - 1]?.id) {
       return endIcon;
-    } else if (amenityIconMap[element.amenity]) {
-      return amenityIconMap[element.amenity];
+    } else {
+      return restaurantIcon;
     }
   };
 
