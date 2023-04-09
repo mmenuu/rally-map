@@ -57,7 +57,7 @@ function MapPage() {
   });
 
   const searchElements = async ({ lat, lng }) => {
-    const nodeApiUrl = `${import.meta.env.VITE_MAP_DATA_API}?data=[out:json];`;
+    const ApiUrl = `${import.meta.env.VITE_MAP_DATA_API}?data=[out:json];`;
     const amenityTypes = [
       "restaurant",
       "cafe",
@@ -68,26 +68,22 @@ function MapPage() {
       "food_court",
     ];
 
-    const requests = amenityTypes.map((amenityType) => {
-      return axios.get(
-        `${nodeApiUrl}node(around:3000,${lat}, ${lng})[%22amenity%22=%22${amenityType}%22];out;`
-      );
-    });
+    const { data } = await axios.get(
+      `${ApiUrl}node["amenity"~"${amenityTypes.join("|")}"](${lat - 0.1},${
+        lng - 0.1
+      },${lat + 0.1},${lng + 0.1});out;`
+    );
+    console.log(data.elements);
 
-    const responses = await Promise.all(requests);
-    const elementsData = responses
-      .map((response) =>
-        response.data.elements.map((element) => ({
-          id: element.id,
-          position: [element.lat, element.lon],
-          name: element.tags.name || "N/A",
-          amenity: element.tags.amenity,
-          opening_hours: element.tags.opening_hours || "N/A",
-        }))
-      )
-      .flat();
+    const elementsTransformed = data.elements.map((element) => ({
+      id: element.id,
+      position: [element.lat, element.lon],
+      name: element.tags.name || "N/A",
+      amenity: element.tags.amenity,
+      opening_hours: element.tags.opening_hours || "N/A",
+    }));
 
-    setElements(elementsData);
+    setElements(elementsTransformed);
   };
 
   function LoadElements() {
