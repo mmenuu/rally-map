@@ -10,9 +10,9 @@ const login = async ({ username, password }) => {
       })
     );
     const token = res.headers.authorization;
-    return token;
+    localStorage.setItem("token", token);
   } catch (error) {
-    throw new Error("Failed to login"); 
+    throw new Error("Failed to login");
   }
 };
 
@@ -24,14 +24,17 @@ const register = async ({ username, email, password }) => {
       password,
     });
     const token = res.headers.authorization;
-    return token;
+    localStorage.setItem("token", token);
   } catch (error) {
     throw new Error("Failed to register");
   }
 };
 
-const getProfile = async () => {
-  const token = localStorage.getItem("token");
+const logout = async () => {
+  localStorage.removeItem("token");
+}
+
+const getProfile = async (token) => {
   try {
     const res = await axios.get("http://localhost:5000/users/profile", {
       headers: {
@@ -47,6 +50,7 @@ const getProfile = async () => {
 const userServices = {
   login,
   register,
+  logout,
   getProfile,
 };
 
