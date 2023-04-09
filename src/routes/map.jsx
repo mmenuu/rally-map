@@ -68,10 +68,9 @@ function MapPage() {
       "food_court",
     ];
 
+    const radiusInMeters = 3000;
     const { data } = await axios.get(
-      `${ApiUrl}node["amenity"~"${amenityTypes.join("|")}"](${lat - 0.1},${
-        lng - 0.1
-      },${lat + 0.1},${lng + 0.1});out;`
+      `${ApiUrl}node["amenity"~"${amenityTypes.join("|")}"](around:${radiusInMeters},${lat},${lng});out;`
     );
     console.log(data.elements);
 
