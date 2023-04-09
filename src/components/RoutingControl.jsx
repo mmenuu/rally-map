@@ -28,25 +28,21 @@ const createRoutineMachineLayer = ({
     createMarker: () => null,
   });
 
-  instance.on("routesfound", (e) => {
-    const { routes } = e;
+  instance.on("routesfound", ({ routes }) => {
     const { summary, instructions } = routes[0];
     const { totalDistance, totalTime } = summary;
 
-    const distances = instructions.map((instruction) => {
-      const { distance } = instruction;
-      return distance;
-    });
-    
+    const distances = instructions.map((instruction) => instruction.distance);
+
     let distanceBetweenWaypoints = [];
     let distanceBetweenWaypointsTotal = 0;
-    for (let i = 0, len = distances.length; i < len; i++) {
-      distanceBetweenWaypointsTotal += distances[i];
-      if (distances[i] === 0) {
+    distances.forEach((distance) => {
+      distanceBetweenWaypointsTotal += distance;
+      if (distance === 0) {
         distanceBetweenWaypoints.push(distanceBetweenWaypointsTotal);
         distanceBetweenWaypointsTotal = 0;
       }
-    }
+    });
 
     onRouting({ totalDistance, totalTime, distanceBetweenWaypoints });
   });

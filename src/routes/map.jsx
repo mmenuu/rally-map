@@ -22,7 +22,8 @@ import "../styles/Map.css";
 
 function SetViewOnClick({ animateRef }) {
   const map = useMapEvent("click", (e) => {
-    map.setView(e.latlng, map.getZoom(), {
+    const { lat, lng } = e.latlng;
+    map.setView({ lat, lng }, map.getZoom(), {
       animate: animateRef.current || false,
     });
   });
@@ -43,10 +44,10 @@ function MapPage() {
   const animateRef = useRef(true);
   const [elements, setElements] = useState([]);
   const [route, setRoute] = useState([]);
-  const [navigate, setNavigate] = useState(false);
+  const [routeNavigating, setRouteNavigating] = useState(false);
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
-  const navigatePage = useNavigate();
+  const navigate = useNavigate();
   const { logout } = useAuth();
 
   const [routingDetails, setRoutingDetails] = useState({
@@ -56,31 +57,36 @@ function MapPage() {
   });
 
   const searchElements = async ({ lat, lng }) => {
-    const node_api = `${
-      import.meta.env.VITE_MAP_DATA_API
-    }?data=[out:json];node(around:3000,${lat}, ${lng})[%22amenity%22=%22restaurant%22];out;`;
-    const node_response = await axios.get(node_api);
-    const node_data = node_response.data;
+    const nodeApiUrl = `${import.meta.env.VITE_MAP_DATA_API}?data=[out:json];`;
+    const amenityTypes = [
+      "restaurant",
+      "cafe",
+      "bar",
+      "pub",
+      "fast_food",
+      "biergarten",
+      "food_court",
+    ];
 
-    // TODO: Add ways elements to the map
-    // const way_api = `${
-    //   import.meta.env.VITE_MAP_DATA_API
-    // }?data=[out:json];way(around:3000,${lat}, ${lng})[%22amenity%22=%22restaurant%22];out;`;
-    // const way_response = await axios.get(way_api);
-    // const way_data = way_response.data;
-    // const data = [...node_data.elements, ...way_data.elements];
+    const requests = amenityTypes.map((amenityType) => {
+      return axios.get(
+        `${nodeApiUrl}node(around:3000,${lat}, ${lng})[%22amenity%22=%22${amenityType}%22];out;`
+      );
+    });
 
-    const data = node_data.elements;
+    const responses = await Promise.all(requests);
+    const elementsData = responses
+      .map((response) =>
+        response.data.elements.map((element) => ({
+          id: element.id,
+          position: [element.lat, element.lon],
+          name: element.tags.name || "N/A",
+          amenity: element.tags.amenity,
+          opening_hours: element.tags.opening_hours || "N/A",
+        }))
+      )
+      .flat();
 
-    const elementsData = data.map((element) => ({
-      id: element.id,
-      position: [element.lat, element.lon],
-      name: element.tags.name ? element.tags.name : "N/A",
-      amenity: element.tags.amenity,
-      opening_hours: element.tags.opening_hours
-        ? element.tags.opening_hours
-        : "N/A",
-    }));
     setElements(elementsData);
   };
 
@@ -88,11 +94,8 @@ function MapPage() {
     const map = useMapEvent(
       "moveend",
       debounce(() => {
-        const center = map.getCenter();
-        searchElements({
-          lat: center.lat,
-          lng: center.lng,
-        });
+        const { lat, lng } = map.getCenter();
+        searchElements({ lat, lng });
       }, 1000)
     );
 
@@ -110,9 +113,9 @@ function MapPage() {
   }
 
   function handleNewRouting() {
-    setNavigate(false);
+    setRouteNavigating(false);
     setTimeout(() => {
-      setNavigate(true);
+      setRouteNavigating(true);
     }, 1);
   }
 
@@ -137,6 +140,16 @@ function MapPage() {
   };
 
   const handleIcon = (element) => {
+    const amenityIconMap = {
+      restaurant: restaurantIcon,
+      cafe: restaurantIcon,
+      bar: restaurantIcon,
+      pub: restaurantIcon,
+      fast_food: restaurantIcon,
+      biergarten: restaurantIcon,
+      food_court: restaurantIcon,
+    };
+
     if (element.id === route[0]?.id) {
       return startIcon;
     } else if (
@@ -146,20 +159,19 @@ function MapPage() {
       return navigateIcon;
     } else if (element.id === route[route.length - 1]?.id) {
       return endIcon;
-    } else if (element.amenity === "restaurant") {
-      return restaurantIcon;
+    } else if (amenityIconMap[element.amenity]) {
+      return amenityIconMap[element.amenity];
     }
   };
 
   const handleLogout = async () => {
     try {
       await logout();
-      navigatePage("/login");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return (
     <div className="relative w-screen h-screen">
@@ -344,7 +356,7 @@ function MapPage() {
           ))}
         <SetViewOnClick animateRef={animateRef} />
 
-        {navigate && (
+        {routeNavigating && (
           <RoutingControl
             position="bottomright"
             color="#856be3"

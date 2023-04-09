@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    email: ""
+  });
   const navigate = useNavigate();
 
   const { register, user } = useAuth();
@@ -14,11 +16,19 @@ const RegisterPage = () => {
     if (user) {
       navigate("/map");
     }
-  }, [user]);
+  }, [user, navigate]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register({ username, password, email });
+    register(formData);
   };
 
   return (
@@ -37,8 +47,8 @@ const RegisterPage = () => {
               type="text"
               id="username"
               name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              onChange={handleChange}
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your username"
             />
@@ -54,8 +64,8 @@ const RegisterPage = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your password"
             />
@@ -71,8 +81,8 @@ const RegisterPage = () => {
               type="email"
               id="email"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your email address"
             />

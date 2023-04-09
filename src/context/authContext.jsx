@@ -1,5 +1,4 @@
-import { createContext, useContext } from "react";
-import { useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import userServices from "../services/userServices";
 
 export const AuthContext = createContext({
@@ -13,43 +12,44 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    if (token) {
-      userServices.getProfile().then((res) => {
-        setUser(res);
-      });
-    }
-  }, [token]);
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const res = await userServices.getProfile();
+          setUser(res);
+        } catch (error) {
+          localStorage.removeItem("token");
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   const login = async (user) => {
-    await userServices
-      .login(user)
-      .then((res) => {
-        localStorage.setItem("token", res.access_token);
-        setToken(res.access_token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const token = await userServices.login(user);
+      localStorage.setItem("token", token);
+      setUser(await userServices.getProfile());
+    } catch (error) {
+      throw new Error("Failed to login");
+    } 
   };
 
   const register = async (user) => {
-    await userServices
-      .register(user)
-      .then((res) => {
-        localStorage.setItem("token", res.access_token);
-        setToken(res.access_token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const token = await userServices.register(user);
+      localStorage.setItem("token", token);
+      setUser(await userServices.getProfile());
+    } catch (error) {
+      throw new Error("Failed to register");
+    }
   };
 
   const logout = async () => {
     localStorage.removeItem("token");
-    setToken(null);
     setUser(null);
   };
 

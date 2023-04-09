@@ -1,33 +1,50 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AuthProvider } from "./context/authContext";
 
-import HomePage from "./routes/home";
-import LoginPage from "./routes/login";
-import RegisterPage from "./routes/register";
-import MapPage from "./routes/map";
 import ErrorPage from "./routes/error";
+
+const HomePage = lazy(() => import("./routes/home"));
+const LoginPage = lazy(() => import("./routes/login"));
+const RegisterPage = lazy(() => import("./routes/register"));
+const MapPage = lazy(() => import("./routes/map"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomePage />
+      </Suspense>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/map",
-    element: <MapPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <MapPage />
+      </Suspense>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginPage />
+      </Suspense>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/register",
-    element: <RegisterPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <RegisterPage />
+      </Suspense>
+    ),
     errorElement: <ErrorPage />,
   },
 ]);

@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
   const { login, user } = useAuth();
@@ -13,7 +15,15 @@ const LoginPage = () => {
     if (user) {
       navigate("/map");
     }
-  }, [user]);
+  }, [user, navigate]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +33,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
       <div className="bg-white p-10 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-4">Register</h1>
+        <h1 className="text-3xl font-bold mb-4">Login</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
@@ -36,10 +46,11 @@ const LoginPage = () => {
               type="text"
               id="username"
               name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              onChange={handleChange}
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your username"
+              autoComplete="off"
             />
           </div>
           <div>
@@ -53,10 +64,11 @@ const LoginPage = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your password"
+              autoComplete="off"
             />
           </div>
 
@@ -65,7 +77,7 @@ const LoginPage = () => {
               type="submit"
               className="w-full rounded-3xl bg-black px-6 py-2 text-xl font-medium uppercase text-white"
             >
-              login
+              Login
             </button>
           </div>
         </form>
