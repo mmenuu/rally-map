@@ -70,7 +70,9 @@ function MapPage() {
 
     const radiusInMeters = 3000;
     const { data } = await axios.get(
-      `${ApiUrl}node["amenity"~"${amenityTypes.join("|")}"](around:${radiusInMeters},${lat},${lng});out;`
+      `${ApiUrl}node["amenity"~"${amenityTypes.join(
+        "|"
+      )}"](around:${radiusInMeters},${lat},${lng});out;`
     );
     console.log(data.elements);
 
