@@ -1,5 +1,11 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 
 import { AuthProvider, useAuth } from "./context/authContext";
 
@@ -11,14 +17,14 @@ const LoginPage = lazy(() => import("./routes/login"));
 const RegisterPage = lazy(() => import("./routes/register"));
 const MapPage = lazy(() => import("./routes/map"));
 
-const ProtectedRoute = ({ element }) => {
+const ProtectedRoute = () => {
   const { user } = useAuth();
 
   if (!user) {
     return <Navigate to="/login" />;
   }
 
-  return element;
+  return <Outlet />;
 };
 
 export default function App() {
@@ -30,10 +36,9 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/map"
-              element={<ProtectedRoute element={<MapPage />} />}
-            />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/map" element={<MapPage />} />
+            </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Suspense>
