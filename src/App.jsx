@@ -1,15 +1,27 @@
 import React, { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
-import { AuthProvider } from "./context/authContext";
+import { AuthProvider, useAuth } from "./context/authContext";
 
 import ErrorPage from "./routes/error";
+
 import Loading from "./components/Loading";
 
 const HomePage = lazy(() => import("./routes/home"));
 const LoginPage = lazy(() => import("./routes/login"));
 const RegisterPage = lazy(() => import("./routes/register"));
 const MapPage = lazy(() => import("./routes/map"));
+
+const ProtectedRoute = ({ element }) => {
+  const { user } = useAuth();
+
+  if (user) {
+    return element;
+  } else {
+    return <Navigate to="/login" />;
+  }
+};
+
 
 const router = createBrowserRouter([
   {
@@ -23,10 +35,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/map",
+    // Wrap MapPage with ProtectedRoute
+
     element: (
-      <Suspense fallback={<Loading />}>
-        <MapPage />
-      </Suspense>
+      <ProtectedRoute
+        element={
+          <Suspense fallback={<Loading />}>
+            <MapPage />
+          </Suspense>
+        }
+      />
     ),
     errorElement: <ErrorPage />,
   },

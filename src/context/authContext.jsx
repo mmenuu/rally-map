@@ -3,6 +3,7 @@ import userServices from "../services/userServices";
 
 export const AuthContext = createContext({
   user: null,
+  isAuthenticated: false,
   login: async () => {},
   register: async () => {},
   logout: async () => {},
