@@ -15,7 +15,7 @@ const LoginPage = () => {
     if (user) {
       navigate("/map");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +27,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login((formData));
+    login(formData);
   };
 
   return (

@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const userInLocalStorage = localStorage.getItem("user");
     const getProfile = async () => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -24,9 +23,7 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    if (!userInLocalStorage) {
-      getProfile();
-    }
+    getProfile();
   }, [isAuthenticated]);
 
   const login = async (user) => {
