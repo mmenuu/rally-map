@@ -73,13 +73,7 @@ function MapPage() {
         "|"
       )}"](around:${radiusInMeters},${lat},${lng});out;`
     );
-
-    console.log(
-      `${ApiUrl}node["amenity"~"${amenityTypes.join(
-        "|"
-      )}"](around:${radiusInMeters},${lat},${lng});out;`
-    );
-
+    
     const elementsTransformed = data.elements.map((element) => ({
       id: element.id,
       position: [element.lat, element.lon],
@@ -253,6 +247,7 @@ function MapPage() {
           className="absolute text-green-400 bottom-10 left-96 font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 mt-4 z-20"
           onClick={() => {
             alert(JSON.stringify(route));
+            console.log(JSON.stringify(route));
           }}
         >
           Save Trip
@@ -313,7 +308,7 @@ function MapPage() {
                   <h1 className="text-2xl font-medium">{element.name}</h1>
                   <div className="flex flex-wrap justify-between items-center pb-3">
                     <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
-                      {element.amenity}
+                      {element.amenity.split("_").join(" ")}
                     </span>
                     <time className="text-gray-400">
                       {element.opening_hours}
