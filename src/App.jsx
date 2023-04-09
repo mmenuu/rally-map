@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
 
 import ErrorPage from "./routes/error";
+import Loading from "./components/Loading";
 
 const HomePage = lazy(() => import("./routes/home"));
 const LoginPage = lazy(() => import("./routes/login"));
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <HomePage />
       </Suspense>
     ),
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   {
     path: "/map",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <MapPage />
       </Suspense>
     ),
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <LoginPage />
       </Suspense>
     ),
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <RegisterPage />
       </Suspense>
     ),
