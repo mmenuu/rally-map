@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import roadtripServices from "../services/roadtripServices";
 import userServices from "../services/userServices";
-
 export default function ProfilePage() {
-  const [user, setUser] = useState({});
+  const { user } = useAuth();
+  const [userProfile, setUserProfile] = useState({});
   const [roadtrips, setRoadtrips] = useState([]);
   const { username } = useParams();
   const navigate = useNavigate();
 
   const getUserProfile = async () => {
-    const user = await userServices.getUserProfile(username);
-    if (user) {
-      setUser(user);
+    const data = await userServices.getUserProfile(username);
+    if (data) {
+      setUserProfile(data);
       await roadtripServices.getRoadtripsByUser(username).then((res) => {
         setRoadtrips(res);
       });
     }
+  };
+
+  const handleRemoveRoadtrip = async (id) => {
+    await roadtripServices.deleteRoadtrip(id);
+    const newRoadtrips = roadtrips.filter((roadtrip) => roadtrip.id !== id);
+    setRoadtrips(newRoadtrips);
   };
 
   useEffect(() => {
@@ -32,38 +39,104 @@ export default function ProfilePage() {
   }, [username]);
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <p>User Id: {username}</p>
-      {roadtrips.length > 0 ? (
-        <div>
-          <h2>Roadtrips</h2>
-          <ul className="grid grid-cols-2 gap-4 m-4">
-            {roadtrips.map((roadtrip) => (
-              <li
-                className="p-4 shadow-sm rounded-xl bg-blue-50"
-                key={roadtrip.id}
-              >
-                <p>id: {roadtrip.id}</p>
-                <p>title: {roadtrip.title}</p>
-                <p>subtitle: {roadtrip.sub_title}</p>
-                <p>description: {roadtrip.description}</p>
-                <p>category:{roadtrip.category}</p>
-                <p>summary: {roadtrip.summary}</p>
-                <ul className="mt-4">
-                  {roadtrip.waypoints.map((waypoint) => (
-                    <li className="underline" key={waypoint.id}>
-                      {waypoint.name}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+    <>
+      <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8">
+        <div className="flex flex-col items-center">
+          <h1 className="text-4xl font-medium">Profile</h1>
+          <p className="text-md">
+            ID: <span className="font-bold">{userProfile.id}</span>
+          </p>
+          <p className="text-md">
+            Username: <span className="font-bold">{userProfile.username}</span>
+          </p>
         </div>
-      ) : (
-        <p>No roadtrips</p>
-      )}
-    </div>
+        <div className="space-y-2">
+          <h2 className="text-center text-2xl font-medium mt-8">Trips</h2>
+          {roadtrips.length > 0 ? (
+            <ul className="grid grid-cols-2 gap-4">
+              {roadtrips.map((roadtrip) => (
+                <li
+                  className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200"
+                  key={roadtrip.id}
+                >
+                  <p>{roadtrip.title}</p>
+                  <div className="flex justify-between">
+                    <div className="flex items-center space-x-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6 text-gray-400"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                        />
+                      </svg>
+                      <p className="font-light">
+                        {roadtrip.waypoints.length} Places
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6 text-gray-400"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+
+                      <p className="font-light">
+                        {roadtrip.waypoints.length * 2} Hours
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="w-6 h-6 text-gray-400"
+                      >
+                        <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" />
+                        <path d="M8.25 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0zM15.75 6.75a.75.75 0 00-.75.75v11.25c0 .087.015.17.042.248a3 3 0 015.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 00-3.732-10.104 1.837 1.837 0 00-1.47-.725H15.75z" />
+                        <path d="M19.5 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
+                      </svg>
+
+                      <p className="font-light">{2323.23} km</p>
+                    </div>
+                  </div>
+
+                  {roadtrip.author === user.id && (
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => handleRemoveRoadtrip(roadtrip.id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center">No roadtrips</p>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from "./context/authContext";
 
 import ErrorPage from "./routes/error";
 import Loading from "./components/Loading";
+import Navbar from "./components/Navbar";
 
 const HomePage = lazy(() => import("./routes/home"));
 const LoginPage = lazy(() => import("./routes/login"));
@@ -26,7 +27,12 @@ const ProtectedRoute = () => {
     return <Navigate to="/login" />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
 };
 
 export default function App() {
