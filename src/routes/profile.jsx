@@ -108,7 +108,7 @@ export default function ProfilePage() {
                       </svg>
 
                       <p className="font-light">
-                        {roadtrip.waypoints.length * 2} Hours
+                        {parseInt(roadtrip.total_time / 60)} min
                       </p>
                     </div>
                     <div className="flex items-center space-x-1">
@@ -123,7 +123,10 @@ export default function ProfilePage() {
                         <path d="M19.5 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
                       </svg>
 
-                      <p className="font-light">{2323.23} km</p>
+                      <p className="font-light">
+                        {parseFloat(roadtrip.total_distance / 1000).toFixed(3)}{" "}
+                        km
+                      </p>
                     </div>
                   </div>
 

@@ -37,16 +37,13 @@ function MapPage() {
     sub_title: "",
     description: "",
     waypoints: [],
+    total_distance: null,
+    total_time: null,
+    distance_between_waypoints: [],
     category: "",
     summary: "",
   });
   const [routeNavigating, setRouteNavigating] = useState(false);
-  const [routingDetails, setRoutingDetails] = useState({
-    totalDistance: null,
-    totalTime: null,
-    distanceBetweenWaypoints: [],
-  });
-
   const [favorites, setFavorites] = useState([]);
 
   const amenityTypes = [
@@ -124,7 +121,12 @@ function MapPage() {
   };
 
   const handleNewRouting = (newRoutingDetails) => {
-    setRoutingDetails(newRoutingDetails);
+    setRoadtrip({
+      ...roadtrip,
+      total_distance: newRoutingDetails.totalDistance,
+      total_time: newRoutingDetails.totalTime,
+      distance_between_waypoints: newRoutingDetails.distanceBetweenWaypoints,
+    });
   };
 
   const addWaypointToRoute = (newWaypoint) => {
@@ -161,7 +163,10 @@ function MapPage() {
 
   const handleStartNewTrip = async () => {
     await roadtripService.createRoadtrip(roadtrip).then((res) => {
-      setRoadtrip({ ...roadtrip, id: res.roadtrip_id });
+      setRoadtrip({
+        ...roadtrip,
+        id: res.roadtrip_id,
+      });
       console.log(res);
     });
   };
@@ -174,11 +179,6 @@ function MapPage() {
 
   const handleClearTrip = () => {
     setRouteNavigating(false);
-    setRoutingDetails({
-      totalDistance: null,
-      totalTime: null,
-      distanceBetweenWaypoints: [],
-    });
     setRoadtrip({
       id: null,
       title: "",
@@ -187,6 +187,9 @@ function MapPage() {
       waypoints: [],
       category: "",
       summary: "",
+      total_distance: null,
+      total_time: null,
+      distance_between_waypoints: [],
     });
   };
 
@@ -253,7 +256,7 @@ function MapPage() {
                   </svg>
 
                   <span className="text-sm">
-                    {parseInt(routingDetails.totalTime / 60)} min
+                    {parseInt(roadtrip.total_time / 60)} min
                   </span>
                 </div>
                 <div className="flex items-center text-white space-x-1">
@@ -268,7 +271,7 @@ function MapPage() {
                   </svg>
 
                   <span className="text-sm">
-                    {parseFloat(routingDetails.totalDistance / 1000).toFixed(3)}{" "}
+                    {parseFloat(roadtrip.total_distance / 1000).toFixed(3)}{" "}
                     km
                   </span>
                 </div>
@@ -297,13 +300,13 @@ function MapPage() {
               {roadtrip.waypoints.length > 1 && (
                 <p className="items-center mb-4 text-md font-semibold text-blue-400 text-center">
                   Total Distance:{" "}
-                  {parseFloat(routingDetails.totalDistance / 1000).toFixed(3)}{" "}
+                  {parseFloat(roadtrip.total_distance / 1000).toFixed(3)}{" "}
                   km
                 </p>
               )}
               <WaypointList
                 onUpdateRoute={handleUpdateWaypoint}
-                routingDetails={routingDetails}
+                distanceBetweenWaypoints={roadtrip.distance_between_waypoints}
                 waypoints={roadtrip.waypoints}
                 removeWaypointFromRoute={removeWaypointFromRoute}
               />
@@ -387,13 +390,13 @@ function MapPage() {
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
+                          strokeWidth="1.5"
                           stroke="currentColor"
                           class="w-6 h-6"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                           />
                         </svg>

@@ -3,7 +3,7 @@ import Waypoint from "./Waypoint";
 
 export default function WaypointList({
   waypoints,
-  routingDetails,
+  distanceBetweenWaypoints,
   onUpdateRoute,
   removeWaypointFromRoute,
 }) {
@@ -47,9 +47,9 @@ export default function WaypointList({
             <div className="flex items-center my-2">
               <div className="border-b w-full"></div>
               <span className="w-28 ml-5 font-medium text-gray-400">
-                {routingDetails.distanceBetweenWaypoints[index]
+                {distanceBetweenWaypoints[index]
                   ? `${parseFloat(
-                      routingDetails.distanceBetweenWaypoints[index] / 1000
+                      distanceBetweenWaypoints[index] / 1000
                     ).toFixed(3)} km`
                   : "calculating..."}
               </span>

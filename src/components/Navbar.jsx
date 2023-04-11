@@ -116,7 +116,7 @@ export default function Navbar() {
                   onMouseLeave={() => {
                     setIsMenuOpen(false);
                   }}
-                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-2xl border shadow-lg overflow-hidden z-10 transition duration-200"
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg border shadow-lg overflow-hidden z-10 transition duration-200"
                 >
                   <div className="py-2">
                     <button
