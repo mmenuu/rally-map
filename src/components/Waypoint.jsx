@@ -5,12 +5,12 @@ export default function Waypoint({ waypoint, index, removeWaypointFromRoute }) {
     <div className="flex p-3 bg-gray-50 hover:bg-blue-100 rounded-sm  justify-between items-center">
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
-          <span className="text-2xl font-semibold text-gray-400 mr-4">
+          <span className="text-xl font-semibold text-gray-400 mr-4">
             {index + 1}
           </span>
 
           <div className="flex flex-col">
-            <h2 className="text-xl font-medium">{waypoint.name}</h2>
+            <h2 className="text-md font-medium">{waypoint.name}</h2>
             <span className="text-sm text-gray-400 capitalize">
               {waypoint.amenity}
             </span>

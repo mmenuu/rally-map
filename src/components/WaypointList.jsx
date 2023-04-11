@@ -44,7 +44,7 @@ export default function WaypointList({
             removeWaypointFromRoute={removeWaypointFromRoute}
           />
           {waypoints.length > 1 && waypoints.length - 1 !== index && (
-            <div className="flex items-center my-4">
+            <div className="flex items-center my-2">
               <div className="border-b w-full"></div>
               <span className="w-28 ml-5 font-medium text-gray-400">
                 {routingDetails.distanceBetweenWaypoints[index]
