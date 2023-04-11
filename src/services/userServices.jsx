@@ -12,7 +12,7 @@ const login = async ({ username, password }) => {
     const token = res.headers.authorization;
     localStorage.setItem("token", token);
   } catch (error) {
-    console.log(error);
+    throw new Error("Failed to login");
   }
 };
 
@@ -29,7 +29,7 @@ const register = async ({ username, email, password }) => {
     const token = res.headers.authorization;
     localStorage.setItem("token", token);
   } catch (error) {
-    console.log(error);
+    throw new Error("Failed to register");
   }
 };
 
@@ -49,10 +49,23 @@ const getProfile = async () => {
         },
       }
     );
-    localStorage.setItem("user", JSON.stringify(res.data));
-    return res.data;
+    localStorage.setItem("user", JSON.stringify(res.data))
+    return res.data
   } catch (error) {
-    console.log(error);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    throw new Error("Failed to get profile");
+  }
+};
+
+const getUserProfile = async (username) => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/users/profile/${username}`
+    );
+    return res.data
+  } catch (error) {
+    throw new Error("Failed to get profile");
   }
 };
 
@@ -61,6 +74,7 @@ const userServices = {
   register,
   logout,
   getProfile,
+  getUserProfile,
 };
 
 export default userServices;

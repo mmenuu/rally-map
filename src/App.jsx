@@ -16,6 +16,7 @@ const HomePage = lazy(() => import("./routes/home"));
 const LoginPage = lazy(() => import("./routes/login"));
 const RegisterPage = lazy(() => import("./routes/register"));
 const MapPage = lazy(() => import("./routes/map"));
+const ProfilePage = lazy(() => import("./routes/profile"));
 
 const ProtectedRoute = () => {
   const { user } = useAuth();
@@ -39,6 +40,8 @@ export default function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/map" element={<MapPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile/:username" element={<ProfilePage />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>
