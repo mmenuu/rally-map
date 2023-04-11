@@ -1,4 +1,8 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import "../styles/Map.css";
+
 import debounce from "lodash/debounce";
 
 import MapPlaceholder from "../components/MapPlaceholder";
@@ -21,9 +25,6 @@ import {
   navigateIcon,
   restaurantIcon,
 } from "../components/MarkerIcons";
-
-import axios from "axios";
-import "../styles/Map.css";
 
 import roadtripService from "../services/roadtripServices";
 import favoriteServices from "../services/favoriteServices";
@@ -90,19 +91,29 @@ function MapPage() {
   };
 
   const handleAddFavorite = async (element) => {
-    await favoriteServices.addFavorite(element).then((res) => {
-      console.log(res);
-    });
-    const newFavorites = [...favorites, element];
-    setFavorites(newFavorites);
+    await favoriteServices
+      .addFavorite(element)
+      .then((res) => {
+        const newFavorites = [...favorites, element];
+        setFavorites(newFavorites);
+        toast.success("Added to favorites");
+      })
+      .catch((err) => {
+        toast.error("Failed to add to favorites");
+      });
   };
 
   const handleRemoveFavorite = async (id) => {
-    await favoriteServices.deleteFavorite(id).then((res) => {
-      console.log(res);
-    });
-    const newFavorites = favorites.filter((n) => n.id !== id);
-    setFavorites(newFavorites);
+    await favoriteServices
+      .deleteFavorite(id)
+      .then((res) => {
+        const newFavorites = favorites.filter((n) => n.id !== id);
+        setFavorites(newFavorites);
+        toast.success("Removed from favorites");
+      })
+      .catch((err) => {
+        toast.error("Failed to remove from favorites");
+      });
   };
 
   const handleRouting = () => {
@@ -126,6 +137,10 @@ function MapPage() {
       total_distance: newRoutingDetails.totalDistance,
       total_time: newRoutingDetails.totalTime,
       distance_between_waypoints: newRoutingDetails.distanceBetweenWaypoints,
+    });
+    toast.success("Auto-Saved", {
+      position: "bottom-center",
+      autoClose: 1000,
     });
   };
 

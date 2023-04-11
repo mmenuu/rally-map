@@ -11,6 +11,7 @@ const login = async ({ username, password }) => {
     );
     const token = res.headers.authorization;
     localStorage.setItem("token", token);
+    return res.data;
   } catch (error) {
     throw new Error("Failed to login");
   }
@@ -28,6 +29,7 @@ const register = async ({ username, email, password }) => {
     );
     const token = res.headers.authorization;
     localStorage.setItem("token", token);
+    return res.data;
   } catch (error) {
     throw new Error("Failed to register");
   }

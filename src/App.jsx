@@ -19,6 +19,9 @@ const RegisterPage = lazy(() => import("./routes/register"));
 const MapPage = lazy(() => import("./routes/map"));
 const ProfilePage = lazy(() => import("./routes/profile"));
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const ProtectedRoute = () => {
   const { user } = useAuth();
 
@@ -39,6 +42,18 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ToastContainer
+          position="top-right"
+          autoClose={2400}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<HomePage />} />

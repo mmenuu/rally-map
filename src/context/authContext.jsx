@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import userServices from "../services/userServices";
 
 export const AuthContext = createContext({
@@ -18,8 +19,26 @@ export const AuthProvider = ({ children }) => {
     const getProfile = async () => {
       const token = localStorage.getItem("token");
       if (token) {
-        const profile = await userServices.getProfile();
-        setUser(profile);
+        await userServices
+          .getProfile()
+          .then((profile) => {
+            setUser(profile);
+            toast.success("Welcome back!", {
+              position: "top-center",
+              autoClose: 2400,
+              hideProgressBar: false,
+              closeOnClick: true,
+            });
+          })
+          .catch((error) => {
+            toast.error(error.message, {
+              position: "bottom-center",
+              autoClose: 2400,
+              hideProgressBar: false,
+              closeOnClick: true,
+            });
+            logout();
+          });
       }
     };
 
@@ -31,7 +50,12 @@ export const AuthProvider = ({ children }) => {
       await userServices.login(user);
       setIsAuthenticated(true);
     } catch (error) {
-      throw new Error("Failed to login");
+      toast.error(error.message, {
+        position: "bottom-center",
+        autoClose: 2400,
+        hideProgressBar: false,
+        closeOnClick: true,
+      });
     }
   };
 
@@ -39,8 +63,19 @@ export const AuthProvider = ({ children }) => {
     try {
       await userServices.register(user);
       setIsAuthenticated(true);
+      toast.success("Welcome to Rally!", {
+        position: "top-center",
+        autoClose: 2400,
+        hideProgressBar: false,
+        closeOnClick: true,
+      });
     } catch (error) {
-      throw new Error("Failed to register");
+      toast.error(error.message, {
+        position: "bottom-center",
+        autoClose: 2400,
+        hideProgressBar: false,
+        closeOnClick: true,
+      });
     }
   };
 
@@ -48,6 +83,12 @@ export const AuthProvider = ({ children }) => {
     await userServices.logout();
     setIsAuthenticated(false);
     setUser(null);
+    toast("See you soon!", {
+      position: "top-center",
+      autoClose: 2400,
+      hideProgressBar: false,
+      closeOnClick: true,
+    });
   };
 
   return (

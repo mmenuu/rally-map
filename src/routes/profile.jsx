@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import roadtripServices from "../services/roadtripServices";
 import favoriteServices from "../services/favoriteServices";
+import { toast } from "react-toastify";
 
 import userServices from "../services/userServices";
 export default function ProfilePage() {
@@ -27,9 +28,16 @@ export default function ProfilePage() {
   };
 
   const handleRemoveRoadtrip = async (id) => {
-    await roadtripServices.deleteRoadtrip(id);
-    const newRoadtrips = roadtrips.filter((roadtrip) => roadtrip.id !== id);
-    setRoadtrips(newRoadtrips);
+    await roadtripServices
+      .deleteRoadtrip(id)
+      .then((res) => {
+        const newRoadtrips = roadtrips.filter((roadtrip) => roadtrip.id !== id);
+        setRoadtrips(newRoadtrips);
+        toast.success("Roadtrip deleted");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   useEffect(() => {
