@@ -131,10 +131,11 @@ function MapPage() {
       return startIcon;
     } else if (
       !waypointNotExistsInRoute(element) &&
-      !(element.id === roadtrip.waypoints[0]?.id)
+      !(element.id === roadtrip.waypoints[0]?.id) &&
+      !(element.id === roadtrip.waypoints[roadtrip.waypoints.length - 1]?.id)
     ) {
       return navigateIcon;
-    } else if (element.id === roadtrip.waypoints.slice(-1)[0]?.id) {
+    } else if (element.id === roadtrip.waypoints[roadtrip.waypoints.length - 1]?.id) {
       return endIcon;
     } else {
       return restaurantIcon;
