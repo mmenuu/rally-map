@@ -34,7 +34,7 @@ function MapPage() {
   const [elements, setElements] = useState([]);
   const [roadtrip, setRoadtrip] = useState({
     id: null,
-    title: "Untitled",
+    title: "",
     sub_title: "",
     description: "",
     waypoints: [],
@@ -139,8 +139,7 @@ function MapPage() {
       distance_between_waypoints: newRoutingDetails.distanceBetweenWaypoints,
     });
     toast.success("Auto-Saved", {
-      position: "bottom-center",
-      autoClose: 1000,
+      autoClose: 500,
     });
   };
 
@@ -228,6 +227,7 @@ function MapPage() {
         console.log(res);
       });
       handleClearTrip();
+      toast.info("Trip Cancelled");
     }
   }, [roadtrip]);
 

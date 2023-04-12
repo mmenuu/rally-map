@@ -43,7 +43,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <ToastContainer
-          position="top-right"
+          position="bottom-center"
           autoClose={2400}
           hideProgressBar={false}
           newestOnTop={true}

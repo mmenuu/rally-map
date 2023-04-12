@@ -4,7 +4,6 @@ import userServices from "../services/userServices";
 
 export const AuthContext = createContext({
   user: null,
-  isAuthenticated: false,
   login: async () => {},
   register: async () => {},
   logout: async () => {},
@@ -23,20 +22,10 @@ export const AuthProvider = ({ children }) => {
           .getProfile()
           .then((profile) => {
             setUser(profile);
-            toast.success("Welcome back!", {
-              position: "top-center",
-              autoClose: 2400,
-              hideProgressBar: false,
-              closeOnClick: true,
-            });
+            toast.success("Welcome back!");
           })
           .catch((error) => {
-            toast.error(error.message, {
-              position: "bottom-center",
-              autoClose: 2400,
-              hideProgressBar: false,
-              closeOnClick: true,
-            });
+            toast.error(error.message);
             logout();
           });
       }
@@ -50,12 +39,7 @@ export const AuthProvider = ({ children }) => {
       await userServices.login(user);
       setIsAuthenticated(true);
     } catch (error) {
-      toast.error(error.message, {
-        position: "bottom-center",
-        autoClose: 2400,
-        hideProgressBar: false,
-        closeOnClick: true,
-      });
+      toast.error(error.message);
     }
   };
 
@@ -63,19 +47,11 @@ export const AuthProvider = ({ children }) => {
     try {
       await userServices.register(user);
       setIsAuthenticated(true);
-      toast.success("Welcome to Rally!", {
-        position: "top-center",
+      toast("Welcome to Rally!", {
         autoClose: 2400,
-        hideProgressBar: false,
-        closeOnClick: true,
       });
     } catch (error) {
-      toast.error(error.message, {
-        position: "bottom-center",
-        autoClose: 2400,
-        hideProgressBar: false,
-        closeOnClick: true,
-      });
+      toast.error(error.message);
     }
   };
 
