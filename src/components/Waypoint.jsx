@@ -15,16 +15,18 @@ export default function Waypoint({
     <>
       <div className="flex p-3 bg-gray-50 hover:bg-blue-100 rounded-sm justify-between items-center">
         <button className="flex items-center">
-          <span className="text-xl font-semibold text-gray-400 mr-4">
+          <span className="text-xl font-semibold text-gray-400 mr-4 cursor-grab">
             {index + 1}
           </span>
 
           <div
-            className="flex flex-col text-left"
+            className="flex flex-col text-left group cursor-pointer"
             onClick={() => onEditWaypoint(waypoint)}
           >
-            <h2 className="text-md font-medium">{waypoint.name}</h2>
-            <span className="text-sm text-gray-400 capitalize">
+            <h2 className="text-md font-medium text-gray-700 capitalize group-hover:underline">
+              {waypoint.name}
+              </h2>
+            <span className="text-sm text-gray-400 capitalize group-hover:underline">
               {waypoint.amenity}
             </span>
           </div>

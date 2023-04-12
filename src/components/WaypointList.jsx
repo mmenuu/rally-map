@@ -102,7 +102,7 @@ export default function WaypointList({
             </div>
           </div>
 
-          <div className="flex flex-col px-4 space-y-2">
+          <div className="grid grid-cols-2 px-4 space-y-2 border-b pb-8">
             <div>
               <label className="text-sm font-semibold text-gray-400">
                 Name
@@ -125,7 +125,9 @@ export default function WaypointList({
                 {waypointDetailsForm.opening_hours}
               </p>
             </div>
+          </div>
 
+          <div className="flex flex-col px-4 space-y-2 mt-8">
             <label className="text-sm font-semibold text-gray-400 mt-2">
               Note
             </label>
@@ -142,9 +144,10 @@ export default function WaypointList({
               }
             />
           </div>
+
           <div className="flex justify-between mt-32 p-4">
             <button
-              className="text-red-400 text-md font-medium px-4 py-2 underline uppercase"
+              className="text-red-400 text-md font-medium px-4 py-2 underline"
               onClick={() => {
                 removeWaypointFromRoute(waypointDetailsForm);
                 setShowEditWaypointDialog(false);
@@ -153,7 +156,7 @@ export default function WaypointList({
               Remove Waypoint
             </button>
             <button
-              className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2 uppercase"
+              className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2"
               onClick={() => {
                 setShowEditWaypointDialog(false);
                 onEditWaypoint(waypointDetailsForm);
