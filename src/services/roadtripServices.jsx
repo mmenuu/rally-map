@@ -14,7 +14,7 @@ const createRoadtrip = async (roadtrip) => {
     );
     return res.data
   } catch (error) {
-    throw new Error("Failed to create roadtrip");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -28,7 +28,7 @@ const getRoadtrips = async () => {
     });
     return res.data
   } catch (error) {
-    throw new Error("Failed to get roadtrips");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -39,7 +39,7 @@ const getRoadtripsByUser = async (username) => {
     );
     return res.data
   } catch (error) {
-    throw new Error("Failed to get roadtrips");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -56,7 +56,7 @@ const getRoadtrip = async (id) => {
     );
     return res.data
   } catch (error) {
-    throw new Error("Failed to get roadtrip");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -74,7 +74,7 @@ const updateRoadtrip = async (id, roadtrip) => {
     );
     return res.data
   } catch (error) {
-    throw new Error("Failed to update roadtrip");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -91,7 +91,7 @@ const deleteRoadtrip = async (id) => {
     );
     return res.data
   } catch (error) {
-    throw new Error("Failed to delete roadtrip");
+    throw new Error(error.response.data.detail);
   }
 };
 

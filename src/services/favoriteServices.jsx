@@ -10,7 +10,7 @@ const getFavorites = async () => {
     });
     return res.data;
   } catch (error) {
-    throw new Error("Failed to get favorites");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -28,7 +28,7 @@ const addFavorite = async (landmark) => {
     );
     return res.data;
   } catch (error) {
-    throw new Error("Failed to add favorite");
+    throw new Error(error.response.data.detail);
   }
 };
 
@@ -45,7 +45,7 @@ const deleteFavorite = async (landmark_id) => {
     );
     return res.data;
   } catch (error) {
-    throw new Error("Failed to delete favorite");
+    throw new Error(error.response.data.detail);
   }
 };
 
