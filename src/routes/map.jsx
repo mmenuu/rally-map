@@ -74,7 +74,7 @@ function MapPage() {
   const searchElements = async ({ lat, lng }) => {
     const ApiUrl = `${import.meta.env.VITE_MAP_DATA_API}?data=[out:json];`;
 
-    const radiusInMeters = 3000;  
+    const radiusInMeters = 3000;
     const { data } = await axios.get(
       `${ApiUrl}node["amenity"~"${amenityTypes.join(
         "|"
@@ -153,6 +153,23 @@ function MapPage() {
       distance_between_waypoints: newRoutingDetails.distanceBetweenWaypoints,
     });
     toast.success("Auto-Saved", {
+      autoClose: 500,
+    });
+  };
+
+  const handleEditWaypoint = (waypoint) => {
+    const newWaypoints = roadtrip.waypoints.map((n) => {
+      if (n.id === waypoint.id) {
+        return waypoint;
+      } else {
+        return n;
+      }
+    });
+    setRoadtrip({
+      ...roadtrip,
+      waypoints: newWaypoints,
+    });
+    toast.success("Waypoint updated", {
       autoClose: 500,
     });
   };
@@ -236,6 +253,8 @@ function MapPage() {
       name: "Self Marker",
       amenity: "N/A",
       opening_hours: "N/A",
+      description: "",
+      note: "",
     };
 
     const newMarkers = [...markers, newMarker];
@@ -274,7 +293,12 @@ function MapPage() {
       {roadtrip.waypoints.length > 0 && (
         <div className="absolute bg-white z-20 w-[325px] md:left-2 md:top-40 max-h-[50vh] max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl overflow-x-hidden overflow-scroll">
           <div className="relative w-full h-full">
-            <div className="fixed w-[325px] flex items-center bg-gray-600 z-30 p-1 rounded-t-xl">
+            <div
+              className="fixed w-[325px] flex items-center bg-gray-600 p-1 rounded-t-xl"
+              style={{
+                zIndex: 21,
+              }}
+            >
               <div className="flex items-center w-full space-x-2">
                 <div className="flex items-center text-white space-x-1">
                   <svg
@@ -343,7 +367,7 @@ function MapPage() {
                 </svg>
               </button>
             </div>
-            <div className="relative pt-12 px-4 pb-4 z-20">
+            <div className="relative pt-12 px-4 pb-4">
               <h1 className="text-3xl text-center mb-2">{roadtrip.title}</h1>
               {roadtrip.waypoints.length > 1 && (
                 <p className="items-center mb-4 text-md font-semibold text-blue-400 text-center">
@@ -356,6 +380,7 @@ function MapPage() {
                 distanceBetweenWaypoints={roadtrip.distance_between_waypoints}
                 waypoints={roadtrip.waypoints}
                 removeWaypointFromRoute={removeWaypointFromRoute}
+                onEditWaypoint={handleEditWaypoint}
               />
             </div>
           </div>
@@ -473,7 +498,11 @@ function MapPage() {
                         className="text-green-400 w-full font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
-                          addWaypointToRoute(element);
+                          addWaypointToRoute({
+                            ...element,
+                            note: "",
+                            description: "",
+                          });
                         }}
                       >
                         Start New Trip
@@ -483,7 +512,11 @@ function MapPage() {
                         className="text-blue-400 w-full font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
-                          addWaypointToRoute(element);
+                          addWaypointToRoute({
+                            ...element,
+                            note: "",
+                            description: "",
+                          });
                         }}
                       >
                         Add to trip

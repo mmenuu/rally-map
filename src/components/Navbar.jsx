@@ -15,16 +15,18 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white w-full flex justify-between items-center mx-auto px-8 h-16">
       <div className="inline-flex items-center space-x-8">
         <Link to="/">
-          <div className="hidden md:block">Rally</div>
+          <div className="hidden md:block text-xl font-medium text-blue-500">
+            Rally
+          </div>
           <div className="block md:hidden">R</div>
         </Link>
 
         <div className="inline-flex items-center max-w-full">
-          <div className="flex items-center flex-grow-0 flex-shrink pl-2 relative w-60 border rounded-full px-1  py-1">
+          <div className="flex items-center flex-grow-0 flex-shrink pl-2 relative w-60 border rounded-full px-1  py-1 border-blue-300">
             <input
               type="text"
               placeholder="Start your search"
-              className="block flex-grow pl-2 flex-shrink overflow-hidden outline-none"
+              className="block flex-grow pl-2 flex-shrink overflow-hidden outline-none bg-transparent text-sm text-blue-500"
             />
             <div className="flex items-center justify-center relative h-8 w-8 rounded-full">
               <svg
@@ -33,7 +35,7 @@ export default function Navbar() {
                 aria-hidden="true"
                 role="presentation"
                 focusable="false"
-                className="text-gray-500"
+                className="text-blue-300"
                 style={{
                   display: "block",
                   fill: "none",
