@@ -4,6 +4,7 @@ import axios from "axios";
 import "../styles/Map.css";
 
 import debounce from "lodash/debounce";
+import { v4 as uuidv4 } from "uuid";
 
 import MapPlaceholder from "../components/MapPlaceholder";
 import SetViewOnClick from "../components/SetViewOnClick";
@@ -16,6 +17,7 @@ import {
   Marker,
   Popup,
   useMapEvent,
+  useMapEvents,
   ZoomControl,
 } from "react-leaflet";
 
@@ -41,6 +43,15 @@ const initialRoadtrip = {
   category: "",
   summary: "",
 };
+function CreateMarkerOnClick({ saveMarkers }) {
+  const map = useMapEvents({
+    contextmenu: (e) => {
+      const { lat, lng } = e.latlng;
+      saveMarkers([lat, lng]);
+    },
+  });
+  return null;
+}
 
 function MapPage() {
   const animateRef = useRef(true);
@@ -48,6 +59,7 @@ function MapPage() {
   const [roadtrip, setRoadtrip] = useState(initialRoadtrip);
   const [routeNavigating, setRouteNavigating] = useState(false);
   const [favorites, setFavorites] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
   const amenityTypes = [
     "restaurant",
@@ -153,6 +165,8 @@ function MapPage() {
     handleUpdateWaypoint(
       roadtrip.waypoints.filter((n) => n.id !== waypoint.id)
     );
+
+    setMarkers(markers.filter((n) => n.id !== waypoint.id));
   };
 
   const waypointNotExistsInRoute = (waypoint) => {
@@ -178,24 +192,26 @@ function MapPage() {
   };
 
   const handleStartNewTrip = async () => {
-    await roadtripService.createRoadtrip(roadtrip).then((res) => {
-      setRoadtrip({
-        ...roadtrip,
-        id: res.roadtrip_id,
-      })
-        .then((re) => {
-          toast.success("New trip created");
-        })
-        .catch((err) => {
-          toast.error("Failed to create trip");
+    await roadtripService
+      .createRoadtrip(roadtrip)
+      .then((res) => {
+        setRoadtrip({
+          ...roadtrip,
+          id: res.roadtrip_id,
         });
-    });
+        toast.success("New trip created");
+      })
+      .catch((err) => {
+        toast.error("Failed to create trip");
+      });
   };
 
   const handleUpdateTrip = async () => {
     await roadtripService
       .updateRoadtrip(roadtrip.id, roadtrip)
-      .then((res) => {})
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => {
         toast.error("Failed to update trip");
       });
@@ -204,12 +220,27 @@ function MapPage() {
   const handleClearTrip = () => {
     setRouteNavigating(false);
     setRoadtrip(initialRoadtrip);
+    setMarkers([]);
   };
 
   const getFavorites = async () => {
     await favoriteServices.getFavorites().then((res) => {
       setFavorites(res);
     });
+  };
+
+  const saveMarkers = (newMarkerCoordinates) => {
+    const newMarker = {
+      id: uuidv4(),
+      position: newMarkerCoordinates,
+      name: "Self Marker",
+      amenity: "N/A",
+      opening_hours: "N/A",
+    };
+
+    const newMarkers = [...markers, newMarker];
+    addWaypointToRoute(newMarker);
+    setMarkers(newMarkers);
   };
 
   useEffect(() => {
@@ -351,8 +382,26 @@ function MapPage() {
           url={`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`}
         />
         <SetViewOnClick animateRef={animateRef} />
+        <CreateMarkerOnClick saveMarkers={saveMarkers} />
+
         <ZoomControl position="bottomright" />
         <LoadElements />
+        {markers.length > 0 &&
+          markers.map((marker) => (
+            <Marker
+              key={marker.id}
+              position={marker.position}
+              eventHandlers={{
+                mouseover: (event) => event.target.openPopup(),
+              }}
+            >
+              <Popup>
+                <h1>
+                  Selected Location: {marker.position[0]}, {marker.position[1]}
+                </h1>
+              </Popup>
+            </Marker>
+          ))}
 
         {elements.length > 0 &&
           elements.map((element) => (
