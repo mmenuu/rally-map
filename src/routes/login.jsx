@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 
 const LoginPage = () => {
@@ -120,6 +120,15 @@ const LoginPage = () => {
             </button>
           </div>
         </form>
+
+        <div className="mt-4">
+          <p className="text-center font-light">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-blue-500 hover:underline">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
