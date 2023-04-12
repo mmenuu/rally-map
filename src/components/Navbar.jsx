@@ -6,6 +6,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -127,6 +128,14 @@ export default function Navbar() {
                       className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Profile
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigate("/saved-places");
+                      }}
+                      className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Saved Places
                     </button>
                     <button
                       onClick={logout}

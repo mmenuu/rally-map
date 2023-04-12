@@ -74,7 +74,7 @@ function MapPage() {
   const searchElements = async ({ lat, lng }) => {
     const ApiUrl = `${import.meta.env.VITE_MAP_DATA_API}?data=[out:json];`;
 
-    const radiusInMeters = 3000;
+    const radiusInMeters = 3000;  
     const { data } = await axios.get(
       `${ApiUrl}node["amenity"~"${amenityTypes.join(
         "|"

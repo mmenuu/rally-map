@@ -18,6 +18,7 @@ const LoginPage = lazy(() => import("./routes/login"));
 const RegisterPage = lazy(() => import("./routes/register"));
 const MapPage = lazy(() => import("./routes/map"));
 const ProfilePage = lazy(() => import("./routes/profile"));
+const SavedPlacesPage = lazy(() => import("./routes/saved_places"));
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -63,6 +64,10 @@ export default function App() {
               <Route path="/map" element={<MapPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/profile/:username" element={<ProfilePage />} />
+              <Route
+                path="/saved-places"
+                element={<SavedPlacesPage />}
+              />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>
