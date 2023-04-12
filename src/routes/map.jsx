@@ -29,21 +29,23 @@ import {
 import roadtripService from "../services/roadtripServices";
 import favoriteServices from "../services/favoriteServices";
 
+const initialRoadtrip = {
+  id: null,
+  title: "New Roadtrip",
+  sub_title: "",
+  description: "",
+  waypoints: [],
+  total_distance: null,
+  total_time: null,
+  distance_between_waypoints: [],
+  category: "",
+  summary: "",
+};
+
 function MapPage() {
   const animateRef = useRef(true);
   const [elements, setElements] = useState([]);
-  const [roadtrip, setRoadtrip] = useState({
-    id: null,
-    title: "",
-    sub_title: "",
-    description: "",
-    waypoints: [],
-    total_distance: null,
-    total_time: null,
-    distance_between_waypoints: [],
-    category: "",
-    summary: "",
-  });
+  const [roadtrip, setRoadtrip] = useState(initialRoadtrip);
   const [routeNavigating, setRouteNavigating] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
@@ -180,31 +182,28 @@ function MapPage() {
       setRoadtrip({
         ...roadtrip,
         id: res.roadtrip_id,
-      });
-      console.log(res);
+      })
+        .then((re) => {
+          toast.success("New trip created");
+        })
+        .catch((err) => {
+          toast.error("Failed to create trip");
+        });
     });
   };
 
   const handleUpdateTrip = async () => {
-    await roadtripService.updateRoadtrip(roadtrip.id, roadtrip).then((res) => {
-      console.log(res);
-    });
+    await roadtripService
+      .updateRoadtrip(roadtrip.id, roadtrip)
+      .then((res) => {})
+      .catch((err) => {
+        toast.error("Failed to update trip");
+      });
   };
 
   const handleClearTrip = () => {
     setRouteNavigating(false);
-    setRoadtrip({
-      id: null,
-      title: "",
-      sub_title: "",
-      description: "",
-      waypoints: [],
-      category: "",
-      summary: "",
-      total_distance: null,
-      total_time: null,
-      distance_between_waypoints: [],
-    });
+    setRoadtrip(initialRoadtrip);
   };
 
   const getFavorites = async () => {
@@ -223,11 +222,15 @@ function MapPage() {
     }
 
     if (roadtrip.waypoints.length === 0 && roadtrip.id) {
-      roadtripService.deleteRoadtrip(roadtrip.id).then((res) => {
-        console.log(res);
-      });
-      handleClearTrip();
-      toast.info("Trip Cancelled");
+      roadtripService
+        .deleteRoadtrip(roadtrip.id)
+        .then((res) => {
+          handleClearTrip();
+          toast.info("Trip Cancelled");
+        })
+        .catch((err) => {
+          toast.error("Failed to cancel trip");
+        });
     }
   }, [roadtrip]);
 
@@ -291,8 +294,6 @@ function MapPage() {
                     {parseFloat(roadtrip.total_distance / 1000).toFixed(3)} km
                   </span>
                 </div>
-
-                <span></span>
               </div>
               <button onClick={handleClearTrip} className="ml-auto">
                 <svg
@@ -312,7 +313,7 @@ function MapPage() {
               </button>
             </div>
             <div className="relative pt-12 px-4 pb-4 z-20">
-              <h1 className="text-3xl text-center">{roadtrip.title}</h1>
+              <h1 className="text-3xl text-center mb-2">{roadtrip.title}</h1>
               {roadtrip.waypoints.length > 1 && (
                 <p className="items-center mb-4 text-md font-semibold text-blue-400 text-center">
                   Total Distance:{" "}

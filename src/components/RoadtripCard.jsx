@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 import ConfirmDialog from "../components/ConfirmDialog";
 
-export default function RoadtripCard({ roadtrip, onRemoveRoadtrip }) {
+export default function RoadtripCard({ roadtrip, onRemoveRoadtrip, isOwner }) {
   const [showDialog, setShowDialog] = useState(false);
   const [roadtripMenuOpen, setRoadtripMenuOpen] = useState(false);
 
   return (
     <>
-      <div className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200 relative z-10">
+      <div className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200 relative">
         <h3 className="text-xl font-medium">{roadtrip.title}</h3>
         <div className="flex justify-between">
           <div className="flex items-center space-x-1">
@@ -71,28 +71,30 @@ export default function RoadtripCard({ roadtrip, onRemoveRoadtrip }) {
           </div>
         </div>
 
-        <div className="absolute top-0 right-2 z-20">
-          <button
-            onClick={() => {
-              setRoadtripMenuOpen(!roadtripMenuOpen);
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
+        {isOwner && (
+          <div className="absolute top-0 right-2 z-30">
+            <button
+              onClick={() => {
+                setRoadtripMenuOpen(!roadtripMenuOpen);
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              />
-            </svg>
-          </button>
-        </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
         {roadtripMenuOpen && (
           <ul className="absolute right-4 top-4 mt-8 bg-white rounded-md shadow-lg w-32 z-40">
             <button

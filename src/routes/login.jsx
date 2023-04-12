@@ -7,6 +7,10 @@ const LoginPage = () => {
     username: "",
     password: "",
   });
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
   const { login, user } = useAuth();
@@ -23,11 +27,36 @@ const LoginPage = () => {
       ...formData,
       [name]: value,
     });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(formData);
+    let formValid = true;
+
+    // Basic validation
+    if (formData.username.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        username: "Username is required",
+      }));
+      formValid = false;
+    }
+
+    if (formData.password.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password: "Password is required",
+      }));
+      formValid = false;
+    }
+
+    if (formValid) {
+      login(formData);
+    }
   };
 
   return (
@@ -48,10 +77,15 @@ const LoginPage = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded-lg"
+              className={`w-full border border-gray-300 p-2 rounded-lg ${
+                errors.username ? "border-red-500" : ""
+              }`}
               placeholder="Enter your username"
               autoComplete="off"
             />
+            {errors.username && (
+              <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+            )}
           </div>
           <div>
             <label
@@ -66,10 +100,15 @@ const LoginPage = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded-lg"
+              className={`w-full border border-gray-300 p-2 rounded-lg ${
+                errors.password ? "border-red-500" : ""
+              }`}
               placeholder="Enter your password"
               autoComplete="off"
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           <div>

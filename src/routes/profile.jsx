@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/authContext";
 
 import roadtripServices from "../services/roadtripServices";
 import favoriteServices from "../services/favoriteServices";
@@ -12,6 +13,7 @@ export default function ProfilePage() {
   const [userProfile, setUserProfile] = useState({});
   const [roadtrips, setRoadtrips] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const { user } = useAuth();
 
   const { username } = useParams();
   const navigate = useNavigate();
@@ -79,6 +81,7 @@ export default function ProfilePage() {
                   <RoadtripCard
                     roadtrip={roadtrip}
                     onRemoveRoadtrip={handleRemoveRoadtrip}
+                    isOwner={userProfile.id === user.id}
                   />
                 </li>
               ))}

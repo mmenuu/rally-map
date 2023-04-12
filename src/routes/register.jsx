@@ -6,8 +6,9 @@ const RegisterPage = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    email: ""
+    email: "",
   });
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const { register, user } = useAuth();
@@ -22,13 +23,44 @@ const RegisterPage = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
-    });  
+      [name]: value,
+    });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(formData);
+
+    // Form validation
+    let formValid = true;
+    const newErrors = {};
+
+    if (formData.username === "") {
+      formValid = false;
+      newErrors.username = "Username is required";
+    }
+
+    if (formData.password === "") {
+      formValid = false;
+      newErrors.password = "Password is required";
+    }
+
+    if (formData.email === "") {
+      formValid = false;
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      formValid = false;
+      newErrors.email = "Invalid email format";
+    }
+
+    setErrors(newErrors);
+
+    if (formValid) {
+      register(formData);
+    }
   };
 
   return (
@@ -52,6 +84,9 @@ const RegisterPage = () => {
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your username"
             />
+            {errors.username && (
+              <p className="text-red-500 mt-1">{errors.username}</p>
+            )}
           </div>
           <div>
             <label
@@ -69,6 +104,9 @@ const RegisterPage = () => {
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your password"
             />
+            {errors.password && (
+              <p className="text-red-500 mt-1">{errors.password}</p>
+            )}
           </div>
           <div>
             <label
@@ -86,6 +124,9 @@ const RegisterPage = () => {
               className="w-full border border-gray-300 p-2 rounded-lg"
               placeholder="Enter your email address"
             />
+            {errors.email && (
+              <p className="text-red-500 mt-1">{errors.email}</p>
+            )}
           </div>
           <div>
             <button
