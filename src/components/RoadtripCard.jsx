@@ -96,7 +96,12 @@ export default function RoadtripCard({ roadtrip, onRemoveRoadtrip, isOwner }) {
           </div>
         )}
         {roadtripMenuOpen && (
-          <ul className="absolute right-4 top-4 mt-8 bg-white rounded-md shadow-lg w-32 z-40">
+          <ul
+            onMouseLeave={() => {
+              setRoadtripMenuOpen(false);
+            }}
+            className="absolute right-4 top-4 mt-8 bg-white rounded-md shadow-lg w-32 z-20"
+          >
             <button
               onClick={() => {
                 console.log("edit");
