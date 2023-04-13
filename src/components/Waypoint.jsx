@@ -26,7 +26,7 @@ export default function Waypoint({
             <h2 className="text-md font-medium text-gray-700 capitalize group-hover:underline">
               {waypoint.name}
               </h2>
-            <span className="text-sm text-gray-400 capitalize group-hover:underline">
+            <span className="text-sm text-gray-400 capitalize">
               {waypoint.amenity}
             </span>
           </div>

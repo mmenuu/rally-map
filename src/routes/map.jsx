@@ -10,6 +10,7 @@ import MapPlaceholder from "../components/MapPlaceholder";
 import SetViewOnClick from "../components/SetViewOnClick";
 import RoutingControl from "../components/RoutingControl";
 import WaypointList from "../components/WaypointList";
+import DialogLayout from "../components/DialogLayout";
 
 import {
   MapContainer,
@@ -57,6 +58,9 @@ function MapPage() {
   const animateRef = useRef(true);
   const [elements, setElements] = useState([]);
   const [roadtrip, setRoadtrip] = useState(initialRoadtrip);
+  const [showEditTitleDialog, setShowEditTitleDialog] = useState(false);
+  const [roadtripDetailsForm, setRoadtripDetailsForm] =
+    useState(initialRoadtrip);
   const [routeNavigating, setRouteNavigating] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [markers, setMarkers] = useState([]);
@@ -262,6 +266,17 @@ function MapPage() {
     setMarkers(newMarkers);
   };
 
+  const handleEditRoadtripTitle = (newTitle) => {
+    setRoadtrip({
+      ...roadtrip,
+      title: newTitle,
+    });
+
+    toast.success("Roadtrip title updated", {
+      autoClose: 500,
+    });
+  };
+
   useEffect(() => {
     if (roadtrip.id !== null) {
       handleUpdateTrip();
@@ -368,7 +383,15 @@ function MapPage() {
               </button>
             </div>
             <div className="relative pt-12 px-4 pb-4">
-              <h1 className="text-3xl text-center mb-2">{roadtrip.title}</h1>
+              <h1
+                className="text-3xl text-center mb-2 hover:underline hover:cursor-pointer"
+                onClick={() => {
+                  setRoadtripDetailsForm(roadtrip);
+                  setShowEditTitleDialog(true);
+                }}
+              >
+                {roadtrip.title}
+              </h1>
               {roadtrip.waypoints.length > 1 && (
                 <p className="items-center mb-4 text-md font-semibold text-blue-400 text-center">
                   Total Distance:{" "}
@@ -385,6 +408,63 @@ function MapPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {showEditTitleDialog && (
+        <DialogLayout>
+          <div className="flex flex-col p-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold">Edit Waypoint Details</h2>
+              <button
+                className="text-gray-400 hover:text-gray-500"
+                onClick={() => setShowEditTitleDialog(false)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex flex-col p-4">
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-semibold text-gray-400 mt-2">
+                Title
+              </label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                value={roadtripDetailsForm.title}
+                onChange={(e) => {
+                  setRoadtripDetailsForm({
+                    ...roadtripDetailsForm,
+                    title: e.target.value,
+                  });
+                }}
+                className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              />
+            </div>
+
+            <div className="flex justify-end mt-8">
+              <button
+                className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2"
+                onClick={() => {
+                  handleEditRoadtripTitle(roadtripDetailsForm.title);
+                  setShowEditTitleDialog(false);
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </DialogLayout>
       )}
 
       <MapContainer
