@@ -34,7 +34,6 @@ export default function Waypoint({
         <button
           className="cursor-pointer"
           onClick={() => {
-            // check if the waypoint is the last one show dialog else remove
             if (index === totalOfWaypoint - 1 && index === 0) {
               setShowRemoveWaypointDialog(true);
             } else {

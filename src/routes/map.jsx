@@ -88,9 +88,9 @@ function MapPage() {
     const elementsTransformed = data.elements.map((element) => ({
       id: element.id.toString(),
       position: [element.lat, element.lon],
-      name: element.tags.name || "N/A",
-      amenity: element.tags.amenity,
-      opening_hours: element.tags.opening_hours || "N/A",
+      name: element.tags.name || "No Name",
+      amenity: element.tags.amenity.split("_").join(" "),
+      opening_hours: element.tags.opening_hours || "",
     }));
 
     setElements(elementsTransformed);
@@ -255,8 +255,8 @@ function MapPage() {
       id: uuidv4(),
       position: newMarkerCoordinates,
       name: "Self Marker",
-      amenity: "N/A",
-      opening_hours: "N/A",
+      amenity: "Location",
+      opening_hours: "None",
       description: "",
       note: "",
     };
@@ -523,7 +523,7 @@ function MapPage() {
                   <h1 className="text-2xl font-medium">{element.name}</h1>
                   <div className="flex flex-wrap justify-between items-center pb-3">
                     <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
-                      {element.amenity.split("_").join(" ")}
+                      {element.amenity}
                     </span>
                     <time className="text-gray-400">
                       {element.opening_hours}
