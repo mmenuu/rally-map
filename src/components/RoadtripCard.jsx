@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 
-import ConfirmDialog from "../components/ConfirmDialog";
+import ConfirmDialog from "./ConfirmDialog";
+import DialogLayout from "./DialogLayout";
+import { useNavigate } from "react-router-dom";
 
-export default function RoadtripCard({ roadtrip, onRemoveRoadtrip, isOwner }) {
-  const [showDialog, setShowDialog] = useState(false);
+export default function RoadtripCard({
+  roadtrip,
+  onRemoveTrip,
+  onEditTrip,
+  isOwner,
+}) {
   const [roadtripMenuOpen, setRoadtripMenuOpen] = useState(false);
+  const [showRemoveTripDialog, setShowRemoveTripDialog] = useState(false);
+  const [editTripDetailsForm, setEditTripDetailsForm] = useState(roadtrip);
+  const [showEditTripDialog, setShowEditTripDialog] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200 relative">
-        <h3 className="text-xl font-medium">{roadtrip.title}</h3>
+        <h3
+          className="text-xl font-medium hover:underline hover:cursor-pointer"
+          onClick={(e) => navigate(`/map`)}
+        >
+          {roadtrip.title}
+        </h3>
         <div className="flex justify-between">
           <div className="flex items-center space-x-1">
             <svg
@@ -72,9 +87,10 @@ export default function RoadtripCard({ roadtrip, onRemoveRoadtrip, isOwner }) {
         </div>
 
         {isOwner && (
-          <div className="absolute top-0 right-2 z-30">
+          <div className="absolute top-0 right-2 z-20">
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 setRoadtripMenuOpen(!roadtripMenuOpen);
               }}
             >
@@ -97,22 +113,25 @@ export default function RoadtripCard({ roadtrip, onRemoveRoadtrip, isOwner }) {
         )}
         {roadtripMenuOpen && (
           <ul
-            onMouseLeave={() => {
+            onMouseLeave={(e) => {
+              e.preventDefault();
               setRoadtripMenuOpen(false);
             }}
             className="absolute right-4 top-4 mt-8 bg-white rounded-md shadow-lg w-32 z-20"
           >
             <button
-              onClick={() => {
-                console.log("edit");
+              onClick={(e) => {
+                e.preventDefault();
+                setShowEditTripDialog(true);
               }}
               className="py-2 px-4 cursor-pointer hover:bg-gray-100 w-full"
             >
               Edit
             </button>
             <button
-              onClick={() => {
-                setShowDialog(true);
+              onClick={(e) => {
+                e.preventDefault();
+                setShowRemoveTripDialog(true);
               }}
               className="py-2 px-4 cursor-pointer hover:bg-gray-100 w-full"
             >
@@ -121,15 +140,103 @@ export default function RoadtripCard({ roadtrip, onRemoveRoadtrip, isOwner }) {
           </ul>
         )}
       </div>
-      {showDialog && (
+
+      {showEditTripDialog && (
+        <DialogLayout>
+          <div className="flex flex-col p-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold">Edit Trip Details</h2>
+              <button
+                className="text-gray-400 hover:text-gray-500"
+                onClick={() => setShowEditTripDialog(false)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="grid px-4 space-y-2 border-b pb-8">
+            <div>
+              <label className="text-sm font-semibold text-gray-400">
+                Title
+              </label>
+
+              <input
+                type="text"
+                className="w-full border border-gray-300 rounded-md px-2 py-1 mt-1"
+                value={editTripDetailsForm.title}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setEditTripDetailsForm({
+                    ...editTripDetailsForm,
+                    title: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-400 mt-2">
+                Description
+              </label>
+              <textarea
+                className="w-full border border-gray-300 rounded-md px-2 py-1 mt-1"
+                value={editTripDetailsForm.description}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setEditTripDetailsForm({
+                    ...editTripDetailsForm,
+                    description: e.target.value,
+                  });
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-between mt-32 p-4">
+            <button
+              className="text-red-400 text-md font-medium px-4 py-2 underline"
+              onClick={(e) => {
+                e.preventDefault();
+                onRemoveTrip(roadtrip.id);
+                setShowEditTripDialog(false);
+              }}
+            >
+              Remove Waypoint
+            </button>
+            <button
+              className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2"
+              onClick={(e) => {
+                e.preventDefault();
+                onEditTrip(roadtrip.id, {
+                  ...roadtrip,
+                  title: editTripDetailsForm.title,
+                  description: editTripDetailsForm.description,
+                });
+                setShowEditTripDialog(false);
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </DialogLayout>
+      )}
+      {showRemoveTripDialog && (
         <ConfirmDialog
           title="Remove roadtrip"
           message="Are you sure you want to remove this roadtrip?"
-          onCancel={() => setShowDialog(false)}
+          onCancel={() => setShowRemoveTripDialog(false)}
           onConfirm={(e) => {
             e.preventDefault();
-            onRemoveRoadtrip(roadtrip.id);
-            setShowDialog(false);
+            onRemoveTrip(roadtrip.id);
+            setShowRemoveTripDialog(false);
           }}
         />
       )}

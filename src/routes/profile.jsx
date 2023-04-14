@@ -39,6 +39,21 @@ export default function ProfilePage() {
       });
   };
 
+  const handleEditRoadtrip = async (id, newRoadtripDetails) => {
+    await roadtripServices
+      .updateRoadtrip(id, newRoadtripDetails)
+      .then((res) => {
+        const newRoadtrips = roadtrips.map((roadtrip) => {
+          if (roadtrip.id === id) {
+            return newRoadtripDetails;
+          }
+          return roadtrip;
+        });
+        setRoadtrips(newRoadtrips);
+        toast.success("Roadtrip updated");
+      });
+  };
+
   useEffect(() => {
     if (username === undefined) {
       const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -70,7 +85,8 @@ export default function ProfilePage() {
               <li key={roadtrip.id}>
                 <RoadtripCard
                   roadtrip={roadtrip}
-                  onRemoveRoadtrip={handleRemoveRoadtrip}
+                  onRemoveTrip={handleRemoveRoadtrip}
+                  onEditTrip={handleEditRoadtrip}
                   isOwner={userProfile.id === user.id}
                 />
               </li>

@@ -22,6 +22,7 @@ export default function WaypointList({
   const dragOverItem = useRef(null);
 
   const handleSort = (e) => {
+    e.preventDefault();
     const dragIndex = dragItem.current;
     const overIndex = dragOverItem.current;
 
@@ -136,19 +137,21 @@ export default function WaypointList({
               className="rounded-md p-2 border border-gray-300 focus:outline-none focus:border-blue-400"
               placeholder="Click to add a note"
               value={waypointDetailsForm.note}
-              onChange={(e) =>
+              onChange={(e) => {
+                e.preventDefault();
                 setWaypointDetailsForm({
                   ...waypointDetailsForm,
                   note: e.target.value,
-                })
-              }
+                });
+              }}
             />
           </div>
 
           <div className="flex justify-between mt-32 p-4">
             <button
               className="text-red-400 text-md font-medium px-4 py-2 underline"
-              onClick={() => {
+              onClick={(d) => {
+                e.preventDefault();
                 removeWaypointFromRoute(waypointDetailsForm);
                 setShowEditWaypointDialog(false);
               }}
@@ -157,7 +160,8 @@ export default function WaypointList({
             </button>
             <button
               className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 setShowEditWaypointDialog(false);
                 onEditWaypoint(waypointDetailsForm);
               }}
