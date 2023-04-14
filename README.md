@@ -55,4 +55,4 @@ VITE_API_URL=http://localhost:5000
 Contributions are always welcome! Get started by forking the repository and submitting a pull request.
 
 ## License
-[LICENSE](./LICENSE)
+[LICENSE](./LICENSE.md)
