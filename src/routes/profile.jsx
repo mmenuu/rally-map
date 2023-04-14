@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
 
 import roadtripServices from "../services/roadtripServices";
-import favoriteServices from "../services/favoriteServices";
 import userServices from "../services/userServices";
 
 import RoadtripCard from "../components/RoadtripCard";

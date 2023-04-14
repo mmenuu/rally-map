@@ -306,7 +306,9 @@ function MapPage() {
   return (
     <div className="relative w-screen h-screen z-0">
       {roadtrip.waypoints.length > 0 && (
-        <div className="absolute bg-white z-20 w-[325px] md:left-2 md:top-40 max-h-[50vh] max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl overflow-x-hidden overflow-scroll">
+        <div
+          className="absolute bg-white z-20 w-[325px] md:left-2 md:top-40 max-h-[50vh] max-sm:left-0 max-sm:right-0 rounded-xl shadow-2xl overflow-x-hidden overflow-scroll"
+        >
           <div className="relative w-full h-full">
             <div
               className="fixed w-[325px] flex items-center bg-gray-600 p-1 rounded-t-xl"
