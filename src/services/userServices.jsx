@@ -7,7 +7,8 @@ const login = async ({ username, password }) => {
       new URLSearchParams({
         username,
         password,
-      })
+      }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     );
     const token = res.headers.authorization;
     localStorage.setItem("token", token);
