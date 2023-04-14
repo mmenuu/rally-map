@@ -23,7 +23,7 @@ export default function SavedPlacesPage() {
           <ul className="grid grid-cols-3 gap-4">
             {favorites.map((favorite) => (
               <li
-                className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200"
+                className="p-4 shadow-sm rounded-xl bg-rose-50 space-y-2 border border-rose-200"
                 key={favorite.id}
               >
                 <p>{favorite.name}</p>
