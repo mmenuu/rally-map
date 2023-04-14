@@ -364,37 +364,35 @@ function MapPage() {
             </div>
           </div>
 
-          <div className="flex flex-col p-4">
-            <div className="flex flex-col space-y-2">
-              <label className="text-sm font-semibold text-gray-400 mt-2">
-                Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                value={roadtripDetailsForm.title}
-                onChange={(e) => {
-                  setRoadtripDetailsForm({
-                    ...roadtripDetailsForm,
-                    title: e.target.value,
-                  });
-                }}
-                className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-              />
-            </div>
+          <div className="grid px-4 space-y-2 border-b pb-8">
+            <label className="text-sm font-semibold text-gray-400 mt-2">
+              Title
+            </label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={roadtripDetailsForm.title}
+              onChange={(e) => {
+                setRoadtripDetailsForm({
+                  ...roadtripDetailsForm,
+                  title: e.target.value,
+                });
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+            />
+          </div>
 
-            <div className="flex justify-end mt-8">
-              <button
-                className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2"
-                onClick={() => {
-                  handleEditRoadtripTitle(roadtripDetailsForm.title);
-                  setShowEditTitleDialog(false);
-                }}
-              >
-                Save
-              </button>
-            </div>
+          <div className="flex justify-end mt-8 p-4">
+            <button
+              className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 ml-2"
+              onClick={() => {
+                handleEditRoadtripTitle(roadtripDetailsForm.title);
+                setShowEditTitleDialog(false);
+              }}
+            >
+              Save
+            </button>
           </div>
         </DialogLayout>
       )}
