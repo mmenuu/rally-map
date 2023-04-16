@@ -1,7 +1,7 @@
 import React from "react"
 import BaseLayout from "../components/BaseLayout"
 
-export default function MagazinePage() {
+export default function MagazinesPage() {
   return (
     <BaseLayout>
     <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8 ">
