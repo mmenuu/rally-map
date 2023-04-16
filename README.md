@@ -22,3 +22,37 @@ Whether you're planning a weekend getaway or a cross-country adventure, Rally Ma
 - React
 - Leaflet and React-Leaflet
 - TailwindCSS
+
+
+## Getting Started
+1. Clone the repository
+2. Install dependencies
+3. Start the development server
+4. Open http://localhost:3000 to view it in the browser
+
+```bash
+git clone https://github.com/1tpp/rally-map.git
+cd rally-map
+npm install
+npm run dev
+```
+
+## Environment Variables
+To run this project, you will need to add the following environment variables to your .env file
+```
+VITE_MAPBOX_STYLE=
+VITE_MAPBOX_USERNAME=
+VITE_MAPBOX_TOKEN=
+
+VITE_MAP_DATA_API=https://overpass-api.de/api/interpreter
+FAST_REFRESH = false
+SKIP_PREFLIGHT_CHECK=true
+
+VITE_API_URL=http://localhost:5000
+```
+
+## Contributing
+Contributions are always welcome! Get started by forking the repository and submitting a pull request.
+
+## License
+[LICENSE](./LICENSE.md)
