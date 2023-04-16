@@ -11,10 +11,10 @@ export default function MagazinePage() {
                 Title: <span className="font-bold">title</span>
                 </p>
                 <p className="text-md">
-                Username: <span className="font-bold">name</span>
+                Magazine ID: <span className="font-bold">ID12345</span>
                 </p>
             </div>
-            <p className="text-md text-sm text-gray-700 mt-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p className="text-md text-md text-gray-700 mt-20 first-line:tracking-widest first-letter:text-3xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             <ul className="grid grid-cols-1 gap-10 mt-7">
                 <li className="bg-white rounded-lg shadow-lg overflow-hidden py-5">
                     <div className="p-6 items-center text-center">
