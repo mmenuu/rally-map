@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto max-w-3xl grid h-screen">
+    <div className="container mx-auto max-w-3xl grid min-h-screen">
         <div className="flex-1 flex flex-col justify-center items-center space-y-8">
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-center">
