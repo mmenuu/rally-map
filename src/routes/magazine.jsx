@@ -7,7 +7,7 @@ export default function MagazinePage() {
         <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8 ">
             <div className="flex flex-col items-center">
                 <h1 className="text-4xl font-medium">Magazine</h1>
-                <p className="text-md">
+                <p className="text-md mt-3">
                 Title: <span className="font-bold">title</span>
                 </p>
                 <p className="text-md">
