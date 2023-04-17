@@ -140,6 +140,14 @@ export default function Navbar() {
                       Saved Places
                     </button>
                     <button
+                      onClick={() => {
+                        navigate("/magazines");
+                      }}
+                      className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Magazines
+                    </button>
+                    <button
                       onClick={logout}
                       className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
