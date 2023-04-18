@@ -41,21 +41,39 @@ export default function RoadtripPage() {
           style={{
             height: "32rem",
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)",
+              `url(https://source.unsplash.com/1050x980/?roadtrip&sig=${roadtrip.id}&auto=format&fit=crop&w=1050&q=80)`,
           }}
         >
           <div className="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">
             <div className="text-center px-16">
               <h1 className="text-white text-6xl font-semibold uppercase">
-                {roadtrip.title} 
+                {roadtrip.title}
               </h1>
               <p className="mt-2 text-gray-100 text-2xl">
-                {roadtrip.sub_title} perspiciatis magnam dolore soluta! Eum aut obcaecati
+                {roadtrip.sub_title}
               </p>
             </div>
           </div>
         </div>
       </header>
+      <main className="px-8 mt-16 space-y-8 pb-8">
+        <p className="first-line:tracking-widest first-letter:text-3xl">
+          {roadtrip.description}
+        </p>
+        <div>
+          <h3 className="text-2xl font-semibold">Waypoints</h3>
+          <ul className="grid grid-cols-1 mt-4">
+            {roadtrip.waypoints &&
+              roadtrip.waypoints.map((waypoint) => (
+                <li className="bg-white border-b-2 py-8 overflow-hidden">
+                  <div className="items-center text-center">
+                    <h2 className="text-2xl font-bold">{waypoint.name}</h2>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </div>
+      </main>
     </BaseLayout>
   );
 }

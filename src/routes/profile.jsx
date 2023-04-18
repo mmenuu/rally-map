@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
-
+import BaseLayout from "../components/BaseLayout";
 import roadtripServices from "../services/roadtripServices";
 import userServices from "../services/userServices";
 
@@ -67,15 +67,17 @@ export default function ProfilePage() {
   }, [username]);
 
   return (
-    <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8 ">
-      <div className="flex flex-col items-center">
-        <h1 className="text-4xl font-medium">Profile</h1>
-        <p className="text-md">
-          ID: <span className="font-bold">{userProfile.id}</span>
-        </p>
-        <p className="text-md">
-          Username: <span className="font-bold">{userProfile.username}</span>
-        </p>
+    <BaseLayout>
+      <div className="grid space-y-4 mb-12">
+        <h1 className="text-4xl font-medium text-center">Profile</h1>
+        <div className="flex justify-between text-md">
+          <p>
+            ID: <span className="font-bold">{userProfile.id}</span>
+          </p>
+          <p>
+            Username: <span className="font-bold">{userProfile.username}</span>
+          </p>
+        </div>
       </div>
       <div className="space-y-2">
         <h2 className="text-center text-2xl font-medium mt-8">Trips</h2>
@@ -96,6 +98,6 @@ export default function ProfilePage() {
           <p className="text-center">No roadtrips</p>
         )}
       </div>
-    </div>
+    </BaseLayout>
   );
 }
