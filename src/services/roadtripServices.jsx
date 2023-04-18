@@ -12,7 +12,7 @@ const createRoadtrip = async (roadtrip) => {
         },
       }
     );
-    return res.data
+    return res.data;
   } catch (error) {
     throw new Error(error.response.data.detail);
   }
@@ -26,7 +26,7 @@ const getRoadtrips = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return res.data
+    return res.data;
   } catch (error) {
     throw new Error(error.response.data.detail);
   }
@@ -43,22 +43,28 @@ const getRoadtrip = async (id) => {
         },
       }
     );
-    return res.data
+    return res.data;
   } catch (error) {
     throw new Error(error.response.data.detail);
   }
 };
 
 const getRoadtripsByUser = async (username) => {
+  const token = localStorage.getItem("token");
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/roadtrips/?user=${username}`
+      `${import.meta.env.VITE_API_URL}/roadtrips/?user=${username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    return res.data
+    return res.data;
   } catch (error) {
     throw new Error(error.response.data.detail);
   }
-}
+};
 
 const updateRoadtrip = async (id, roadtrip) => {
   try {
@@ -72,7 +78,7 @@ const updateRoadtrip = async (id, roadtrip) => {
         },
       }
     );
-    return res.data
+    return res.data;
   } catch (error) {
     throw new Error(error.response.data.detail);
   }
@@ -89,7 +95,7 @@ const deleteRoadtrip = async (id) => {
         },
       }
     );
-    return res.data
+    return res.data;
   } catch (error) {
     throw new Error(error.response.data.detail);
   }
