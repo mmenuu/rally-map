@@ -1,30 +1,61 @@
-import React from "react"
-import BaseLayout from "../components/BaseLayout"
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import BaseLayout from "../components/BaseLayout";
+import { useAuth } from "../context/authContext";
+import { toast } from "react-toastify";
+
+import roadtripServices from "../services/roadtripServices";
 
 export default function RoadtripPage() {
-return(
+  const [roadtrip, setRoadtrip] = useState({});
+  const [editAble, setEditAble] = useState(false);
+  const { user } = useAuth();
+  const { id } = useParams();
+
+  const getRoadtripDetails = async (roadtrip_id) => {
+    try {
+      const roadtrip = await roadtripServices.getRoadtripByID(roadtrip_id);
+      setRoadtrip(roadtrip);
+
+      if (user && user.id === roadtrip.author) {
+        console.log("user is the author");
+        setEditAble(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      getRoadtripDetails(id);
+    }
+  }, [id]);
+
+  return (
     <BaseLayout>
-        <div className="flex flex-col items-center my-10">
-            <h1 className="text-4xl font-medium">Roadtrip Title</h1>
-            <p className="text-md text-gray-600 mt-2">sub-title avsjdkfdhgfkdjghfsjgtrrhtjy</p>
-            <button className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 mt-10">
-                Start this roadtrip
-            </button>
+      <header>
+        <div
+          className="w-full bg-cover bg-center overflow-hidden rounded-2xl"
+          style={{
+            height: "32rem",
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)",
+          }}
+        >
+          <div className="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">
+            <div className="text-center px-16">
+              <h1 className="text-white text-6xl font-semibold uppercase">
+                {roadtrip.title} 
+              </h1>
+              <p className="mt-2 text-gray-100 text-2xl">
+                {roadtrip.sub_title} perspiciatis magnam dolore soluta! Eum aut obcaecati
+              </p>
             </div>
-        <p className="text-md text-md text-gray-700 mt-10 first-line:tracking-widest first-letter:text-3xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <h1 className="text-md text-3xl mt-10 text-center">Waypoints</h1>
-        <ul className="grid grid-cols-3 gap-10 mt-7 items-center">
-            <li className="bg-white rounded-lg shadow-lg overflow-hidden py-5">
-                <div className="p-6 items-center text-center">
-                    <h2 className="text-2xl font-bold mb-2">Waypoint1</h2>
-                    <p className="text-gray-700">Waypoint Description</p>
-                    <button className="bg-gray-500 text-white text-md font-medium rounded-full px-8 py-1 mt-5">
-                        view more
-                    </button>
-                </div>
-            </li>
-        </ul>
-        <p className="text-sm text-gray-600 mt-20 text-center">created by Author</p>
+          </div>
+        </div>
+      </header>
     </BaseLayout>
-);
+  );
 }

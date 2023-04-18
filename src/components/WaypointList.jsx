@@ -114,7 +114,7 @@ export default function WaypointList({
               <label className="text-sm font-semibold text-gray-400 mt-2">
                 Amenity
               </label>
-              <p className="text-lg font-medium">
+              <p className="text-lg font-medium capitalize">
                 {waypointDetailsForm.amenity}
               </p>
             </div>
@@ -150,7 +150,7 @@ export default function WaypointList({
           <div className="flex justify-between mt-32 p-4">
             <button
               className="text-red-400 text-md font-medium px-4 py-2 underline"
-              onClick={(d) => {
+              onClick={(e) => {
                 e.preventDefault();
                 removeWaypointFromRoute(waypointDetailsForm);
                 setShowEditWaypointDialog(false);

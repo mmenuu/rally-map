@@ -32,6 +32,23 @@ const getRoadtrips = async () => {
   }
 };
 
+const getRoadtripByID = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/roadtrips/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data
+  } catch (error) {
+    throw new Error(error.response.data.detail);
+  }
+};
+
 const getRoadtripsByUser = async (username) => {
   try {
     const res = await axios.get(
@@ -99,6 +116,7 @@ const roadtripServices = {
   createRoadtrip,
   getRoadtrips,
   getRoadtrip,
+  getRoadtripByID,
   getRoadtripsByUser,
   updateRoadtrip,
   deleteRoadtrip,

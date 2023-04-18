@@ -21,7 +21,7 @@ export default function RoadtripCard({
       <div className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200 relative">
         <h3
           className="text-xl font-medium hover:underline hover:cursor-pointer"
-          onClick={(e) => navigate(`/map`)}
+          onClick={(e) => navigate(`/map?roadtrip=${roadtrip.id}`)}
         >
           {roadtrip.title}
         </h3>
@@ -119,6 +119,15 @@ export default function RoadtripCard({
             }}
             className="absolute right-4 top-4 mt-8 bg-white rounded-md shadow-lg w-32 z-20"
           >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/roadtrip/${roadtrip.id}`);
+              }}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-100 w-full"
+            >
+              View
+            </button>
             <button
               onClick={(e) => {
                 e.preventDefault();

@@ -5,6 +5,7 @@ import "../styles/Map.css";
 
 import debounce from "lodash/debounce";
 import { v4 as uuidv4 } from "uuid";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 import MapPlaceholder from "../components/MapPlaceholder";
 import SetViewOnClick from "../components/SetViewOnClick";
@@ -65,6 +66,9 @@ function MapPage() {
   const [favorites, setFavorites] = useState([]);
   const [markers, setMarkers] = useState([]);
 
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const amenityTypes = [
     "restaurant",
     "cafe",
@@ -90,7 +94,7 @@ function MapPage() {
       position: [element.lat, element.lon],
       name: element.tags.name || "No Name",
       amenity: element.tags.amenity.split("_").join(" "),
-      opening_hours: element.tags.opening_hours || "",
+      opening_hours: element.tags.opening_hours || "N/A",
     }));
 
     setElements(elementsTransformed);
@@ -242,6 +246,7 @@ function MapPage() {
     setRouteNavigating(false);
     setRoadtrip(initialRoadtrip);
     setMarkers([]);
+    navigate("/map");
   };
 
   const getFavorites = async () => {
@@ -266,6 +271,11 @@ function MapPage() {
     setMarkers(newMarkers);
   };
 
+  const handleAddMarker = (element) => {
+    addWaypointToRoute(element);
+    setMarkers([...markers, element]);
+  };
+
   const handleEditRoadtripTitle = (newTitle) => {
     setRoadtrip({
       ...roadtrip,
@@ -278,6 +288,19 @@ function MapPage() {
   };
 
   useEffect(() => {
+    if (searchParams.get("roadtrip") && roadtrip.id === null) {
+      roadtripService
+        .getRoadtripByID(searchParams.get("roadtrip"))
+        .then((res) => {
+          setRoadtrip(res);
+          setMarkers(res.waypoints);
+          handleRouting();
+        })
+        .catch((err) => {
+          toast.error("Failed to load trip");
+        });
+    }
+
     if (roadtrip.id !== null) {
       handleUpdateTrip();
     }
@@ -426,47 +449,28 @@ function MapPage() {
             <Marker
               key={marker.id}
               position={marker.position}
-              eventHandlers={{
-                mouseover: (event) => event.target.openPopup(),
-              }}
-            >
-              <Popup>
-                <h1>
-                  Selected Location: {marker.position[0]}, {marker.position[1]}
-                </h1>
-              </Popup>
-            </Marker>
-          ))}
-
-        {elements.length > 0 &&
-          elements.map((element) => (
-            <Marker
-              key={element.id}
-              position={element.position}
-              icon={handleIcon(element)}
+              icon={handleIcon(marker)}
               eventHandlers={{
                 mouseover: (event) => event.target.openPopup(),
               }}
             >
               <Popup>
                 <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
-                  <h1 className="text-2xl font-medium">{element.name}</h1>
+                  <h1 className="text-2xl font-medium">{marker.name}</h1>
                   <div className="flex flex-wrap justify-between items-center pb-3">
                     <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
-                      {element.amenity}
+                      {marker.amenity}
                     </span>
                     <time className="text-gray-400">
-                      {element.opening_hours}
+                      {marker.opening_hours}
                     </time>
                   </div>
 
                   <div className="flex space-x-2 items-center">
-                    {favorites.find(
-                      (favorite) => favorite.id === element.id
-                    ) ? (
+                    {favorites.find((favorite) => favorite.id === marker.id) ? (
                       <button
                         onClick={() => {
-                          handleRemoveFavorite(element.id);
+                          handleRemoveFavorite(marker.id);
                         }}
                         className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-gray-100 font-semibold text-gray-400 hover:text-gray-500 rounded-md hover:animate-pulse hover:bg-red-200"
                       >
@@ -482,7 +486,13 @@ function MapPage() {
                     ) : (
                       <button
                         onClick={() => {
-                          handleAddFavorite(element);
+                          handleAddFavorite({
+                            id: marker.id,
+                            name: marker.name,
+                            amenity: marker.amenity,
+                            opening_hours: marker.opening_hours,
+                            position: marker.position,
+                          });
                         }}
                         className="flex items-center py-1 px-2 space-x-1 text-sm border border-gray-100 font-semibold text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md"
                       >
@@ -509,7 +519,12 @@ function MapPage() {
                         onClick={(e) => {
                           e.preventDefault();
                           addWaypointToRoute({
-                            ...element,
+                            ...marker,
+                            note: "",
+                            description: "",
+                          });
+                          handleAddMarker({
+                            ...marker,
                             note: "",
                             description: "",
                           });
@@ -517,13 +532,18 @@ function MapPage() {
                       >
                         Start New Trip
                       </button>
-                    ) : waypointNotExistsInRoute(element) ? (
+                    ) : waypointNotExistsInRoute(marker) ? (
                       <button
                         className="text-blue-400 w-full font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
                           addWaypointToRoute({
-                            ...element,
+                            ...marker,
+                            note: "",
+                            description: "",
+                          });
+                          handleAddMarker({
+                            ...marker,
                             note: "",
                             description: "",
                           });
@@ -536,7 +556,7 @@ function MapPage() {
                         className="text-red-400 w-full font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
-                          removeWaypointFromRoute(element);
+                          removeWaypointFromRoute(marker);
                         }}
                       >
                         Remove from trip
@@ -547,6 +567,129 @@ function MapPage() {
               </Popup>
             </Marker>
           ))}
+
+        {elements.length > 0 &&
+          elements.map(
+            (element) =>
+              waypointNotExistsInRoute(element) && (
+                <Marker
+                  key={element.id}
+                  position={element.position}
+                  icon={handleIcon(element)}
+                  eventHandlers={{
+                    mouseover: (event) => event.target.openPopup(),
+                  }}
+                >
+                  <Popup>
+                    <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
+                      <h1 className="text-2xl font-medium">{element.name}</h1>
+                      <div className="flex flex-wrap justify-between items-center pb-3">
+                        <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
+                          {element.amenity}
+                        </span>
+                        <time className="text-gray-400">
+                          {element.opening_hours}
+                        </time>
+                      </div>
+
+                      <div className="flex space-x-2 items-center">
+                        {favorites.find(
+                          (favorite) => favorite.id === element.id
+                        ) ? (
+                          <button
+                            onClick={() => {
+                              handleRemoveFavorite(element.id);
+                            }}
+                            className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-gray-100 font-semibold text-gray-400 hover:text-gray-500 rounded-md hover:animate-pulse hover:bg-red-200"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="w-6 h-6 text-red-500"
+                            >
+                              <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                            </svg>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              handleAddFavorite(element);
+                            }}
+                            className="flex items-center py-1 px-2 space-x-1 text-sm border border-gray-100 font-semibold text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-6 h-6"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                              />
+                            </svg>
+                          </button>
+                        )}
+
+                        {roadtrip.waypoints.length === 0 ? (
+                          <button
+                            className="text-green-400 w-full font-semibold py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 capitalize"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              addWaypointToRoute({
+                                ...element,
+                                note: "",
+                                description: "",
+                              });
+                              handleAddMarker({
+                                ...element,
+                                note: "",
+                                description: "",
+                              });
+                            }}
+                          >
+                            Start New Trip
+                          </button>
+                        ) : waypointNotExistsInRoute(element) ? (
+                          <button
+                            className="text-blue-400 w-full font-semibold py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              addWaypointToRoute({
+                                ...element,
+                                note: "",
+                                description: "",
+                              });
+                              handleAddMarker({
+                                ...element,
+                                note: "",
+                                description: "",
+                              });
+                            }}
+                          >
+                            Add to trip
+                          </button>
+                        ) : (
+                          <button
+                            className="text-red-400 w-full font-semibold py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 capitalize"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              removeWaypointFromRoute(element);
+                            }}
+                          >
+                            Remove from trip
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </Popup>
+                </Marker>
+              )
+          )}
 
         {routeNavigating && (
           <RoutingControl

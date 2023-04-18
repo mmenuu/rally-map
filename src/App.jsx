@@ -67,9 +67,9 @@ export default function App() {
               <Route path="/map" element={<MapPage />} />
               <Route path="/magazines" element={<MagazinesPage />} />
               <Route path="/magazine/:id" element={<MagazinePage />} />
+              <Route path="/roadtrip/:id" element={<RoadtripPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/profile/:username" element={<ProfilePage />} />
-              <Route path="/roadtrip" element={<RoadtripPage />} />
               <Route
                 path="/saved-places"
                 element={<SavedPlacesPage />}
