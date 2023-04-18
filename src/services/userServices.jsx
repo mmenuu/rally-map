@@ -62,9 +62,15 @@ const getProfile = async () => {
 };
 
 const getUserProfile = async (username) => {
+  const token = localStorage.getItem("token");
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/users/profile/${username}`
+      `${import.meta.env.VITE_API_URL}/users/profile/${username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return res.data;
   } catch (error) {
