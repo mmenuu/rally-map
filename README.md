@@ -48,7 +48,7 @@ VITE_MAP_DATA_API=https://overpass-api.de/api/interpreter
 FAST_REFRESH = false
 SKIP_PREFLIGHT_CHECK=true
 
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=https://rally.fly.dev
 ```
 
 ## Contributing
