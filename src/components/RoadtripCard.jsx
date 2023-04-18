@@ -18,7 +18,7 @@ export default function RoadtripCard({
 
   return (
     <>
-      <div className="p-4 shadow-sm rounded-xl bg-blue-50 space-y-2 border border-blue-200 relative">
+      <div className="p-4 shadow-sm rounded-xl flex flex-col justify-between h-48 bg-blue-50 space-y-2 border border-blue-200 relative">
         <h3
           className="text-xl font-medium hover:underline hover:cursor-pointer"
           onClick={(e) => navigate(`/map?roadtrip=${roadtrip.id}`)}
