@@ -5,27 +5,38 @@ export default function MagazinesPage() {
   return (
     <BaseLayout>
     <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8 ">
-        <div className="flex flex-col items-center my-5">
-            <h1 className="text-4xl font-medium">Magazines</h1>
-            <p className="text-md">
+        <div
+            className="w-full bg-cover bg-center overflow-hidden rounded-2xl text-opacity-90"
+            style={{
+                height: "16rem",
+                backgroundImage:
+                `url(https://images.unsplash.com/photo-1599372173702-ecf4919a527a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGFyaXMlMjBuaWdodHxlbnwwfHwwfHw%3D&w=1000&q=80)`,
+            }}
+            >            
+            <h1 className="mt-24 text-4xl font-medium text-center text-white">Magazines</h1>
+            <p className="text-xd text-center text-white">
             Here is the collection of recommended magazines!
             </p>
         </div>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <li className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img
-                src="https://source.unsplash.com/random/400x400"
-                alt="Blog Category"
-                className="w-full h-56 object-cover"
-            />
-            <div className="p-6">
-                <h2 className="text-xl font-bold mb-2">Technology</h2>
-                <p className="text-gray-700">
-                Get the latest news and updates about technology.
-                </p>
+        <div className="text-center">
+            <h1 className="mt-14 text-2xl font-medium text-gray-800">Magazine Title</h1>
+            <p className="text-xd text-gray-700 mb-5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
+            <div className="flex flex-row space-y-20 space-x-5">
+                <div className="basis-2/4">
+                    <img
+                    src="https://source.unsplash.com/random/400x400"
+                    alt="Random Unsplash"
+                    className="object-cover rounded-lg shadow-lg"
+                    />
+                </div>
+                <div className="basis-2/4 text-left">
+                    <ul className="list-disc list-inside">
+                        <li>Lorem ipsum dolor sit amet</li>
+                    </ul>
+                </div>
             </div>
-            </li>
-        </ul>
+        </div>
     </div>
     </BaseLayout>
   )
