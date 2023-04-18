@@ -55,6 +55,9 @@ export default function LandmarkPage() {
           <h1 className="text-center text-white text-4xl">{landmark.name}</h1>
         </div>
         <p>{landmark.amenity}</p>
+        <p>
+          rating: {landmark.average_rating}
+        </p>
       </div>
 
       <div>
