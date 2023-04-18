@@ -15,7 +15,7 @@ export default function RoadtripPage() {
 
   const getRoadtripDetails = async (roadtrip_id) => {
     try {
-      const roadtrip = await roadtripServices.getRoadtripByID(roadtrip_id);
+      const roadtrip = await roadtripServices.getRoadtrip(roadtrip_id);
       setRoadtrip(roadtrip);
 
       if (user && user.id === roadtrip.author) {

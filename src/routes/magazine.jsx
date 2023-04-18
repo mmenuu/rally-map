@@ -6,9 +6,7 @@ import { useEffect } from "react";
 export default function MagazinePage() {
   const { id } = useParams();
 
-  useEffect(() => {
-    console.log(id);
-    }, [id]);
+  useEffect(() => {}, []);
 
   return (
     <BaseLayout>

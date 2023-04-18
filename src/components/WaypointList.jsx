@@ -67,7 +67,7 @@ export default function WaypointList({
               {waypoints.length > 1 && waypoints.length - 1 !== index && (
                 <div className="flex items-center my-2">
                   <div className="border-b w-full"></div>
-                  <span className="w-28 ml-5 font-medium text-gray-400">
+                  <span className="w-36 ml-5 font-medium text-gray-400 text-right">
                     {distanceBetweenWaypoints[index]
                       ? `${parseFloat(
                           distanceBetweenWaypoints[index] / 1000

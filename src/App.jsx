@@ -22,6 +22,7 @@ const MagazinePage = lazy(() => import("./routes/magazine"));
 const ProfilePage = lazy(() => import("./routes/profile"));
 const SavedPlacesPage = lazy(() => import("./routes/saved_places"));
 const RoadtripPage = lazy(() => import("./routes/roadtrip"));
+const LandmarkPage = lazy(() => import("./routes/landmark"));
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -68,6 +69,7 @@ export default function App() {
               <Route path="/magazines" element={<MagazinesPage />} />
               <Route path="/magazine/:id" element={<MagazinePage />} />
               <Route path="/roadtrip/:id" element={<RoadtripPage />} />
+              <Route path="/landmark/:id" element={<LandmarkPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/profile/:username" element={<ProfilePage />} />
               <Route

@@ -32,6 +32,7 @@ import {
 
 import roadtripService from "../services/roadtripServices";
 import favoriteServices from "../services/favoriteServices";
+import landmarkServices from "../services/landmarkServices";
 
 const initialRoadtrip = {
   id: null,
@@ -287,10 +288,22 @@ function MapPage() {
     });
   };
 
+  const handleLandmarkClick = async (element) => {
+    await landmarkServices
+      .getLandmark(element.id)
+      .then((res) => {
+        navigate(`/landmark/${element.id}`);
+      })
+      .catch(async (error) => {
+        await landmarkServices.createLandmark(element);
+        navigate(`/landmark/${element.id}`);
+      });
+  };
+
   useEffect(() => {
     if (searchParams.get("roadtrip") && roadtrip.id === null) {
       roadtripService
-        .getRoadtripByID(searchParams.get("roadtrip"))
+        .getRoadtrip(searchParams.get("roadtrip"))
         .then((res) => {
           setRoadtrip(res);
           setMarkers(res.waypoints);
@@ -456,7 +469,21 @@ function MapPage() {
             >
               <Popup>
                 <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
-                  <h1 className="text-2xl font-medium">{marker.name}</h1>
+                  <h1
+                    className="text-2xl font-medium hover:underline cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLandmarkClick({
+                        id: marker.id,
+                        name: marker.name,
+                        position: marker.position,
+                        opening_hours: marker.opening_hours,
+                        amenity: marker.amenity,
+                      });
+                    }}
+                  >
+                    {marker.name}
+                  </h1>
                   <div className="flex flex-wrap justify-between items-center pb-3">
                     <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
                       {marker.amenity}
@@ -582,7 +609,15 @@ function MapPage() {
                 >
                   <Popup>
                     <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
-                      <h1 className="text-2xl font-medium">{element.name}</h1>
+                      <h1
+                        className="text-2xl font-medium hover:underline cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLandmarkClick(element);
+                        }}
+                      >
+                        {element.name}
+                      </h1>
                       <div className="flex flex-wrap justify-between items-center pb-3">
                         <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
                           {element.amenity}
