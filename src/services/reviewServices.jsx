@@ -40,9 +40,32 @@ const removeReview = async (review_id) => {
   }
 };
 
+const updateReview = async (review_id, review) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.patch(
+      `${import.meta.env.VITE_API_URL}/reviews/${review_id}`,
+      {
+        review_text: review.review_text,
+        rating: review.rating,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response.data.detail);
+  }
+};
+
 const reviewServices = {
   createReview,
-  removeReview
+  updateReview,
+  removeReview,
 };
 
 export default reviewServices;
