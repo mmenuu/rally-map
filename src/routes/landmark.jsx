@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import BaseLayout from "../components/BaseLayout";
 
@@ -21,7 +22,7 @@ export default function LandmarkPage() {
   });
 
   const { user } = useAuth();
-
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const getLandmarkDetails = async (landmark_id) => {
@@ -40,7 +41,7 @@ export default function LandmarkPage() {
 
     try {
       const res = await reviewServices.createReview(landmark.id, reviewForm);
-      setLandmark({ ...landmark, reviews: [...landmark.reviews, reviewForm] });
+      setLandmark({ ...landmark, reviews: [...landmark.reviews, {...reviewForm, reviewer: user.username}] });
       setReviewForm({ review_text: "", rating: 0 });
       toast.success(res.detail);
     } catch (error) {
@@ -144,7 +145,7 @@ export default function LandmarkPage() {
                   </div>
                 </div>
                 <p>{review.review_text}</p>
-                {user && user.id === review.reviewer && (
+                {user && user.username === review.reviewer && (
                   <button
                     className="hover:underline text-red-500"
                     onClick={async (e) => {
