@@ -1,7 +1,21 @@
 import React from "react";
 import BaseLayout from "../components/BaseLayout";
+import magazineServices from "../services/magazineServices";
 
 export default function MagazinesPage() {
+  const { id } = useParams();
+  const [magazine, setMagazine] = useState({ });
+  const [editAble, setEditAble] = useState(false);
+  const { user } = useAuth();
+
+  const [createForm, setCreateForm] = useState({
+    magazine_title: "",
+    magazine_description : "",
+    magazine_id : ""
+  });
+
+  
+
   return (
     <BaseLayout>
       <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8">
