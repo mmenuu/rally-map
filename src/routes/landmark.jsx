@@ -9,6 +9,7 @@ import BaseLayout from "../components/BaseLayout";
 
 import landmarkServices from "../services/landmarkServices";
 import reviewServices from "../services/reviewServices";
+
 export default function LandmarkPage() {
   const [landmark, setLandmark] = useState({
     name: "",
@@ -70,7 +71,7 @@ export default function LandmarkPage() {
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-28 mb-10">
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-gray-800 font-bold mb-2"
               htmlFor="review"
             >
               Review
