@@ -13,7 +13,6 @@ export default function LandmarkPage() {
   const { user } = useAuth();
   const { id } = useParams();
 
-  
   const [landmark, setLandmark] = useState({
     name: "",
     amenity: "",
@@ -85,11 +84,15 @@ export default function LandmarkPage() {
         <div className="grid justify-center items-center rounded-3xl p-10 bg-gradient-to-b h-[26rem] from-blue-900 to-indigo-300">
           <h1 className="text-center text-white text-4xl">{landmark.name}</h1>
         </div>
-        <p>{landmark.amenity}</p>
-        <p>
-          rating: {parseFloat(landmark.average_rating).toFixed(1)} / 5.0 (
-          {landmark.reviews.length})
-        </p>
+        <div className="py-4 flex space-x-8">
+          <p className="text-center text-gray-500 text-sm mt-2">
+            {landmark.amenity}
+          </p>
+          <p className="text-center text-gray-500 text-sm mt-2">
+            rating: {parseFloat(landmark.average_rating).toFixed(1)} / 5.0 (
+            {landmark.reviews.length})
+          </p>
+        </div>
       </div>
 
       <div>
