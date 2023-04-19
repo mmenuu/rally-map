@@ -1,5 +1,19 @@
 import axios from "axios";
 
+const getReviewsByUsername = async (username) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/reviews?user=${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response.data.detail);
+  }
+}
+
 const createReview = async (landmark_id, review) => {
   try {
     const token = localStorage.getItem("token");
@@ -63,6 +77,7 @@ const updateReview = async (review_id, review) => {
 };
 
 const reviewServices = {
+  getReviewsByUsername,
   createReview,
   updateReview,
   removeReview,

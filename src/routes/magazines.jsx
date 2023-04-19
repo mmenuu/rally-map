@@ -60,9 +60,8 @@ export default function MagazinesPage() {
   return (
     <BaseLayout>
       <div
-        className="w-full bg-cover h-[30vh] bg-center overflow-hidden rounded-2xl text-opacity-90 items-center"
+        className="w-full bg-cover h-[26rem] bg-center overflow-hidden rounded-2xl text-opacity-90 items-center"
         style={{
-          height: "16rem",
           backgroundImage: `url(https://images.unsplash.com/photo-1599372173702-ecf4919a527a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGFyaXMlMjBuaWdodHxlbnwwfHwwfHw%3D&w=1000&q=80)`,
         }}
       >
@@ -148,8 +147,6 @@ export default function MagazinesPage() {
 
               <div className="flex flex-col mt-5">
                 <label className="text-gray-700">Roadtrips</label>
-
-                {/* Multi Select Roadtrips */}
                 <div className="relative inline-block w-full text-gray-700">
                   <div className="flex flex-col">
                     <div className="relative">

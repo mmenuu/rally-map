@@ -37,11 +37,9 @@ export default function RoadtripPage() {
     <BaseLayout>
       <header>
         <div
-          className="w-full bg-cover bg-center overflow-hidden rounded-2xl"
+          className="w-full h-[26rem] bg-cover bg-center overflow-hidden rounded-2xl"
           style={{
-            height: "32rem",
-            backgroundImage:
-              `url(https://source.unsplash.com/1050x980/?roadtrip&sig=${roadtrip.id}&auto=format&fit=crop&w=1050&q=80)`,
+            backgroundImage: `url(https://source.unsplash.com/1050x980/?roadtrip&sig=${roadtrip.id}&auto=format&fit=crop&w=1050&q=80)`,
           }}
         >
           <div className="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">

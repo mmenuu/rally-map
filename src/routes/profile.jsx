@@ -3,14 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
 import BaseLayout from "../components/BaseLayout";
+
 import roadtripServices from "../services/roadtripServices";
 import userServices from "../services/userServices";
+import reviewServices from "../services/reviewServices";
 
 import RoadtripCard from "../components/RoadtripCard";
 
 export default function ProfilePage() {
   const [userProfile, setUserProfile] = useState({});
   const [roadtrips, setRoadtrips] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
   const { user } = useAuth();
 
   const { username } = useParams();
@@ -22,6 +26,9 @@ export default function ProfilePage() {
       setUserProfile(data);
       await roadtripServices.getRoadtripsByUser(username).then((res) => {
         setRoadtrips(res);
+      });
+      await reviewServices.getReviewsByUsername(username).then((res) => {
+        setReviews(res);
       });
     }
   };
@@ -79,24 +86,72 @@ export default function ProfilePage() {
           </p>
         </div>
       </div>
-      <div className="space-y-2">
-        <h2 className="text-center text-2xl font-medium mt-8">Trips</h2>
-        {roadtrips.length > 0 ? (
-          <ul className="grid grid-cols-2 gap-4">
-            {roadtrips.map((roadtrip) => (
-              <li key={roadtrip.id}>
-                <RoadtripCard
-                  roadtrip={roadtrip}
-                  onRemoveTrip={handleRemoveRoadtrip}
-                  onEditTrip={handleEditRoadtrip}
-                  isOwner={userProfile.id === user.id}
-                />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-center">No roadtrips</p>
-        )}
+      <div className="space-y-16 pb-8">
+        <div className="space-y-8">
+          <h2 className="text-center text-2xl font-medium mt-8">Trips</h2>
+          {roadtrips.length > 0 ? (
+            <ul className="grid grid-cols-2 gap-4">
+              {roadtrips.map((roadtrip) => (
+                <li key={roadtrip.id}>
+                  <RoadtripCard
+                    roadtrip={roadtrip}
+                    onRemoveTrip={handleRemoveRoadtrip}
+                    onEditTrip={handleEditRoadtrip}
+                    isOwner={userProfile.id === user.id}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center">No roadtrips</p>
+          )}
+        </div>
+
+        <div className="space-y-8">
+          <h2 className="text-center text-2xl font-medium mt-8">Reviews</h2>
+          {reviews.length > 0 ? (
+            <ul className="grid grid-cols-2 gap-4">
+              {reviews.map((review) => (
+                <li key={review.id}>
+                  <div className="flex flex-col justify-between p-4 border border-gray-300 rounded-md">
+                    <div className="flex justify-between">
+                      <div className="flex flex-col">
+                        <h3
+                          onClick={() =>
+                            navigate(`/landmark/${review.landmark_id}`)
+                          }
+                          className="text-lg font-medium cursor-pointer hover:underline"
+                        >
+                          {review.landmark_name}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {review.review_text}
+                        </p>
+                      </div>
+
+                      <div className="flex space-x-2">
+                        {[1, 2, 3, 4, 5].map((value) => (
+                          <span
+                            key={value}
+                            className={`text-2xl ${
+                              value <= review.rating
+                                ? "text-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center">No reviews</p>
+          )}
+        </div>
       </div>
     </BaseLayout>
   );

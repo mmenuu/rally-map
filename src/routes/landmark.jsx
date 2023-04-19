@@ -82,7 +82,7 @@ export default function LandmarkPage() {
   return (
     <BaseLayout>
       <div>
-        <div className="grid justify-center items-center rounded-3xl p-10 bg-gradient-to-b h-[30vh] from-blue-900 to-indigo-300">
+        <div className="grid justify-center items-center rounded-3xl p-10 bg-gradient-to-b h-[26rem] from-blue-900 to-indigo-300">
           <h1 className="text-center text-white text-4xl">{landmark.name}</h1>
         </div>
         <p>{landmark.amenity}</p>
