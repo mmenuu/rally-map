@@ -1,63 +1,61 @@
-import React, { useState, useEffect } from "react"
-import BaseLayout from "../components/BaseLayout"
+import React, { useState, useEffect } from "react";
+import BaseLayout from "../components/BaseLayout";
 
-import magazineServices from "../services/magazineServices"
-import roadtripServices from "../services/roadtripServices"
+import magazineServices from "../services/magazineServices";
+import roadtripServices from "../services/roadtripServices";
 
-import DialogLayout from "../components/DialogLayout"
+import DialogLayout from "../components/DialogLayout";
 
-import { useAuth } from "../context/authContext"
-import { toast } from "react-toastify"
+import { useAuth } from "../context/authContext";
+import { toast } from "react-toastify";
 
 export default function MagazinesPage() {
-  const [magazines, setMagazines] = useState([])
+  const [magazines, setMagazines] = useState([]);
 
   const [magazineForm, setMagazineForm] = useState({
     title: "",
     description: "",
     roadtrips: [],
-  })
+  });
 
-  const [showCreateMagazineModal, setShowCreateMagazineModal] = useState(false)
-  const [roadtrips, setRoadtrips] = useState([])
+  const [showCreateMagazineModal, setShowCreateMagazineModal] = useState(false);
+  const [roadtrips, setRoadtrips] = useState([]);
 
   const fetchMagazines = async () => {
     try {
-      const res = await magazineServices.getMagazines()
-      setMagazines(res)
+      const res = await magazineServices.getMagazines();
+      setMagazines(res);
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
   const fetchRoadtrips = async () => {
     try {
-      const res = await roadtripServices.getRoadtrips()
-      setRoadtrips(res)
+      const res = await roadtripServices.getRoadtrips();
+      setRoadtrips(res);
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
   const handleCreateMagazine = async (newMagazine) => {
     try {
-      const res = await magazineServices.createMagazine({
-        title: newMagazine.title,
-        description: newMagazine.description,
-      })
+      alert(JSON.stringify(newMagazine));
+      const res = await magazineServices.createMagazine(newMagazine);
 
-      console.log(res)
-      fetchMagazines()
-      toast.success("Magazine created successfully")
+      console.log(res);
+      fetchMagazines();
+      toast.success("Magazine created successfully");
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchMagazines()
-    fetchRoadtrips()
-  }, [])
+    fetchMagazines();
+    fetchRoadtrips();
+  }, []);
 
   return (
     <BaseLayout>
@@ -92,12 +90,12 @@ export default function MagazinesPage() {
               <button
                 className="text-gray-400 hover:text-gray-500"
                 onClick={() => {
-                  setShowCreateMagazineModal(!showCreateMagazineModal)
+                  setShowCreateMagazineModal(!showCreateMagazineModal);
                   setMagazineForm({
                     title: "",
                     description: "",
                     roadtrips: [],
-                  })
+                  });
                 }}
               >
                 <svg
@@ -112,11 +110,13 @@ export default function MagazinesPage() {
               </button>
             </div>
 
-            <form onSubmit={(e) => {
-              e.preventDefault()
-              handleCreateMagazine(magazineForm)
-              setShowCreateMagazineModal(!showCreateMagazineModal)
-              }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCreateMagazine(magazineForm);
+                setShowCreateMagazineModal(!showCreateMagazineModal);
+              }}
+            >
               <div className="flex flex-col mt-5">
                 <label className="text-gray-700">Title</label>
                 <input
@@ -149,20 +149,32 @@ export default function MagazinesPage() {
               <div className="flex flex-col mt-5">
                 <label className="text-gray-700">Roadtrips</label>
 
-                <select
-                  className="border-2 border-gray-300 p-2 rounded-lg mt-1 focus:outline-none focus:border-blue-400"
-                  value={magazineForm.roadtrips}
-                  onChange={(e) =>
-                    setMagazineForm({
-                      ...magazineForm,
-                      roadtrips: e.target.value,
-                    })
-                  }
-                >
-                  {roadtrips.map((roadtrip) => (
-                    <option value={roadtrip._id}>{roadtrip.title}</option>
-                  ))}
-                </select>
+                {/* Multi Select Roadtrips */}
+                <div className="relative inline-block w-full text-gray-700">
+                  <div className="flex flex-col">
+                    <div className="relative">
+                      <select
+                        className="w-full pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline"
+                        placeholder="Regular input"
+                        multiple
+                        value={magazineForm.roadtrips}
+                        onChange={(e) =>
+                          setMagazineForm({
+                            ...magazineForm,
+                            roadtrips: Array.from(
+                              e.target.selectedOptions,
+                              (item) => item.value
+                            ),
+                          })
+                        }
+                      >
+                        {roadtrips.map((roadtrip) => (
+                          <option value={roadtrip.id}>{roadtrip.title}</option>
+                        ))}
+                      </select>
+                    </div>{" "}
+                  </div>
+                </div>
               </div>
 
               <button
@@ -204,5 +216,5 @@ export default function MagazinesPage() {
         ))}
       </ul>
     </BaseLayout>
-  )
+  );
 }

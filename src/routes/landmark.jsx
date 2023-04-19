@@ -10,6 +10,10 @@ import landmarkServices from "../services/landmarkServices";
 import reviewServices from "../services/reviewServices";
 
 export default function LandmarkPage() {
+  const { user } = useAuth();
+  const { id } = useParams();
+
+  
   const [landmark, setLandmark] = useState({
     name: "",
     amenity: "",
@@ -20,9 +24,6 @@ export default function LandmarkPage() {
     review_text: "",
     rating: 0,
   });
-
-  const { user } = useAuth();
-  const { id } = useParams();
 
   const getLandmarkDetails = async (landmark_id) => {
     await landmarkServices
