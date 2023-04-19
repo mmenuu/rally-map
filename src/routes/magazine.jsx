@@ -3,9 +3,8 @@ import BaseLayout from "../components/BaseLayout";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
-export default function MagazinePage() {
-  const { id } = useParams();
 
+export default function MagazinePage() {
   useEffect(() => {}, []);
 
   return (
