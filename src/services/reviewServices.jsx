@@ -3,7 +3,7 @@ import axios from "axios";
 const getReviewsByUsername = async (username) => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/reviews?user=${username}`, {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/reviews/?user=${username}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
