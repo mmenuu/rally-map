@@ -154,24 +154,28 @@ export default function LandmarkPage() {
 
         <div className="max-w-md mx-auto mt-10 space-y-4 pb-8">
           <h3 className="text-center text-4xl font-bold">Reviews</h3>
-          <ul className="flex flex-col justify-center items-center space-y-8">
-            {landmark.reviews.map((review, index) => (
-              <li
-                key={index}
-                className="flex flex-col space-y-4 p-4 border border-gray-300 rounded-3xl w-full relative"
-              >
-                <Review
-                  isOwner={review.reviewer === user.username}
-                  reviewId={review.id}
-                  rating={review.rating}
-                  reviewer={review.reviewer}
-                  review_text={review.review_text}
-                  handleRemoveReview={() => handleRemoveReview(review.id)}
-                  handleEditReview={handleEditReview}
-                />
-              </li>
-            ))}
-          </ul>
+          {landmark.reviews > 0 ? (
+            <ul className="flex flex-col justify-center items-center space-y-8">
+              {landmark.reviews.map((review, index) => (
+                <li
+                  key={index}
+                  className="flex flex-col space-y-4 p-4 border border-gray-300 rounded-3xl w-full relative"
+                >
+                  <Review
+                    isOwner={review.reviewer === user.username}
+                    reviewId={review.id}
+                    rating={review.rating}
+                    reviewer={review.reviewer}
+                    review_text={review.review_text}
+                    handleRemoveReview={() => handleRemoveReview(review.id)}
+                    handleEditReview={handleEditReview}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center">No reviews yet</p>
+          )}
         </div>
       </div>
     </BaseLayout>
