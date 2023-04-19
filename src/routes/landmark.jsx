@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 import BaseLayout from "../components/BaseLayout";
-
+import Review from "../components/Review";
 import landmarkServices from "../services/landmarkServices";
 import reviewServices from "../services/reviewServices";
+
 export default function LandmarkPage() {
   const [landmark, setLandmark] = useState({
     name: "",
@@ -22,18 +22,40 @@ export default function LandmarkPage() {
   });
 
   const { user } = useAuth();
-  const navigate = useNavigate();
   const { id } = useParams();
 
   const getLandmarkDetails = async (landmark_id) => {
     await landmarkServices
       .getLandmark(landmark_id)
       .then((res) => {
-        setLandmark(res);
+        setLandmark({
+          ...res,
+          reviews: res.reviews.reverse(),
+        });
       })
       .catch((err) => {
         toast.error(err.message);
       });
+  };
+
+  const handleRemoveReview = async (review_id) => {
+    try {
+      await reviewServices.removeReview(review_id);
+      getLandmarkDetails(id);
+      toast.success("Review deleted");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleEditReview = async (review_id, new_review) => {
+    try {
+      await reviewServices.updateReview(review_id, new_review);
+      getLandmarkDetails(id);
+      toast.success("Review updated");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -41,8 +63,11 @@ export default function LandmarkPage() {
 
     try {
       const res = await reviewServices.createReview(landmark.id, reviewForm);
-      setLandmark({ ...landmark, reviews: [...landmark.reviews, {...reviewForm, reviewer: user.username}] });
-      setReviewForm({ review_text: "", rating: 0 });
+      getLandmarkDetails(id);
+      setReviewForm({
+        review_text: "",
+        rating: 0,
+      });
       toast.success(res.detail);
     } catch (error) {
       toast.error(error.message);
@@ -67,57 +92,65 @@ export default function LandmarkPage() {
       </div>
 
       <div>
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-28 mb-10">
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="review"
-            >
-              Review
-            </label>
-            <textarea
-              id="review"
-              name="review"
-              value={reviewForm.review_text}
-              onChange={(e) => {
-                setReviewForm({ ...reviewForm, review_text: e.target.value });
-              }}
-              required
-              className="w-full border border-gray-400 p-2 rounded-lg"
-            ></textarea>
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="rating"
-            >
-              Rating
-            </label>
-            <div className="flex space-x-2 mb-4">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <button
-                  key={value}
-                  className={`text-2xl ${
-                    value <= reviewForm.rating
-                      ? "text-yellow-400"
-                      : "text-gray-300"
-                  }`}
-                  onClick={() =>
-                    setReviewForm({ ...reviewForm, rating: value })
-                  }
-                >
-                  ★
-                </button>
-              ))}
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="w-full rounded-3xl bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 font-bold"
+        {landmark.reviews.find(
+          (review) => review.reviewer === user.username
+        ) ? null : (
+          <form
+            onSubmit={handleSubmit}
+            className="max-w-md mx-auto mt-28 mb-10"
           >
-            Submit Review
-          </button>
-        </form>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 font-bold mb-2"
+                htmlFor="review"
+              >
+                Review
+              </label>
+              <textarea
+                id="review"
+                name="review"
+                value={reviewForm.review_text}
+                onChange={(e) => {
+                  setReviewForm({ ...reviewForm, review_text: e.target.value });
+                }}
+                required
+                className="w-full border border-gray-400 p-2 rounded-lg"
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 font-bold mb-2"
+                htmlFor="rating"
+              >
+                Rating
+              </label>
+              <div className="flex space-x-2 mb-4">
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <button
+                    key={value}
+                    className={`text-2xl ${
+                      value <= reviewForm.rating
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setReviewForm({ ...reviewForm, rating: value });
+                    }}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="w-full rounded-3xl bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 font-bold"
+            >
+              Submit Review
+            </button>
+          </form>
+        )}
 
         <div className="max-w-md mx-auto mt-10 space-y-4 pb-8">
           <h3 className="text-center text-4xl font-bold">Reviews</h3>
@@ -125,43 +158,17 @@ export default function LandmarkPage() {
             {landmark.reviews.map((review, index) => (
               <li
                 key={index}
-                className="flex flex-col space-y-4 p-4 border border-gray-300 rounded-3xl w-full"
+                className="flex flex-col space-y-4 p-4 border border-gray-300 rounded-3xl w-full relative"
               >
-                <div className="flex justify-between">
-                  <p className="text-lg font-bold">{review.reviewer}</p>
-                  <div className="flex space-x-2">
-                    {[1, 2, 3, 4, 5].map((value) => (
-                      <span
-                        key={value}
-                        className={`text-2xl ${
-                          value <= review.rating
-                            ? "text-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <p>{review.review_text}</p>
-                {user && user.username === review.reviewer && (
-                  <button
-                    className="hover:underline text-red-500"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      await reviewServices.removeReview(review.id);
-                      setLandmark({
-                        ...landmark,
-                        reviews: landmark.reviews.filter(
-                          (r) => r.id !== review.id
-                        ),
-                      });
-                    }}
-                  >
-                    Remove
-                  </button>
-                )}
+                <Review
+                  isOwner={review.reviewer === user.username}
+                  reviewId={review.id}
+                  rating={review.rating}
+                  reviewer={review.reviewer}
+                  review_text={review.review_text}
+                  handleRemoveReview={() => handleRemoveReview(review.id)}
+                  handleEditReview={handleEditReview}
+                />
               </li>
             ))}
           </ul>
