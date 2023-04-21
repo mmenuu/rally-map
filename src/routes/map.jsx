@@ -235,9 +235,7 @@ function MapPage() {
   const handleUpdateTrip = async () => {
     await roadtripService
       .updateRoadtrip(roadtrip.id, roadtrip)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((err) => {
         toast.error("Failed to update trip");
       });

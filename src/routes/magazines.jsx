@@ -43,8 +43,6 @@ export default function MagazinesPage() {
     try {
       alert(JSON.stringify(newMagazine));
       const res = await magazineServices.createMagazine(newMagazine);
-
-      console.log(res);
       fetchMagazines();
       toast.success("Magazine created successfully");
     } catch (error) {
@@ -198,6 +196,7 @@ export default function MagazinesPage() {
                 <img
                   src="https://source.unsplash.com/random/400x400"
                   alt="Random Unsplash"
+                  loading="lazy"
                   className="object-cover rounded-lg shadow-lg"
                 />
               </div>

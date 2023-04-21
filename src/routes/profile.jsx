@@ -75,9 +75,9 @@ export default function ProfilePage() {
 
   return (
     <BaseLayout>
-      <div className="grid space-y-4 mb-12">
+      <div className="grid space-y-4 mb-16">
         <h1 className="text-4xl font-medium text-center">Profile</h1>
-        <div className="flex justify-between text-md">
+        <div className="flex flex-col md:flex-row justify-between text-md">
           <p>
             ID: <span className="font-bold">{userProfile.id}</span>
           </p>
@@ -90,7 +90,7 @@ export default function ProfilePage() {
         <div className="space-y-8">
           <h2 className="text-center text-2xl font-medium mt-8">Trips</h2>
           {roadtrips.length > 0 ? (
-            <ul className="grid grid-cols-2 gap-4">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {roadtrips.map((roadtrip) => (
                 <li key={roadtrip.id}>
                   <RoadtripCard
@@ -110,7 +110,7 @@ export default function ProfilePage() {
         <div className="space-y-8">
           <h2 className="text-center text-2xl font-medium mt-8">Reviews</h2>
           {reviews.length > 0 ? (
-            <ul className="grid grid-cols-2 gap-4">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {reviews.map((review) => (
                 <li key={review.id}>
                   <div className="flex flex-col justify-between p-4 border border-gray-300 rounded-md">

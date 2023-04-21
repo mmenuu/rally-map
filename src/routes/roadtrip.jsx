@@ -19,11 +19,10 @@ export default function RoadtripPage() {
       setRoadtrip(roadtrip);
 
       if (user && user.id === roadtrip.author) {
-        console.log("user is the author");
         setEditAble(true);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
