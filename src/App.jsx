@@ -65,7 +65,7 @@ export default function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/map" element={<MapPage />} />
+              <Route path="/map" element={<MapPage />}  />
               <Route path="/magazines" element={<MagazinesPage />} />
               <Route path="/magazines/:id" element={<MagazinePage />} />
               <Route path="/roadtrip/:id" element={<RoadtripPage />} />
