@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 
 export default function MagazinesPage() {
   const [magazines, setMagazines] = useState([]);
+  const { user } = useAuth();
 
   const [magazineForm, setMagazineForm] = useState({
     title: "",
@@ -72,12 +73,14 @@ export default function MagazinesPage() {
           </p>
         </div>
       </div>
-      <button
-        onClick={() => setShowCreateMagazineModal(!showCreateMagazineModal)}
-        className="bg-blue-400 text-white text-md text-center font-medium rounded-full py-1 px-10 mt-5"
-      >
-        Add Magazine
-      </button>
+      {user.is_admin && (
+        <button
+          onClick={() => setShowCreateMagazineModal(!showCreateMagazineModal)}
+          className="bg-blue-400 text-white text-md text-center font-medium rounded-full py-1 px-10 mt-5"
+        >
+          Add Magazine
+        </button>
+      )}
 
       {showCreateMagazineModal && (
         <DialogLayout>
