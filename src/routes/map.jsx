@@ -478,7 +478,7 @@ function MapPage() {
               }}
             >
               <Popup>
-                <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
+                <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px] font-sans">
                   <h1
                     className="text-2xl font-medium hover:underline cursor-pointer"
                     onClick={(e) => {
@@ -618,7 +618,7 @@ function MapPage() {
                   }}
                 >
                   <Popup>
-                    <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px]">
+                    <div className="flex flex-col flex-wrap space-y-1 justify-between min-w-[225px] font-sans">
                       <h1
                         className="text-2xl font-medium hover:underline cursor-pointer"
                         onClick={(e) => {
