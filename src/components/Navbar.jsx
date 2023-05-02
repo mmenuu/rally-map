@@ -71,14 +71,14 @@ export default function Navbar() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
-                    class="w-6 h-6 text-blue-500 hover:text-red-600 cursor-pointer bg-blue-100 rounded-full hover:bg-red-100"
+                    className="w-6 h-6 text-blue-500 hover:text-red-600 cursor-pointer bg-blue-100 rounded-full hover:bg-red-100"
                     onClick={() => setSearchQuery("")}
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
@@ -211,7 +211,7 @@ export default function Navbar() {
         </div>
       </nav>
       {searchQuery.length > 0 && (
-        <div className="fixed top-16 flex flex-col bg-white w-[400px] h-screen z-50">
+        <div className="fixed top-16 flex flex-col bg-white w-[400px] h-screen z-50 shadow-2xl">
           <p className="px-4 py-4 border-b border-neutral-200 text-right text-neutral-400">
             {results.length} result{results.length > 1 && "s"} for "
             {searchQuery}"
@@ -220,14 +220,34 @@ export default function Navbar() {
             <ul>
               {results.map((result) => (
                 <li key={result.id}>
-                  <div className="flex items-center justify-between px-4 py-4 border-b border-neutral-200">
-                    {result.title && (
+                  <div className="px-4 py-4 border-b border-neutral-200">
+                    <div className="text-sm text-neutral-400 text-right">
+                      <span className="bg-neutral-100 px-3 py-1 rounded-full capitalize">{result.type}</span>
+                    </div>
+                    {result.type == "roadtrip" && (
                       <Link to={`roadtrip/${result.id}`}>
-                        <h1 className="hover:underline">{result.title}</h1>
+                        <h1 className="text-xl hover:underline">{result.title}</h1>
+                        <p className="text-neutral-400 text-sm">
+                          {result.author}
+                        </p>
                       </Link>
                     )}
-                    {result.name && <h1>{result.name}</h1>}
-                    {result.author && <p>{result.author}</p>}
+                    {result.type == "landmark" && (
+                      <Link to={`landmark/${result.id}`}>
+                        <h1 className="text-xl hover:underline">{result.name}</h1>
+                        <p className="text-neutral-400 text-sm">
+                          lat: {result.position[0]}, lag: {result.position[1]}
+                        </p>
+                      </Link>
+                    )}
+                    {result.type == "user" && (
+                      <Link to={`profile/${result.username}`}>
+                        <h1 className="text-xl hover:underline">{result.username}</h1>
+                        <p className="text-neutral-400 text-sm">
+                          ID: {result.id}
+                        </p>
+                      </Link>
+                    )}
                   </div>
                 </li>
               ))}
