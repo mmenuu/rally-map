@@ -22,7 +22,7 @@ export default function HomePage() {
         </div>
         <img
           src="/map-cuate.svg"
-          alt="Santa Claus"
+          alt="map"
           className="md:col-span-6 max-w-full"
         />
       </main>
