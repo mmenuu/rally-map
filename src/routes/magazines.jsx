@@ -26,6 +26,7 @@ export default function MagazinesPage() {
     try {
       const res = await magazineServices.getMagazines();
       setMagazines(res);
+      console.log(res);
     } catch (error) {
       toast.error(error.message);
     }
@@ -73,7 +74,7 @@ export default function MagazinesPage() {
           </p>
         </div>
       </div>
-      {user.is_admin && (
+      {user?.is_admin && (
         <button
           onClick={() => setShowCreateMagazineModal(!showCreateMagazineModal)}
           className="bg-blue-400 text-white text-md text-center font-medium rounded-full py-1 px-10 mt-5"
@@ -81,6 +82,36 @@ export default function MagazinesPage() {
           Add Magazine
         </button>
       )}
+
+      <ul className="mt-10 space-y-10">
+        {magazines.map((magazine, index) => (
+          <li key={magazine.id}>
+            <div className="mb-5">
+              <h1 className="text-2xl font-medium text-neutral-800">
+                {magazine.title}
+              </h1>
+              <p className="text-xd text-neutral-700">{magazine.description}</p>
+            </div>
+            <div className="flex space-x-5">
+              <div className="basis-2/4">
+                <img
+                  src="https://source.unsplash.com/random/400x400"
+                  alt="Random Unsplash"
+                  loading="lazy"
+                  className="object-cover rounded-lg shadow-lg"
+                />
+              </div>
+              <ul className="basis-2/4 text-left">
+                {magazine.roadtrips.map((roadtrip) => (
+                  <li key={roadtrip.id} className="text-xl text-neutral-700">
+                    {roadtrip.title} - {roadtrip.description}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ul>
 
       {showCreateMagazineModal && (
         <DialogLayout>
@@ -185,35 +216,6 @@ export default function MagazinesPage() {
           </div>
         </DialogLayout>
       )}
-      <ul className="mt-10 space-y-10">
-        {magazines.map((magazine) => (
-          <li>
-            <div className="mb-5">
-              <h1 className="text-2xl font-medium text-neutral-800">
-                {magazine.title}
-              </h1>
-              <p className="text-xd text-neutral-700">{magazine.description}</p>
-            </div>
-            <div className="flex space-x-5">
-              <div className="basis-2/4">
-                <img
-                  src="https://source.unsplash.com/random/400x400"
-                  alt="Random Unsplash"
-                  loading="lazy"
-                  className="object-cover rounded-lg shadow-lg"
-                />
-              </div>
-              <ul className="basis-2/4 text-left">
-                {magazine.roadtrips.map((roadtrip) => (
-                  <li className="text-xd text-neutral-700">
-                    {roadtrip.title} - {roadtrip.description}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </li>
-        ))}
-      </ul>
     </BaseLayout>
   );
 }
