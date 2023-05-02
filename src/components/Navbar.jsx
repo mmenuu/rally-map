@@ -66,27 +66,45 @@ export default function Navbar() {
               />
 
               <div className="flex items-center justify-center relative h-8 w-8 rounded-full">
-                <svg
-                  viewBox="0 0 32 32"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  role="presentation"
-                  focusable="false"
-                  className="text-blue-300"
-                  style={{
-                    display: "block",
-                    fill: "none",
-                    height: 12,
-                    width: 12,
-                    stroke: "currentcolor",
-                    strokeWidth: "5.33333",
-                    overflow: "visible",
-                  }}
-                >
-                  <g fill="none">
-                    <path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9" />
-                  </g>
-                </svg>
+                {searchQuery != 0 ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-blue-500 hover:text-red-600 cursor-pointer bg-blue-100 rounded-full hover:bg-red-100"
+                    onClick={() => setSearchQuery("")}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    role="presentation"
+                    focusable="false"
+                    className="text-blue-300"
+                    style={{
+                      display: "block",
+                      fill: "none",
+                      height: 12,
+                      width: 12,
+                      stroke: "currentcolor",
+                      strokeWidth: "5.33333",
+                      overflow: "visible",
+                    }}
+                  >
+                    <g fill="none">
+                      <path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9" />
+                    </g>
+                  </svg>
+                )}
               </div>
             </div>
           </div>
