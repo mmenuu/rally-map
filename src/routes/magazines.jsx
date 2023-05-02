@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import BaseLayout from "../components/BaseLayout";
 
+import { Link } from "react-router-dom";
+
 import magazineServices from "../services/magazineServices";
 import roadtripServices from "../services/roadtripServices";
 
@@ -43,8 +45,12 @@ export default function MagazinesPage() {
 
   const handleCreateMagazine = async (newMagazine) => {
     try {
-      alert(JSON.stringify(newMagazine));
       const res = await magazineServices.createMagazine(newMagazine);
+      setMagazineForm({
+        title: "",
+        description: "",
+        roadtrips: [],
+      });
       fetchMagazines();
       toast.success("Magazine created successfully");
     } catch (error) {
@@ -83,30 +89,63 @@ export default function MagazinesPage() {
         </button>
       )}
 
-      <ul className="mt-10 space-y-10">
+      <ul className="mt-8 grid grid-cols-1 gap-8">
         {magazines.map((magazine, index) => (
-          <li key={magazine.id}>
-            <div className="mb-5">
-              <h1 className="text-2xl font-medium text-neutral-800">
-                {magazine.title}
-              </h1>
+          <li key={magazine.id} className="mb-8">
+            <div className="mb-3">
+              <Link to={`/magazine/${magazine.id}`}>
+                <h1 className="text-2xl font-medium text-neutral-800 hover:underline">
+                  {magazine.title}
+                </h1>
+              </Link>
               <p className="text-xd text-neutral-700">{magazine.description}</p>
             </div>
-            <div className="flex space-x-5">
-              <div className="basis-2/4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-80">
+              <div className="relative overflow-clip group">
                 <img
-                  src="https://source.unsplash.com/random/400x400"
+                  src={`https://source.unsplash.com/400x225/?roadtrip&sig=${magazine.roadtrips[0].id}`}
+                  className="object-cover rounded-lg shadow-lg w-full h-full group-hover:opacity-75 transition-opacity duration-150"
                   alt="Random Unsplash"
-                  loading="lazy"
-                  className="object-cover rounded-lg shadow-lg"
                 />
+                <Link to={`/roadtrip/${magazine.roadtrips[0].id}`}>
+                  <span className="text-sm text-neutral-50 mr-2 absolute left-2 bottom-2 right-2 hover:underline">
+                    {magazine.roadtrips[0].title}
+                  </span>
+                </Link>
               </div>
-              <ul className="basis-2/4 text-left">
-                {magazine.roadtrips.map((roadtrip) => (
-                  <li key={roadtrip.id} className="text-xl text-neutral-700">
-                    {roadtrip.title} - {roadtrip.description}
+              <ul className="grid grid-cols-2 gap-1">
+                {magazine.roadtrips.map(
+                  (roadtrip, index) =>
+                    index < 4 &&
+                    index !== 0 && (
+                      <li key={roadtrip.id}>
+                        <div className="relative overflow-clip group">
+                          <img
+                            src={`https://source.unsplash.com/400x225/?roadtrip&sig=${roadtrip.id}`}
+                            className="object-cover rounded-lg shadow-lg w-full h-full group-hover:opacity-75 transition-opacity duration-150"
+                            alt="Random Unsplash"
+                          />
+                          <Link to={`/roadtrip/${roadtrip.id}`}>
+                            <span className="text-sm text-neutral-100 mr-2 absolute left-2 bottom-2 right-2 hover:underline">
+                              {roadtrip.title}
+                            </span>
+                          </Link>
+                        </div>
+                      </li>
+                    )
+                )}
+
+                {magazine.roadtrips.length > 4 && (
+                  <li>
+                    <Link to={`/magazine/${magazine.id}`}>
+                      <div className="flex justify-center items-center bg-neutral-50 rounded-lg shadow-lg w-full h-full">
+                        <span className="text-sm text-neutral-900 hover:underline">
+                          +{magazine.roadtrips.length - 4} more
+                        </span>
+                      </div>
+                    </Link>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </li>
@@ -117,7 +156,7 @@ export default function MagazinesPage() {
         <DialogLayout>
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semimedium">Create New Magazine</h2>
+              <h2 className="text-xl font-medium">Create New Magazine</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => {
@@ -183,7 +222,7 @@ export default function MagazinesPage() {
                   <div className="flex flex-col">
                     <div className="relative">
                       <select
-                        className="w-full pl-3 pr-6 text-base placeholder-neutral-600 border rounded-lg appearance-none focus:shadow-outline"
+                        className="w-full text-base placeholder-neutral-600 border rounded-lg appearance-none focus:shadow-outline"
                         placeholder="Regular input"
                         multiple
                         value={magazineForm.roadtrips}
@@ -198,14 +237,18 @@ export default function MagazinesPage() {
                         }
                       >
                         {roadtrips.map((roadtrip) => (
-                          <option value={roadtrip.id}>{roadtrip.title}</option>
+                          <option
+                            className="text-base placeholder-neutral-600 appearance-none focus:shadow-outline py-4 px-2"
+                            value={roadtrip.id}
+                          >
+                            {roadtrip.title}
+                          </option>
                         ))}
                       </select>
                     </div>{" "}
                   </div>
                 </div>
               </div>
-
               <button
                 type="submit"
                 className="bg-blue-400 text-white text-md text-center font-medium rounded-full py-1 px-10 mt-5"

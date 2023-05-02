@@ -1,40 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import BaseLayout from "../components/BaseLayout";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-
+import { Link } from "react-router-dom";
+import magazineServices from "../services/magazineServices";
 
 export default function MagazinePage() {
-  useEffect(() => {}, []);
+  const { id } = useParams();
+  const [magazine, setMagazine] = useState({});
+
+  const getMagazine = async () => {
+    const data = await magazineServices.getMagazine(id);
+    if (data) {
+      setMagazine(data);
+    }
+  };
+
+  useEffect(() => {
+    getMagazine();
+  }, [id]);
 
   return (
     <BaseLayout>
       <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8 ">
         <div className="flex flex-col items-center">
-          <h1 className="text-4xl font-medium">Magazine Title</h1>
+          <h1 className="text-4xl font-medium">{magazine.title}</h1>
           <p className="text-md text-neutral-600 mt-2">
-            Magazine ID: <span className="font-medium">ID12345</span>
+            <span className="font-medium">ID: {magazine.id}</span>
           </p>
         </div>
         <p className="text-md text-md text-neutral-700 mt-20 first-line:tracking-widest first-letter:text-3xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {magazine.description}
         </p>
-        <ul className="grid grid-cols-1 gap-10 mt-7">
-          <li className="bg-white rounded-lg shadow-lg overflow-hidden py-5">
-            <div className="p-6 items-center text-center">
-              <h2 className="text-2xl font-medium mb-2">Roadtrip1</h2>
-              <p className="text-neutral-700">Roadtrip Description</p>
-              <button className="bg-blue-400 text-white text-md font-medium rounded-full px-8 py-1 mt-5">
-                Visit this roadtrip
-              </button>
-            </div>
-          </li>
+        <ul className="grid grid-cols-1 gap-10 mt-7 pb-10">
+          {magazine.roadtrips?.map((roadtrip) => (
+            <li key={roadtrip.id}>
+              <Link to={`/roadtrip/${roadtrip.id}`}>
+                <div className="flex space-x-4 group">
+                  <img
+                    className="object-cover rounded-lg shadow-lg group-hover:opacity-75 transition-opacity duration-150"
+                    src={`https://source.unsplash.com/400x225/?roadtrip&sig=${roadtrip.id}`}
+                    alt="random"
+                  />
+
+                  <div className="flex flex-col justify-center">
+                    <h2 className="text-2xl font-medium group-hover:underline">{roadtrip.title}</h2>
+                    <p className="text-md text-neutral-600 mt-2">
+                      {roadtrip.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </BaseLayout>
