@@ -86,7 +86,7 @@ export default function MagazinesPage() {
         <DialogLayout>
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Create New Magazine</h2>
+              <h2 className="text-xl font-semimedium">Create New Magazine</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => {

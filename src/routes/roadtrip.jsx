@@ -43,7 +43,7 @@ export default function RoadtripPage() {
         >
           <div className="flex items-center justify-center h-full w-full bg-neutral-900 bg-opacity-50">
             <div className="text-center px-16">
-              <h1 className="text-white text-6xl font-semibold uppercase">
+              <h1 className="text-white text-6xl font-semimedium uppercase">
                 {roadtrip.title}
               </h1>
               <p className="mt-2 text-neutral-100 text-2xl">
@@ -58,13 +58,13 @@ export default function RoadtripPage() {
           {roadtrip.description}
         </p>
         <div>
-          <h3 className="text-2xl font-semibold">Waypoints</h3>
+          <h3 className="text-2xl font-semimedium">Waypoints</h3>
           <ul className="grid grid-cols-1 mt-4">
             {roadtrip.waypoints &&
               roadtrip.waypoints.map((waypoint) => (
                 <li className="bg-white border-b-2 py-8 overflow-hidden">
                   <div className="items-center text-center">
-                    <h2 className="text-2xl font-bold">{waypoint.name}</h2>
+                    <h2 className="text-2xl font-medium">{waypoint.name}</h2>
                   </div>
                 </li>
               ))}

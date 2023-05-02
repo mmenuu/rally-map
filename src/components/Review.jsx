@@ -27,7 +27,7 @@ export default function Review({
             e.preventDefault();
             navigate(`/profile/${reviewer}`);
           }}
-          className="text-lg font-bold hover:underline cursor-pointer"
+          className="text-lg font-medium hover:underline cursor-pointer"
         >
           {reviewer}
         </p>
@@ -82,7 +82,7 @@ export default function Review({
           {" "}
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Edit Review</h2>
+              <h2 className="text-xl font-semimedium">Edit Review</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setEditReviewDialog(false)}
@@ -109,7 +109,7 @@ export default function Review({
           >
             <div className="mb-4">
               <label
-                className="block text-neutral-700 font-bold mb-2"
+                className="block text-neutral-700 font-medium mb-2"
                 htmlFor="review"
               >
                 Review
@@ -127,7 +127,7 @@ export default function Review({
             </div>
             <div className="mb-4">
               <label
-                className="block text-neutral-700 font-bold mb-2"
+                className="block text-neutral-700 font-medium mb-2"
                 htmlFor="rating"
               >
                 Rating
@@ -153,7 +153,7 @@ export default function Review({
             </div>
             <button
               type="submit"
-              className="w-full rounded-3xl bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 font-bold"
+              className="w-full rounded-3xl bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 font-medium"
             >
               Submit Review
             </button>

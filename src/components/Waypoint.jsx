@@ -15,7 +15,7 @@ export default function Waypoint({
     <>
       <div className="flex p-3 bg-neutral-50 hover:bg-blue-100 rounded-sm justify-between items-center">
         <button className="flex items-center">
-          <span className="text-xl font-semibold text-neutral-400 mr-4 cursor-grab">
+          <span className="text-xl font-semimedium text-neutral-400 mr-4 cursor-grab">
             {index + 1}
           </span>
 

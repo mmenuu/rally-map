@@ -85,7 +85,7 @@ export default function WaypointList({
         <DialogLayout>
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Edit Waypoint Details</h2>
+              <h2 className="text-xl font-semimedium">Edit Waypoint Details</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setShowEditWaypointDialog(false)}
@@ -105,13 +105,13 @@ export default function WaypointList({
 
           <div className="grid grid-cols-2 px-4 space-y-2 border-b pb-8">
             <div>
-              <label className="text-sm font-semibold text-neutral-400">
+              <label className="text-sm font-semimedium text-neutral-400">
                 Name
               </label>
               <p className="text-lg font-medium">{waypointDetailsForm.name}</p>
             </div>
             <div>
-              <label className="text-sm font-semibold text-neutral-400 mt-2">
+              <label className="text-sm font-semimedium text-neutral-400 mt-2">
                 Amenity
               </label>
               <p className="text-lg font-medium capitalize">
@@ -119,7 +119,7 @@ export default function WaypointList({
               </p>
             </div>
             <div>
-              <label className="text-sm font-semibold text-neutral-400 mt-2">
+              <label className="text-sm font-semimedium text-neutral-400 mt-2">
                 Opening Hours
               </label>
               <p className="text-lg font-medium">
@@ -129,7 +129,7 @@ export default function WaypointList({
           </div>
 
           <div className="flex flex-col px-4 space-y-2 mt-8">
-            <label className="text-sm font-semibold text-neutral-400 mt-2">
+            <label className="text-sm font-semimedium text-neutral-400 mt-2">
               Note
             </label>
             <input

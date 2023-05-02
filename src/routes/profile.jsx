@@ -79,10 +79,10 @@ export default function ProfilePage() {
         <h1 className="text-4xl font-medium text-center">Profile</h1>
         <div className="flex flex-col md:flex-row justify-between text-md">
           <p>
-            ID: <span className="font-bold">{userProfile.id}</span>
+            ID: <span className="font-medium">{userProfile.id}</span>
           </p>
           <p>
-            Username: <span className="font-bold">{userProfile.username}</span>
+            Username: <span className="font-medium">{userProfile.username}</span>
           </p>
         </div>
       </div>

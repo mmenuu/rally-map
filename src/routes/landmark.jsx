@@ -105,7 +105,7 @@ export default function LandmarkPage() {
           >
             <div className="mb-4">
               <label
-                className="block text-neutral-700 font-bold mb-2"
+                className="block text-neutral-700 font-medium mb-2"
                 htmlFor="review"
               >
                 Review
@@ -123,7 +123,7 @@ export default function LandmarkPage() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-neutral-700 font-bold mb-2"
+                className="block text-neutral-700 font-medium mb-2"
                 htmlFor="rating"
               >
                 Rating
@@ -149,7 +149,7 @@ export default function LandmarkPage() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-3xl bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 font-bold"
+              className="w-full rounded-3xl bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 font-medium"
             >
               Submit Review
             </button>
@@ -157,7 +157,7 @@ export default function LandmarkPage() {
         )}
 
         <div className="max-w-md mx-auto mt-10 space-y-4 pb-8">
-          <h3 className="text-center text-4xl font-bold">Reviews</h3>
+          <h3 className="text-center text-4xl font-medium">Reviews</h3>
           {landmark.reviews.length !== 0 ? (
             <ul className="flex flex-col justify-center items-center space-y-8">
               {landmark.reviews.map((review, index) => (

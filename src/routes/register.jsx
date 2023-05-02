@@ -66,12 +66,12 @@ const RegisterPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-neutral-200">
       <div className="bg-white p-10 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-4">Register</h1>
+        <h1 className="text-3xl font-medium mb-4">Register</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="username"
-              className="block text-neutral-800 font-bold mb-1"
+              className="block text-neutral-800 font-medium mb-1"
             >
               Username
             </label>
@@ -91,7 +91,7 @@ const RegisterPage = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-neutral-800 font-bold mb-1"
+              className="block text-neutral-800 font-medium mb-1"
             >
               Password
             </label>
@@ -111,7 +111,7 @@ const RegisterPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-neutral-800 font-bold mb-1"
+              className="block text-neutral-800 font-medium mb-1"
             >
               Email
             </label>
