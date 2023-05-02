@@ -27,7 +27,7 @@ export default function Navbar() {
           setResults(cachedResults);
         } else {
           const response = await fetch(
-            `http://localhost:5000/roadtrips?search=${searchQuery}`,
+            `${import.meta.env.VITE_API_URL}/roadtrips?search=${searchQuery}`,
             {
               method: "GET",
               headers: {
