@@ -30,7 +30,7 @@ export default function RoadtripPage() {
     if (id) {
       getRoadtripDetails(id);
     }
-  }, []);
+  }, [id]);
 
   return (
     <BaseLayout>
