@@ -41,12 +41,12 @@ export default function RoadtripPage() {
             backgroundImage: `url(https://source.unsplash.com/1050x980/?roadtrip&sig=${roadtrip.id}&auto=format&fit=crop&w=1050&q=80)`,
           }}
         >
-          <div className="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">
+          <div className="flex items-center justify-center h-full w-full bg-neutral-900 bg-opacity-50">
             <div className="text-center px-16">
               <h1 className="text-white text-6xl font-semibold uppercase">
                 {roadtrip.title}
               </h1>
-              <p className="mt-2 text-gray-100 text-2xl">
+              <p className="mt-2 text-neutral-100 text-2xl">
                 {roadtrip.sub_title}
               </p>
             </div>

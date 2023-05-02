@@ -23,16 +23,16 @@ const ConfirmDialog = ({ title, message, onConfirm, onCancel }) => {
             </svg>
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
+            <h3 className="text-lg leading-6 font-medium text-neutral-900">
               {title}
             </h3>
             <div className="mt-2">
-              <p className="text-sm leading-5 text-gray-500">{message}</p>
+              <p className="text-sm leading-5 text-neutral-500">{message}</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+      <div className="bg-neutral-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button
           onClick={onConfirm}
           className="w-full inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:ml-3 sm:w-auto sm:text-sm"
@@ -41,7 +41,7 @@ const ConfirmDialog = ({ title, message, onConfirm, onCancel }) => {
         </button>
         <button
           onClick={onCancel}
-          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:mt-0 sm:w-auto sm:text-sm"
+          className="mt-3 w-full inline-flex justify-center rounded-md border border-neutral-300 px-4 py-2 bg-white text-base leading-6 font-medium text-neutral-700 shadow-sm hover:text-neutral-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:mt-0 sm:w-auto sm:text-sm"
         >
           Cancel
         </button>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import { Link } from "react-router-dom";
 import favoriteServices from "../services/favoriteServices";
 
 export default function SavedPlacesPage() {
@@ -26,7 +27,10 @@ export default function SavedPlacesPage() {
                 className="p-4 shadow-sm rounded-xl bg-rose-50 space-y-2 border border-rose-200"
                 key={favorite.id}
               >
-                <p>{favorite.name}</p>
+                <Link to={`/landmark/${favorite.id}`}>
+                  <p className="hover:underline">
+                    {favorite.name}</p>
+                </Link>
               </li>
             ))}
           </ul>

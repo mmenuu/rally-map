@@ -1,33 +1,31 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export default function HomePage() {
-  const navigate = useNavigate();
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full  relative">
-      <div className="md:w-1/2 flex items-center justify-center">
-        <div className="p-10">
-          <h1 className="text-5xl font-bold mb-2">Welcome to Rally</h1>
-          <p className="text-2xl mb-6">
-            Rally is a roadtrip planning app that allows you to create and share
-            roadtrips with your friends.
+    <div className="bg-neutral-100">
+      <main className="h-screen grid md:grid-cols-12 container mx-auto px-8 gap-x-10 md:place-items-center pb-10 lg:pb-0 min-h-[42.5rem]">
+        <div className="md:col-span-6 text-white my-14 lg:my-0">
+          <h1 className="capitalize text-6xl lg:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600 ">
+            Rally
+          </h1>
+          <p className="mt-4 mb-10 max-w-lg leading-relaxed text-neutral-500 font-light">
+            Create custom itineraries, discover new routes, find interesting
+            landmarks, and get directions to your destinations - all in one
+            place.
           </p>
-          <button
-            onClick={() => navigate("/map")}
-            className="bg-black text-white text-xl px-6 py-2 rounded-lg uppercase cursor-pointer"
+          <Link
+            to="/map"
+            className="inline-block capitalize font-medium text-lg bg-gradient-to-r from-yellow-400 to-pink-600 text-white px-8 py-2 rounded-full hover:from-yellow-500 hover:to-pink-700"
           >
-            Try it out
-          </button>
+            try it out
+          </Link>
         </div>
-      </div>
-      <div className="md:w-1/2 h-[70vh] top-[50%] translate-y-[-50%] absolute right-0 rounded-l-3xl overflow-hidden shadow-2xl">
         <img
-          src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg"
-          className="w-full h-full object-cover"
-          alt="Can You Write"
+          src="/map-cuate.svg"
+          alt="Santa Claus"
+          className="md:col-span-6 max-w-full"
         />
-        <div className="absolute inset-0 bg-black opacity-25"></div>
-      </div>
+      </main>
     </div>
   );
 }

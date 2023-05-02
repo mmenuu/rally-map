@@ -67,7 +67,7 @@ export default function WaypointList({
               {waypoints.length > 1 && waypoints.length - 1 !== index && (
                 <div className="flex items-center my-2">
                   <div className="border-b w-full"></div>
-                  <span className="w-36 ml-5 font-medium text-gray-400 text-right">
+                  <span className="w-36 ml-5 font-medium text-neutral-400 text-right">
                     {distanceBetweenWaypoints[index]
                       ? `${parseFloat(
                           distanceBetweenWaypoints[index] / 1000
@@ -87,7 +87,7 @@ export default function WaypointList({
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Edit Waypoint Details</h2>
               <button
-                className="text-gray-400 hover:text-gray-500"
+                className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setShowEditWaypointDialog(false)}
               >
                 <svg
@@ -105,13 +105,13 @@ export default function WaypointList({
 
           <div className="grid grid-cols-2 px-4 space-y-2 border-b pb-8">
             <div>
-              <label className="text-sm font-semibold text-gray-400">
+              <label className="text-sm font-semibold text-neutral-400">
                 Name
               </label>
               <p className="text-lg font-medium">{waypointDetailsForm.name}</p>
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-400 mt-2">
+              <label className="text-sm font-semibold text-neutral-400 mt-2">
                 Amenity
               </label>
               <p className="text-lg font-medium capitalize">
@@ -119,7 +119,7 @@ export default function WaypointList({
               </p>
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-400 mt-2">
+              <label className="text-sm font-semibold text-neutral-400 mt-2">
                 Opening Hours
               </label>
               <p className="text-lg font-medium">
@@ -129,12 +129,12 @@ export default function WaypointList({
           </div>
 
           <div className="flex flex-col px-4 space-y-2 mt-8">
-            <label className="text-sm font-semibold text-gray-400 mt-2">
+            <label className="text-sm font-semibold text-neutral-400 mt-2">
               Note
             </label>
             <input
               type="text"
-              className="rounded-md p-2 border border-gray-300 focus:outline-none focus:border-blue-400"
+              className="rounded-md p-2 border border-neutral-300 focus:outline-none focus:border-blue-400"
               placeholder="Click to add a note"
               value={waypointDetailsForm.note}
               onChange={(e) => {

@@ -382,7 +382,7 @@ function MapPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Edit Roadtrip Details</h2>
               <button
-                className="text-gray-400 hover:text-gray-500"
+                className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setShowEditTitleDialog(false)}
               >
                 <svg
@@ -399,7 +399,7 @@ function MapPage() {
           </div>
 
           <div className="grid px-4 space-y-2 border-b pb-8">
-            <label className="text-sm font-semibold text-gray-400 mt-2">
+            <label className="text-sm font-semibold text-neutral-400 mt-2">
               Title
             </label>
             <input
@@ -413,7 +413,7 @@ function MapPage() {
                   title: e.target.value,
                 });
               }}
-              className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border border-neutral-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
 
@@ -498,7 +498,7 @@ function MapPage() {
                     <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
                       {marker.amenity}
                     </span>
-                    <time className="text-gray-400">
+                    <time className="text-neutral-400">
                       {marker.opening_hours}
                     </time>
                   </div>
@@ -509,7 +509,7 @@ function MapPage() {
                         onClick={() => {
                           handleRemoveFavorite(marker.id);
                         }}
-                        className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-gray-100 font-semibold text-gray-400 hover:text-gray-500 rounded-md hover:animate-pulse hover:bg-red-200"
+                        className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-neutral-100 font-semibold text-neutral-400 hover:text-neutral-500 rounded-md hover:animate-pulse hover:bg-red-200"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -531,7 +531,7 @@ function MapPage() {
                             position: marker.position,
                           });
                         }}
-                        className="flex items-center py-1 px-2 space-x-1 text-sm border border-gray-100 font-semibold text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md"
+                        className="flex items-center py-1 px-2 space-x-1 text-sm border border-neutral-100 font-semibold text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 rounded-md"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -632,7 +632,7 @@ function MapPage() {
                         <span className="text-yellow-400 bg-yellow-50 px-3 py-1 rounded-md capitalize">
                           {element.amenity}
                         </span>
-                        <time className="text-gray-400">
+                        <time className="text-neutral-400">
                           {element.opening_hours}
                         </time>
                       </div>
@@ -645,7 +645,7 @@ function MapPage() {
                             onClick={() => {
                               handleRemoveFavorite(element.id);
                             }}
-                            className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-gray-100 font-semibold text-gray-400 hover:text-gray-500 rounded-md hover:animate-pulse hover:bg-red-200"
+                            className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-neutral-100 font-semibold text-neutral-400 hover:text-neutral-500 rounded-md hover:animate-pulse hover:bg-red-200"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -661,7 +661,7 @@ function MapPage() {
                             onClick={() => {
                               handleAddFavorite(element);
                             }}
-                            className="flex items-center py-1 px-2 space-x-1 text-sm border border-gray-100 font-semibold text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md"
+                            className="flex items-center py-1 px-2 space-x-1 text-sm border border-neutral-100 font-semibold text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 rounded-md"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

@@ -88,7 +88,7 @@ export default function MagazinesPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Create New Magazine</h2>
               <button
-                className="text-gray-400 hover:text-gray-500"
+                className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => {
                   setShowCreateMagazineModal(!showCreateMagazineModal);
                   setMagazineForm({
@@ -118,10 +118,10 @@ export default function MagazinesPage() {
               }}
             >
               <div className="flex flex-col mt-5">
-                <label className="text-gray-700">Title</label>
+                <label className="text-neutral-700">Title</label>
                 <input
                   type="text"
-                  className="border-2 border-gray-300 p-2 rounded-lg mt-1 focus:outline-none focus:border-blue-400"
+                  className="border-2 border-neutral-300 p-2 rounded-lg mt-1 focus:outline-none focus:border-blue-400"
                   value={magazineForm.title}
                   onChange={(e) =>
                     setMagazineForm({
@@ -132,10 +132,10 @@ export default function MagazinesPage() {
                 />
               </div>
               <div className="flex flex-col mt-5">
-                <label className="text-gray-700">Description</label>
+                <label className="text-neutral-700">Description</label>
                 <input
                   type="text"
-                  className="border-2 border-gray-300 p-2 rounded-lg mt-1 focus:outline-none focus:border-blue-400"
+                  className="border-2 border-neutral-300 p-2 rounded-lg mt-1 focus:outline-none focus:border-blue-400"
                   value={magazineForm.description}
                   onChange={(e) =>
                     setMagazineForm({
@@ -147,12 +147,12 @@ export default function MagazinesPage() {
               </div>
 
               <div className="flex flex-col mt-5">
-                <label className="text-gray-700">Roadtrips</label>
-                <div className="relative inline-block w-full text-gray-700">
+                <label className="text-neutral-700">Roadtrips</label>
+                <div className="relative inline-block w-full text-neutral-700">
                   <div className="flex flex-col">
                     <div className="relative">
                       <select
-                        className="w-full pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline"
+                        className="w-full pl-3 pr-6 text-base placeholder-neutral-600 border rounded-lg appearance-none focus:shadow-outline"
                         placeholder="Regular input"
                         multiple
                         value={magazineForm.roadtrips}
@@ -189,10 +189,10 @@ export default function MagazinesPage() {
         {magazines.map((magazine) => (
           <li>
             <div className="mb-5">
-              <h1 className="text-2xl font-medium text-gray-800">
+              <h1 className="text-2xl font-medium text-neutral-800">
                 {magazine.title}
               </h1>
-              <p className="text-xd text-gray-700">{magazine.description}</p>
+              <p className="text-xd text-neutral-700">{magazine.description}</p>
             </div>
             <div className="flex space-x-5">
               <div className="basis-2/4">
@@ -205,7 +205,7 @@ export default function MagazinesPage() {
               </div>
               <ul className="basis-2/4 text-left">
                 {magazine.roadtrips.map((roadtrip) => (
-                  <li className="text-xd text-gray-700">
+                  <li className="text-xd text-neutral-700">
                     {roadtrip.title} - {roadtrip.description}
                   </li>
                 ))}

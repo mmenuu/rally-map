@@ -113,7 +113,7 @@ export default function ProfilePage() {
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {reviews.map((review) => (
                 <li key={review.id}>
-                  <div className="flex flex-col justify-between p-4 border border-gray-300 rounded-md">
+                  <div className="flex flex-col justify-between p-4 border border-neutral-300 rounded-md">
                     <div className="flex justify-between">
                       <div className="flex flex-col">
                         <h3
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                         >
                           {review.landmark_name}
                         </h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-neutral-500">
                           {review.review_text}
                         </p>
                       </div>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
                             className={`text-2xl ${
                               value <= review.rating
                                 ? "text-yellow-400"
-                                : "text-gray-300"
+                                : "text-neutral-300"
                             }`}
                           >
                             ★

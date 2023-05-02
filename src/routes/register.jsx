@@ -64,14 +64,14 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
+    <div className="flex flex-col items-center justify-center h-screen bg-neutral-200">
       <div className="bg-white p-10 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Register</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="username"
-              className="block text-gray-800 font-bold mb-2"
+              className="block text-neutral-800 font-bold mb-1"
             >
               Username
             </label>
@@ -81,7 +81,7 @@ const RegisterPage = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded-lg"
+              className="w-full border border-neutral-300 p-2 rounded-lg"
               placeholder="Enter your username"
             />
             {errors.username && (
@@ -91,7 +91,7 @@ const RegisterPage = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-gray-800 font-bold mb-2"
+              className="block text-neutral-800 font-bold mb-1"
             >
               Password
             </label>
@@ -101,7 +101,7 @@ const RegisterPage = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded-lg"
+              className="w-full border border-neutral-300 p-2 rounded-lg"
               placeholder="Enter your password"
             />
             {errors.password && (
@@ -111,7 +111,7 @@ const RegisterPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-gray-800 font-bold mb-2"
+              className="block text-neutral-800 font-bold mb-1"
             >
               Email
             </label>
@@ -121,7 +121,7 @@ const RegisterPage = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded-lg"
+              className="w-full border border-neutral-300 p-2 rounded-lg"
               placeholder="Enter your email address"
             />
             {errors.email && (
@@ -131,7 +131,7 @@ const RegisterPage = () => {
           <div>
             <button
               type="submit"
-              className="w-full rounded-3xl bg-black px-6 py-2 text-xl font-medium uppercase text-white"
+              className="w-full rounded-3xl bg-gray-800 px-6 py-2 text-xl font-medium uppercase text-white"
             >
               Register
             </button>

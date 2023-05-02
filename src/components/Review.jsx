@@ -49,7 +49,7 @@ export default function Review({
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6 text-gray-400"
+              className="w-6 h-6 text-neutral-400"
             >
               <path
                 strokeLinecap="round"
@@ -67,14 +67,14 @@ export default function Review({
             <span
               key={value}
               className={`text-2xl ${
-                value <= rating ? "text-yellow-400" : "text-gray-300"
+                value <= rating ? "text-yellow-400" : "text-neutral-300"
               }`}
             >
               ★
             </span>
           ))}
         </div>
-        <p className="text-gray-500">{review_text}</p>
+        <p className="text-neutral-500">{review_text}</p>
       </div>
 
       {editReviewDialog && (
@@ -84,7 +84,7 @@ export default function Review({
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Edit Review</h2>
               <button
-                className="text-gray-400 hover:text-gray-500"
+                className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setEditReviewDialog(false)}
               >
                 <svg
@@ -109,7 +109,7 @@ export default function Review({
           >
             <div className="mb-4">
               <label
-                className="block text-gray-700 font-bold mb-2"
+                className="block text-neutral-700 font-bold mb-2"
                 htmlFor="review"
               >
                 Review
@@ -122,12 +122,12 @@ export default function Review({
                   setReviewForm({ ...reviewForm, review_text: e.target.value });
                 }}
                 required
-                className="w-full border border-gray-400 p-2 rounded-lg"
+                className="w-full border border-neutral-400 p-2 rounded-lg"
               ></textarea>
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 font-bold mb-2"
+                className="block text-neutral-700 font-bold mb-2"
                 htmlFor="rating"
               >
                 Rating
@@ -139,7 +139,7 @@ export default function Review({
                     className={`text-2xl ${
                       value <= reviewForm.rating
                         ? "text-yellow-400"
-                        : "text-gray-300"
+                        : "text-neutral-300"
                     }`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -173,7 +173,7 @@ export default function Review({
               e.preventDefault();
               setEditReviewDialog(true);
             }}
-            className="py-2 px-4 cursor-pointer hover:bg-gray-100 w-full"
+            className="py-2 px-4 cursor-pointer hover:bg-neutral-100 w-full"
           >
             Edit
           </button>
@@ -183,7 +183,7 @@ export default function Review({
               e.preventDefault();
               handleRemoveReview();
             }}
-            className="py-2 px-4 cursor-pointer hover:bg-gray-100 w-full"
+            className="py-2 px-4 cursor-pointer hover:bg-neutral-100 w-full"
           >
             Remove
           </button>

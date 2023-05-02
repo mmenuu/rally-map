@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -119,44 +118,36 @@ export default function Navbar() {
                 }}
                 className="absolute right-0 mt-2 w-48 bg-white rounded-lg border shadow-lg overflow-hidden z-10 transition duration-200"
               >
-                <button
-                  onClick={() => {
-                    navigate("/map");
-                  }}
-                  className="block md:hidden w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                <Link
+                  to="/map"
+                  className="block md:hidden w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                 >
                   Start New Trip
-                </button>
-                <button
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                  className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  to="/profile"
+                  className="block w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                 >
                   Profile
-                </button>
-                <button
-                  onClick={() => {
-                    navigate("/saved-places");
-                  }}
-                  className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  to="/saved-places"
+                  className="block w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                 >
                   Saved Places
-                </button>
-                <button
-                  onClick={() => {
-                    navigate("/magazines");
-                  }}
-                  className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  to="/magazines"
+                  className="block w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                 >
                   Magazines
-                </button>
-                <button
+                </Link>
+                <Link
                   onClick={logout}
-                  className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  className="block w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 border-t-[1px]"
                 >
                   Logout
-                </button>
+                </Link>
               </div>
             )}
           </div>

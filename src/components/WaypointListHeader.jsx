@@ -8,7 +8,7 @@ export default function WaypointListHeader({
 }) {
   return (
     <div
-      className="fixed w-[325px] flex items-center bg-gray-600 p-1 rounded-t-xl"
+      className="fixed w-[325px] flex items-center bg-neutral-600 p-1 rounded-t-xl"
       style={{
         zIndex: 21,
       }}
@@ -70,7 +70,7 @@ export default function WaypointListHeader({
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="w-6 h-6 text-gray-300 hover:text-gray-400"
+          className="w-6 h-6 text-neutral-300 hover:text-neutral-400"
         >
           <path
             strokeLinecap="round"

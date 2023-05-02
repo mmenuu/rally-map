@@ -85,10 +85,10 @@ export default function LandmarkPage() {
           <h1 className="text-center text-white text-4xl">{landmark.name}</h1>
         </div>
         <div className="py-4 flex space-x-8">
-          <p className="text-center text-gray-500 text-sm mt-2">
+          <p className="text-center text-neutral-500 text-sm mt-2">
             {landmark.amenity}
           </p>
-          <p className="text-center text-gray-500 text-sm mt-2">
+          <p className="text-center text-neutral-500 text-sm mt-2">
             rating: {parseFloat(landmark.average_rating).toFixed(1)} / 5.0 (
             {landmark.reviews.length})
           </p>
@@ -105,7 +105,7 @@ export default function LandmarkPage() {
           >
             <div className="mb-4">
               <label
-                className="block text-gray-700 font-bold mb-2"
+                className="block text-neutral-700 font-bold mb-2"
                 htmlFor="review"
               >
                 Review
@@ -118,12 +118,12 @@ export default function LandmarkPage() {
                   setReviewForm({ ...reviewForm, review_text: e.target.value });
                 }}
                 required
-                className="w-full border border-gray-400 p-2 rounded-lg"
+                className="w-full border border-neutral-400 p-2 rounded-lg"
               ></textarea>
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 font-bold mb-2"
+                className="block text-neutral-700 font-bold mb-2"
                 htmlFor="rating"
               >
                 Rating
@@ -135,7 +135,7 @@ export default function LandmarkPage() {
                     className={`text-2xl ${
                       value <= reviewForm.rating
                         ? "text-yellow-400"
-                        : "text-gray-300"
+                        : "text-neutral-300"
                     }`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -163,7 +163,7 @@ export default function LandmarkPage() {
               {landmark.reviews.map((review, index) => (
                 <li
                   key={index}
-                  className="flex flex-col space-y-4 p-4 border border-gray-300 rounded-3xl w-full relative"
+                  className="flex flex-col space-y-4 p-4 border border-neutral-300 rounded-3xl w-full relative"
                 >
                   <Review
                     isOwner={review.reviewer === user.username}

@@ -60,14 +60,14 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
+    <div className="flex flex-col items-center justify-center h-screen bg-neutral-200">
       <div className="bg-white p-10 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-4">Login</h1>
+        <h1 className="text-3xl font-medium mb-4">Login</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="username"
-              className="block text-gray-800 font-bold mb-2"
+              className="block text-neutral-800 font-medium mb-1"
             >
               Username
             </label>
@@ -77,7 +77,7 @@ const LoginPage = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className={`w-full border border-gray-300 p-2 rounded-lg ${
+              className={`w-full border border-neutral-300 p-2 rounded-lg ${
                 errors.username ? "border-red-500" : ""
               }`}
               placeholder="Enter your username"
@@ -90,7 +90,7 @@ const LoginPage = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-gray-800 font-bold mb-2"
+              className="block text-neutral-800 font-medium mb-1"
             >
               Password
             </label>
@@ -100,7 +100,7 @@ const LoginPage = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full border border-gray-300 p-2 rounded-lg ${
+              className={`w-full border border-neutral-300 p-2 rounded-lg ${
                 errors.password ? "border-red-500" : ""
               }`}
               placeholder="Enter your password"
@@ -114,7 +114,7 @@ const LoginPage = () => {
           <div>
             <button
               type="submit"
-              className="w-full rounded-3xl bg-black px-6 py-2 text-xl font-medium uppercase text-white"
+              className="w-full rounded-3xl bg-gray-900 px-6 py-2 text-xl font-medium uppercase text-white hover:bg-gray-800"
             >
               Login
             </button>

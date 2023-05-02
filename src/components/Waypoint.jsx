@@ -13,9 +13,9 @@ export default function Waypoint({
 
   return (
     <>
-      <div className="flex p-3 bg-gray-50 hover:bg-blue-100 rounded-sm justify-between items-center">
+      <div className="flex p-3 bg-neutral-50 hover:bg-blue-100 rounded-sm justify-between items-center">
         <button className="flex items-center">
-          <span className="text-xl font-semibold text-gray-400 mr-4 cursor-grab">
+          <span className="text-xl font-semibold text-neutral-400 mr-4 cursor-grab">
             {index + 1}
           </span>
 
@@ -23,10 +23,10 @@ export default function Waypoint({
             className="flex flex-col text-left group cursor-pointer"
             onClick={() => onEditWaypoint(waypoint)}
           >
-            <h2 className="text-md font-medium text-gray-700 capitalize group-hover:underline">
+            <h2 className="text-md font-medium text-neutral-700 capitalize group-hover:underline">
               {waypoint.name}
               </h2>
-            <span className="text-sm text-gray-400 capitalize">
+            <span className="text-sm text-neutral-400 capitalize">
               {waypoint.amenity}
             </span>
           </div>
@@ -45,7 +45,7 @@ export default function Waypoint({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-6 h-6 text-gray-300 hover:text-red-500"
+            className="w-6 h-6 text-neutral-300 hover:text-red-500"
           >
             <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375z" />
             <path
