@@ -192,26 +192,29 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      {results.length > 0 && searchQuery.length > 0 && (
+      {searchQuery.length > 0 && (
         <div className="fixed top-16 flex flex-col bg-white w-[400px] h-screen z-50">
           <p className="px-4 py-4 border-b border-neutral-200 text-right text-neutral-400">
-            {results.length} result{results.length > 1 && "s"} for "{searchQuery}"
+            {results.length} result{results.length > 1 && "s"} for "
+            {searchQuery}"
           </p>
-          <ul>
-            {results.map((result) => (
-              <li key={result.id}>
-                <div className="flex items-center justify-between px-4 py-4 border-b border-neutral-200">
-                  {result.title && (
-                    <Link to={`roadtrip/${result.id}`}>
-                      <h1 className="hover:underline">{result.title}</h1>
-                    </Link>
-                  )}
-                  {result.name && <h1>{result.name}</h1>}
-                  {result.author && <p>{result.author}</p>}
-                </div>
-              </li>
-            ))}
-          </ul>
+          {results.length > 0 && (
+            <ul>
+              {results.map((result) => (
+                <li key={result.id}>
+                  <div className="flex items-center justify-between px-4 py-4 border-b border-neutral-200">
+                    {result.title && (
+                      <Link to={`roadtrip/${result.id}`}>
+                        <h1 className="hover:underline">{result.title}</h1>
+                      </Link>
+                    )}
+                    {result.name && <h1>{result.name}</h1>}
+                    {result.author && <p>{result.author}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>
