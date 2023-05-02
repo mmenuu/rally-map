@@ -55,7 +55,13 @@ export default function RoadtripCard({
         <div className="px-6 py-4 space-y-2">
           <h3
             className="text-xl font-medium hover:underline hover:cursor-pointer"
-            onClick={(e) => navigate(`/map?roadtrip=${roadtrip.id}`)}
+            onClick={(e) => {
+              if (isOwner) {
+                navigate(`/map?roadtrip=${roadtrip.id}`);
+              } else {
+                navigate(`/roadtrip/${roadtrip.id}`);
+              }
+            }}
           >
             {roadtrip.title}
           </h3>
