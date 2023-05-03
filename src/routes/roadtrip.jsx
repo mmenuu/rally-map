@@ -5,7 +5,7 @@ import BaseLayout from "../components/BaseLayout";
 import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import roadtripServices from "../services/roadtripServices";
 
 export default function RoadtripPage() {
