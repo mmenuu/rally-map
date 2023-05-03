@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 export default function HomePage() {
   return (
-    <div className="bg-neutral-50">
+    <div className="bg-white">
       <main className="h-screen grid md:grid-cols-12 container mx-auto px-8 gap-x-10 md:place-items-center pb-10 lg:pb-0 min-h-[42.5rem]">
         <div className="md:col-span-6 text-white my-14 lg:my-0">
           <h1 className="capitalize text-6xl lg:text-8xl font-extramedium text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600 ">
@@ -23,7 +23,7 @@ export default function HomePage() {
         <img
           src="/map-cuate.svg"
           alt="map"
-          className="md:col-span-6 max-w-full animate-pulse"
+          className="md:col-span-6 max-w-full animate-pulse delay-75 duration-700"
         />
       </main>
     </div>

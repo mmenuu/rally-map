@@ -3,7 +3,11 @@ import { toast } from "react-toastify";
 import userServices from "../services/userServices";
 
 export const AuthContext = createContext({
-  user: null,
+  user: {
+    id: "",
+    username: "",
+    email: "",  
+  },
   login: async () => {},
   register: async () => {},
   logout: async () => {},

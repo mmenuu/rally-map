@@ -18,7 +18,7 @@ export default function SavedPlacesPage() {
   return (
     <div className="container mt-20 mx-auto max-w-3xl h-screen space-y-8 ">
       <div className="space-y-2">
-        <h2 className="text-center text-2xl font-medium mt-8">Favorites</h2>
+        <h2 className="text-center text-2xl font-medium mt-8 mb-8">Favorites Places</h2>
 
         {(favorites.length > 0 && (
           <ul className="grid grid-cols-3 gap-4">
@@ -28,8 +28,9 @@ export default function SavedPlacesPage() {
                 key={favorite.id}
               >
                 <Link to={`/landmark/${favorite.id}`}>
-                  <p className="hover:underline">
-                    {favorite.name}</p>
+                  <p className="hover:underline">{favorite.name}</p>
+
+                  <p className="text-sm text-neutral-500 capitalize">{favorite.amenity}</p>
                 </Link>
               </li>
             ))}
