@@ -68,14 +68,25 @@ export default function RoadtripPage() {
     }
   }, [id]);
 
-  const handleEdit = async () => {
+  const handleEdit = async (new_roadtrip) => {
     try {
-      const res = await roadtripServices.updateRoadtrip(roadtrip.id, roadtrip);
+      const res = await roadtripServices.updateRoadtrip(
+        roadtrip.id,
+        new_roadtrip
+      );
       toast.success(res.message);
       getRoadtripDetails(id);
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  const handleRemoveWaypoint = async (waypoint_id) => {
+    const new_waypoints = roadtrip.waypoints.filter(
+      (waypoint) => waypoint.id !== waypoint_id
+    );
+    const new_roadtrip = { ...roadtrip, waypoints: new_waypoints };
+    handleEdit(new_roadtrip);
   };
 
   return (
@@ -137,6 +148,7 @@ export default function RoadtripPage() {
                         onClick={(e) => {
                           e.preventDefault();
                           setRoadtrip({ ...roadtrip, title: editForm.title });
+                          handleEdit({ title: editForm.title });
                         }}
                       >
                         Save
@@ -187,6 +199,7 @@ export default function RoadtripPage() {
                             ...roadtrip,
                             sub_title: editForm.sub_title,
                           });
+                          handleEdit({ sub_title: editForm.sub_title });
                         }}
                       >
                         Save
@@ -339,10 +352,11 @@ export default function RoadtripPage() {
                           <button
                             onClick={(e) => {
                               e.preventDefault();
+                              handleRemoveWaypoint(waypoint.id);
                             }}
                             className="text-neutral-500 px-4 py-2 transition-colors underline capitalize"
                           >
-                            Delete
+                            Remove
                           </button>
                           {waypoint.description !==
                             editForm.waypoints.find((w) => w.id === waypoint.id)
@@ -367,6 +381,15 @@ export default function RoadtripPage() {
                                         );
 
                                       setRoadtrip({
+                                        ...roadtrip,
+                                        waypoints: roadtrip.waypoints.map((w) =>
+                                          w.id === waypoint.id
+                                            ? editedWaypoint
+                                            : w
+                                        ),
+                                      });
+
+                                      handleEdit({
                                         ...roadtrip,
                                         waypoints: roadtrip.waypoints.map((w) =>
                                           w.id === waypoint.id
