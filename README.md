@@ -22,6 +22,10 @@ Whether you're planning a weekend getaway or a cross-country adventure, Rally Ma
 - Reorder stops to optimize your route
 - See estimated travel times and distances
 - Recommendations for nearby attractions, accommodations, and restaurants
+- Search for places by name
+- Search Road trip
+- Search User
+- Favorite landmarks
 
 ## Technologies
 - React
