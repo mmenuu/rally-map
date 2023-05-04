@@ -249,6 +249,7 @@ function MapPage() {
       case "marketplace": return marketplaceIcon;
       case "library": return libraryIcon;
       case "cinema": return cinemaIcon;
+      case "taxi": return taxiIcon;
       case "ice cream": return icecreamIcon;
       case "college":
       case "school":
