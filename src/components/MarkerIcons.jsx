@@ -85,5 +85,40 @@ const bankIcon = L.icon({
   popupAnchor: [0, -12],
 });
 
+const fastfoodIcon = L.icon({
+  iconUrl: "/fast-food.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
 
-export { startIcon, endIcon, navigateIcon, restaurantIcon, cafeIcon, cinemaIcon, fuelIcon, hospitalIcon, marketplaceIcon, libraryIcon, collegeIcon, bankIcon };
+const hotelIcon = L.icon({
+  iconUrl: "/hotel.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const toiletsIcon = L.icon({
+  iconUrl: "/toilets.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const taxiIcon = L.icon({
+  iconUrl: "/taxi.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+const icecreamIcon = L.icon({
+  iconUrl: "/ice-cream.png",
+  iconSize: [29, 32],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
+});
+
+
+export { startIcon, endIcon, navigateIcon, restaurantIcon, cafeIcon, cinemaIcon, fuelIcon, hospitalIcon, marketplaceIcon, libraryIcon, collegeIcon, bankIcon, fastfoodIcon, hotelIcon, toiletsIcon, taxiIcon, icecreamIcon };

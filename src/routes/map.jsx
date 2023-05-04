@@ -36,6 +36,11 @@ import {
   libraryIcon,
   collegeIcon,
   bankIcon,
+  fastfoodIcon, 
+  hotelIcon,
+  icecreamIcon,
+  toiletsIcon,
+  taxiIcon,
 } from "../components/MarkerIcons";
 
 import roadtripService from "../services/roadtripServices";
@@ -94,9 +99,13 @@ function MapPage() {
     "college",
     "bank",
     "university",
+    "ice_cream",
+    "taxi",
     "school",
     "kindergarten",
-    "atm"
+    "atm",
+    "toilets",
+    "ice_cream",
   ];
 
   const searchElements = async ({ lat, lng }) => {
@@ -232,11 +241,15 @@ function MapPage() {
     switch (element.amenity) {
       case "fuel": return fuelIcon;
       case "restaurant": return restaurantIcon;
+      case "fast food": return fastfoodIcon;
       case "cafe": return cafeIcon;
+      case "toilets": return toiletsIcon;
+      case "hotel": return hotelIcon;
       case "hospital": return hospitalIcon;
       case "marketplace": return marketplaceIcon;
       case "library": return libraryIcon;
       case "cinema": return cinemaIcon;
+      case "ice cream": return icecreamIcon;
       case "college":
       case "school":
       case "university":
