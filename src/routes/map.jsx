@@ -28,6 +28,14 @@ import {
   endIcon,
   navigateIcon,
   restaurantIcon,
+  cafeIcon,
+  cinemaIcon,
+  fuelIcon,
+  hospitalIcon,
+  marketplaceIcon,
+  libraryIcon,
+  collegeIcon,
+  bankIcon,
 } from "../components/MarkerIcons";
 
 import roadtripService from "../services/roadtripServices";
@@ -78,6 +86,17 @@ function MapPage() {
     "fast_food",
     "biergarten",
     "food_court",
+    "cinema",
+    "fuel",
+    "hospital",
+    "marketplace",
+    "library",
+    "college",
+    "bank",
+    "university",
+    "school",
+    "kindergarten",
+    "atm"
   ];
 
   const searchElements = async ({ lat, lng }) => {
@@ -94,7 +113,7 @@ function MapPage() {
       id: element.id.toString(),
       position: [element.lat, element.lon],
       name: element.tags.name || "No Name",
-      amenity: element.tags.amenity.split("_").join(" "),
+      amenity: element.tags.amenity.split("_").join(" ").toLocaleLowerCase(),
       opening_hours: element.tags.opening_hours || "N/A",
     }));
 
@@ -200,22 +219,34 @@ function MapPage() {
   };
 
   const handleIcon = (element) => {
-    if (element.id === roadtrip.waypoints[0]?.id) {
-      return startIcon;
-    } else if (
-      !waypointNotExistsInRoute(element) &&
-      !(element.id === roadtrip.waypoints[0]?.id) &&
-      !(element.id === roadtrip.waypoints[roadtrip.waypoints.length - 1]?.id)
-    ) {
-      return navigateIcon;
-    } else if (
-      element.id === roadtrip.waypoints[roadtrip.waypoints.length - 1]?.id
-    ) {
-      return endIcon;
-    } else {
-      return restaurantIcon;
+    const { waypoints } = roadtrip;
+    
+    const isFirstWaypoint = element.id === waypoints[0]?.id;
+    const isLastWaypoint = element.id === waypoints[waypoints.length - 1]?.id;
+    const isWaypointInRoute = !waypointNotExistsInRoute(element);
+    
+    if (isFirstWaypoint) return startIcon;
+    if (isLastWaypoint) return endIcon;
+    if (isWaypointInRoute) return navigateIcon;
+    
+    switch (element.amenity) {
+      case "fuel": return fuelIcon;
+      case "restaurant": return restaurantIcon;
+      case "cafe": return cafeIcon;
+      case "hospital": return hospitalIcon;
+      case "marketplace": return marketplaceIcon;
+      case "library": return libraryIcon;
+      case "cinema": return cinemaIcon;
+      case "college":
+      case "school":
+      case "university":
+      case "kindergarten": return collegeIcon;
+      case "bank":
+      case "atm": return bankIcon;
+      default: return restaurantIcon;
     }
   };
+  
 
   const handleStartNewTrip = async () => {
     await roadtripService
@@ -235,7 +266,7 @@ function MapPage() {
   const handleUpdateTrip = async () => {
     await roadtripService
       .updateRoadtrip(roadtrip.id, roadtrip)
-      .then((res) => {})
+      .then((res) => { })
       .catch((err) => {
         toast.error("Failed to update trip");
       });
@@ -450,15 +481,12 @@ function MapPage() {
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           url={
             import.meta.env.VITE_MAPBOX_USERNAME &&
-            import.meta.env.VITE_MAPBOX_STYLE &&
-            import.meta.env.VITE_MAPBOX_TOKEN
-              ? `https://api.mapbox.com/styles/v1/${
-                  import.meta.env.VITE_MAPBOX_USERNAME
-                }/${
-                  import.meta.env.VITE_MAPBOX_STYLE
-                }/tiles/256/{z}/{x}/{y}@2x?access_token=${
-                  import.meta.env.VITE_MAPBOX_TOKEN
-                }`
+              import.meta.env.VITE_MAPBOX_STYLE &&
+              import.meta.env.VITE_MAPBOX_TOKEN
+              ? `https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME
+              }/${import.meta.env.VITE_MAPBOX_STYLE
+              }/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_TOKEN
+              }`
               : `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`
           }
         />
@@ -467,6 +495,7 @@ function MapPage() {
 
         <ZoomControl position="bottomright" />
         <LoadElements />
+
         {markers.length > 0 &&
           markers.map((marker) => (
             <Marker

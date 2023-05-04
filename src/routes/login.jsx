@@ -123,7 +123,7 @@ const LoginPage = () => {
 
         <div className="mt-4">
           <p className="text-center font-light">
-            Don't have an account?{" "}
+            Don't have an Account?{" "}
             <Link to="/register" className="text-blue-500 hover:underline">
               Register
             </Link>

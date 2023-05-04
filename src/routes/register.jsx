@@ -139,7 +139,7 @@ const RegisterPage = () => {
         </form>
         <div className="mt-4">
           <p className="text-center font-light">
-            Already have an account?{" "}
+            Already have an Account?{" "}
             <Link to="/login" className="text-blue-500">
               Login
             </Link>
