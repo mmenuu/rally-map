@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port 3000 --host",
     "build": "vite build",
-    "preview": "vite preview --port 3000"
+    "preview": "vite preview --port 3000",
+    "serve": "serve -s dist -p 3000"
   },
   "dependencies": {
     "@react-leaflet/core": "^2.1.0",
