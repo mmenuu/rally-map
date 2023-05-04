@@ -1,6 +1,6 @@
 # Rally - Road Trip Planner
 
-<img width="1508" alt="Screenshot 2566-05-03 at 01 55 12" src="https://user-images.githubusercontent.com/43726547/235759461-f3cce61d-74dd-45e0-bdad-5c67b5bb9ef3.png">
+![Screenshot 2566-05-05 at 00 31 12](https://user-images.githubusercontent.com/43726547/236283289-352decd9-a804-4a44-9bcb-3f7c5ef8d6fe.png)
 
 [Demo Live](https://rally.1tpp.dev)
 
