@@ -385,7 +385,7 @@ function MapPage() {
   return (
     <div className="relative w-screen h-screen">
       {roadtrip.waypoints.length > 0 && (
-        <div className="absolute bg-white z-20 w-[325px] left-2 top-40 max-h-[50vh] shadow-2xl overflow-x-hidden overflow-scroll bg-opacity-20 backdrop-blur-lg rounded-xl drop-shadow-lg">
+        <div className="absolute bg-white z-20 w-[325px] left-2 top-40 max-h-[50vh] shadow-2xl overflow-x-hidden overflow-scroll bg-opacity-20 backdrop-blur-lg rounded-xl drop-shadow-lg scrollbar-hide">
           <div className="relative w-full h-full">
             <WaypointListHeader
               totalDuration={roadtrip.total_time}
