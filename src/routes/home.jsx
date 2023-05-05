@@ -1,6 +1,5 @@
 import React from "react";
 import * as THREE from "three";
-import GLOBE from "vanta/dist/vanta.globe.min.js";
 import CLOUDS from "vanta/dist/vanta.clouds.min.js";
 
 import { Link } from "react-router-dom";
@@ -11,20 +10,6 @@ class HomePage extends React.Component {
     this.vantaRef = React.createRef();
   }
   componentDidMount() {
-    // this.vantaEffect = GLOBE({
-    //   el: this.vantaRef.current,
-    //   THREE: THREE,
-    //   mouseControls: true,
-    //   touchControls: true,
-    //   gyroControls: false,
-    //   minHeight: 200.0,
-    //   minWidth: 200.0,
-    //   scale: 1.0,
-    //   scaleMobile: 1.0,
-    //   size: 0.6,
-    //   color: 0xfff33f,
-    // });
-
     this.vantaEffect = CLOUDS({
       el: this.vantaRef.current,
       THREE: THREE,
@@ -43,7 +28,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <div style={{ height: "100vh", width: "100%" }} ref={this.vantaRef}>
-        <main className="h-screen grid md:grid-cols-12 container mx-auto px-8 gap-x-10 md:place-items-center pb-10 lg:pb-0 min-h-[42.5rem]">
+        <main className="h-screen grid justify-center items-center md:grid-cols-12 container mx-auto px-8 gap-x-10 md:place-items-center pb-10 lg:pb-0 min-h-[42.5rem]">
           <div className="md:col-span-6 text-white my-14 lg:my-0">
             <h1 className="capitalize text-6xl lg:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600 ">
               Rally
@@ -60,11 +45,6 @@ class HomePage extends React.Component {
               try it out
             </Link>
           </div>
-          {/* <img
-            src="/map-cuate.svg"
-            alt="map"
-            className="md:col-span-6 max-w-full"
-          /> */}
         </main>
       </div>
     );
