@@ -82,7 +82,7 @@ export default function Review({
           {" "}
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semimedium">Edit Review</h2>
+              <h2 className="text-xl font-medium">Edit Review</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setEditReviewDialog(false)}

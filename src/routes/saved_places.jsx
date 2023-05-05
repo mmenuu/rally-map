@@ -24,7 +24,7 @@ export default function SavedPlacesPage() {
           <ul className="grid grid-cols-3 gap-4">
             {favorites.map((favorite) => (
               <li
-                className="p-4 shadow-sm rounded-xl bg-rose-50 space-y-2 border border-rose-200"
+                className="p-4 shadow-sm rounded-xl bg-rose-50 space-y-2 border border-rose-200 bg-opacity-20 backdrop-blur-lg drop-shadow-lg"
                 key={favorite.id}
               >
                 <Link to={`/landmark/${favorite.id}`}>

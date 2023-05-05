@@ -385,7 +385,7 @@ function MapPage() {
   return (
     <div className="relative w-screen h-screen">
       {roadtrip.waypoints.length > 0 && (
-        <div className="absolute bg-white z-20 w-[325px] left-2 top-40 max-h-[50vh] rounded-xl shadow-2xl overflow-x-hidden overflow-scroll">
+        <div className="absolute bg-white z-20 w-[325px] left-2 top-40 max-h-[50vh] shadow-2xl overflow-x-hidden overflow-scroll bg-opacity-20 backdrop-blur-lg rounded-xl drop-shadow-lg">
           <div className="relative w-full h-full">
             <WaypointListHeader
               totalDuration={roadtrip.total_time}
@@ -404,7 +404,7 @@ function MapPage() {
                 {roadtrip.title}
               </h1>
               {roadtrip.waypoints.length > 1 && (
-                <p className="items-center mb-4 text-md font-semimedium text-blue-400 text-center">
+                <p className="items-center mb-4 text-md font-medium text-blue-500 text-center">
                   Total Distance:{" "}
                   {parseFloat(roadtrip.total_distance / 1000).toFixed(3)} km
                 </p>
@@ -425,7 +425,7 @@ function MapPage() {
         <DialogLayout>
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semimedium">Edit Roadtrip Details</h2>
+              <h2 className="text-xl font-medium">Edit Roadtrip Details</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setShowEditTitleDialog(false)}
@@ -444,7 +444,7 @@ function MapPage() {
           </div>
 
           <div className="grid px-4 space-y-2 border-b pb-8">
-            <label className="text-sm font-semimedium text-neutral-400 mt-2">
+            <label className="text-sm font-medium text-neutral-400 mt-2">
               Title
             </label>
             <input
@@ -552,7 +552,7 @@ function MapPage() {
                         onClick={() => {
                           handleRemoveFavorite(marker.id);
                         }}
-                        className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-neutral-100 font-semimedium text-neutral-400 hover:text-neutral-500 rounded-md hover:animate-pulse hover:bg-red-200"
+                        className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-neutral-100 font-medium text-neutral-400 hover:text-neutral-500 rounded-md hover:animate-pulse hover:bg-red-200"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -574,7 +574,7 @@ function MapPage() {
                             position: marker.position,
                           });
                         }}
-                        className="flex items-center py-1 px-2 space-x-1 text-sm border border-neutral-100 font-semimedium text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 rounded-md"
+                        className="flex items-center py-1 px-2 space-x-1 text-sm border border-neutral-100 font-medium text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 rounded-md"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -595,7 +595,7 @@ function MapPage() {
 
                     {roadtrip.waypoints.length === 0 ? (
                       <button
-                        className="text-green-400 w-full font-semimedium py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 capitalize"
+                        className="text-green-400 w-full font-medium py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
                           addWaypointToRoute({
@@ -614,7 +614,7 @@ function MapPage() {
                       </button>
                     ) : waypointNotExistsInRoute(marker) ? (
                       <button
-                        className="text-blue-400 w-full font-semimedium py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
+                        className="text-blue-400 w-full font-medium py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
                           addWaypointToRoute({
@@ -633,7 +633,7 @@ function MapPage() {
                       </button>
                     ) : (
                       <button
-                        className="text-red-400 w-full font-semimedium py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 capitalize"
+                        className="text-red-400 w-full font-medium py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 capitalize"
                         onClick={(e) => {
                           e.preventDefault();
                           removeWaypointFromRoute(marker);
@@ -688,7 +688,7 @@ function MapPage() {
                             onClick={() => {
                               handleRemoveFavorite(element.id);
                             }}
-                            className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-neutral-100 font-semimedium text-neutral-400 hover:text-neutral-500 rounded-md hover:animate-pulse hover:bg-red-200"
+                            className="flex items-center py-1 px-2 space-x-1 text-sm border bg-red-100 border-neutral-100 font-medium text-neutral-400 hover:text-neutral-500 rounded-md hover:animate-pulse hover:bg-red-200"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -704,7 +704,7 @@ function MapPage() {
                             onClick={() => {
                               handleAddFavorite(element);
                             }}
-                            className="flex items-center py-1 px-2 space-x-1 text-sm border border-neutral-100 font-semimedium text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 rounded-md"
+                            className="flex items-center py-1 px-2 space-x-1 text-sm border border-neutral-100 font-medium text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 rounded-md"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -725,7 +725,7 @@ function MapPage() {
 
                         {roadtrip.waypoints.length === 0 ? (
                           <button
-                            className="text-green-400 w-full font-semimedium py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 capitalize"
+                            className="text-green-400 w-full font-medium py-2 bg-green-50 px-3 rounded-md hover:bg-green-100 hover:ring-2 hover:ring-green-400 capitalize"
                             onClick={(e) => {
                               e.preventDefault();
                               addWaypointToRoute({
@@ -744,7 +744,7 @@ function MapPage() {
                           </button>
                         ) : waypointNotExistsInRoute(element) ? (
                           <button
-                            className="text-blue-400 w-full font-semimedium py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
+                            className="text-blue-400 w-full font-medium py-2 bg-blue-50 px-3 rounded-md hover:bg-blue-100 hover:ring-2 hover:ring-blue-400 capitalize"
                             onClick={(e) => {
                               e.preventDefault();
                               addWaypointToRoute({
@@ -763,7 +763,7 @@ function MapPage() {
                           </button>
                         ) : (
                           <button
-                            className="text-red-400 w-full font-semimedium py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 capitalize"
+                            className="text-red-400 w-full font-medium py-2 bg-red-50 px-3 rounded-md hover:bg-red-100 hover:ring-2 hover:ring-red-400 capitalize"
                             onClick={(e) => {
                               e.preventDefault();
                               removeWaypointFromRoute(element);

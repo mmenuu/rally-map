@@ -46,10 +46,10 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white w-full flex justify-between items-center px-8 h-16">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white w-full flex justify-between items-center px-8 h-16 ">
         <div className="inline-flex items-center space-x-8">
           <Link to="/">
-            <div className="hidden md:block text-xl font-medium text-blue-500">
+            <div className="hidden md:block text-xl font-medium text-blue-600">
               Rally
             </div>
             <div className="block md:hidden">R</div>
@@ -60,7 +60,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Start your search"
-                className="block flex-grow pl-2 flex-shrink overflow-hidden outline-none bg-transparent text-sm text-blue-500"
+                className="block flex-grow pl-2 flex-shrink overflow-hidden outline-none bg-transparent text-sm text-blue-600"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -211,7 +211,7 @@ export default function Navbar() {
         </div>
       </nav>
       {searchQuery.length > 0 && (
-        <div className="fixed top-16 flex flex-col bg-white w-[400px] h-screen z-50 shadow-2xl">
+        <div className="fixed top-16 flex flex-col bg-white w-[400px] h-screen overflow-scroll z-50 pb-16">
           <p className="px-4 py-4 border-b border-neutral-200 text-right text-neutral-400">
             {results.length} result{results.length > 1 && "s"} for "
             {searchQuery}"
@@ -222,11 +222,15 @@ export default function Navbar() {
                 <li key={result.id}>
                   <div className="px-4 py-4 border-b border-neutral-200">
                     <div className="text-sm text-neutral-400 text-right">
-                      <span className="bg-neutral-100 px-3 py-1 rounded-full capitalize">{result.type}</span>
+                      <span className="bg-neutral-100 px-3 py-1 rounded-full capitalize">
+                        {result.type}
+                      </span>
                     </div>
                     {result.type == "roadtrip" && (
                       <Link to={`roadtrip/${result.id}`}>
-                        <h1 className="text-xl hover:underline">{result.title}</h1>
+                        <h1 className="text-xl hover:underline">
+                          {result.title}
+                        </h1>
                         <p className="text-neutral-400 text-sm">
                           {result.author}
                         </p>
@@ -234,7 +238,9 @@ export default function Navbar() {
                     )}
                     {result.type == "landmark" && (
                       <Link to={`landmark/${result.id}`}>
-                        <h1 className="text-xl hover:underline">{result.name}</h1>
+                        <h1 className="text-xl hover:underline">
+                          {result.name}
+                        </h1>
                         <p className="text-neutral-400 text-sm">
                           lat: {result.position[0]}, lag: {result.position[1]}
                         </p>
@@ -242,7 +248,9 @@ export default function Navbar() {
                     )}
                     {result.type == "user" && (
                       <Link to={`profile/${result.username}`}>
-                        <h1 className="text-xl hover:underline">{result.username}</h1>
+                        <h1 className="text-xl hover:underline">
+                          {result.username}
+                        </h1>
                         <p className="text-neutral-400 text-sm">
                           ID: {result.id}
                         </p>

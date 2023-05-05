@@ -1,19 +1,19 @@
 import axios from "axios";
 
 const getMagazines = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/magazines`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      return res.data;
-    } catch (error) {
-      throw new Error(error.response.data.detail);
-    }
-  };
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/magazines`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response.data.detail);
+  }
+};
 
 const getMagazine = async (magazine_id) => {
   try {
@@ -52,6 +52,25 @@ const createMagazine = async (magazine) => {
   }
 };
 
+const updateMagazine = async (magazine_id, magazine) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.patch(
+      `${import.meta.env.VITE_API_URL}/magazines/${magazine_id}`,
+      magazine,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response.data.detail);
+  }
+};
+
 const removeMagazine = async (magazine_id) => {
   try {
     const token = localStorage.getItem("token");
@@ -74,8 +93,8 @@ const magazineServices = {
   getMagazines,
   getMagazine,
   createMagazine,
-  removeMagazine
+  updateMagazine,
+  removeMagazine,
 };
 
 export default magazineServices;
-  

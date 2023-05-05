@@ -75,7 +75,6 @@ export default function RoadtripPage() {
         new_roadtrip
       );
       toast.success(res.message);
-      getRoadtripDetails(id);
     } catch (error) {
       toast.error(error.message);
     }
@@ -102,7 +101,7 @@ export default function RoadtripPage() {
             <div className="text-center px-16">
               {user?.username !== roadtrip.author ? (
                 <>
-                  <h1 className="text-white text-6xl font-semimedium uppercase">
+                  <h1 className="text-white text-6xl font-medium uppercase">
                     {roadtrip.title}
                   </h1>
                   <p className="mt-2 text-neutral-100 text-2xl">
@@ -288,12 +287,60 @@ export default function RoadtripPage() {
           </button>
         </div>
 
-        <p className="first-line:tracking-widest first-letter:text-3xl">
-          {roadtrip.description}
-        </p>
+        {user?.username !== roadtrip.author ? (
+          <p className="first-line:tracking-widest first-letter:text-3xl">
+            {roadtrip.description}
+          </p>
+        ) : (
+          <div>
+            {roadtrip.description ? (
+              <textarea
+                className="text-neutral-500 text-center w-full bg-neutral-200 outline-none py-1 placeholder-neutral-400 focus:placeholder-transparent focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 focus:bg-neutral-50"
+                placeholder={roadtrip.description}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, description: e.target.value })
+                }
+                value={editForm.description}
+              />
+            ) : (
+              <textarea
+                className="text-neutral-500 text-center w-full bg-neutral-200 outline-none py-1 placeholder-neutral-400 focus:placeholder-transparent focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 focus:bg-neutral-50"
+                placeholder="Add a description"
+                onChange={(e) =>
+                  setEditForm({ ...editForm, description: e.target.value })
+                }
+                value={editForm.description}
+              />
+            )}
+
+            {roadtrip.description !== editForm.description && (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setEditForm(roadtrip)}
+                  className="text-neutral-500 px-4 py-2 transition-colors underline  capitalize"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setRoadtrip({
+                      ...roadtrip,
+                      description: editForm.description,
+                    });
+                    handleEdit({ description: editForm.description });
+                  }}
+                  className="text-neutral-500 px-4 py-2 transition-colors underline  capitalize"
+                >
+                  Save
+                </button>
+              </div>
+            )}
+          </div>
+        )}
         <div>
-          <h3 className="text-2xl font-semimedium">Waypoints</h3>
-          <ul className="grid grid-cols-1 mt-4">
+          <h3 className="text-3xl font-medium">Waypoints</h3>
+          <ul className="grid grid-cols-1 mt-2">
             {roadtrip.waypoints &&
               roadtrip.waypoints.map((waypoint) => (
                 <li
@@ -353,6 +400,7 @@ export default function RoadtripPage() {
                             onClick={(e) => {
                               e.preventDefault();
                               handleRemoveWaypoint(waypoint.id);
+                              getRoadtripDetails(id);
                             }}
                             className="text-neutral-500 px-4 py-2 transition-colors underline capitalize"
                           >

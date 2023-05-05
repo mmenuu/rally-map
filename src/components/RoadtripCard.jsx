@@ -170,7 +170,7 @@ export default function RoadtripCard({
         <DialogLayout>
           <div className="flex flex-col p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semimedium">Edit Trip Details</h2>
+              <h2 className="text-xl font-medium">Edit Trip Details</h2>
               <button
                 className="text-neutral-400 hover:text-neutral-500"
                 onClick={() => setShowEditTripDialog(false)}
@@ -190,7 +190,7 @@ export default function RoadtripCard({
 
           <div className="grid px-4 space-y-2 border-b pb-8">
             <div>
-              <label className="text-sm font-semimedium text-neutral-400">
+              <label className="text-sm font-medium text-neutral-400">
                 Title
               </label>
 
@@ -208,7 +208,7 @@ export default function RoadtripCard({
               />
             </div>
             <div>
-              <label className="text-sm font-semimedium text-neutral-400 mt-2">
+              <label className="text-sm font-medium text-neutral-400 mt-2">
                 Description
               </label>
               <textarea
