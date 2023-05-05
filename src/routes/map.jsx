@@ -36,7 +36,7 @@ import {
   libraryIcon,
   collegeIcon,
   bankIcon,
-  fastfoodIcon, 
+  fastfoodIcon,
   hotelIcon,
   icecreamIcon,
   toiletsIcon,
@@ -229,38 +229,52 @@ function MapPage() {
 
   const handleIcon = (element) => {
     const { waypoints } = roadtrip;
-    
+
     const isFirstWaypoint = element.id === waypoints[0]?.id;
     const isLastWaypoint = element.id === waypoints[waypoints.length - 1]?.id;
     const isWaypointInRoute = !waypointNotExistsInRoute(element);
-    
+
     if (isFirstWaypoint) return startIcon;
     if (isLastWaypoint) return endIcon;
     if (isWaypointInRoute) return navigateIcon;
-    
+
     switch (element.amenity) {
-      case "fuel": return fuelIcon;
-      case "restaurant": return restaurantIcon;
-      case "fast food": return fastfoodIcon;
-      case "cafe": return cafeIcon;
-      case "toilets": return toiletsIcon;
-      case "hotel": return hotelIcon;
-      case "hospital": return hospitalIcon;
-      case "marketplace": return marketplaceIcon;
-      case "library": return libraryIcon;
-      case "cinema": return cinemaIcon;
-      case "taxi": return taxiIcon;
-      case "ice cream": return icecreamIcon;
+      case "fuel":
+        return fuelIcon;
+      case "restaurant":
+        return restaurantIcon;
+      case "fast food":
+        return fastfoodIcon;
+      case "cafe":
+        return cafeIcon;
+      case "toilets":
+        return toiletsIcon;
+      case "hotel":
+        return hotelIcon;
+      case "hospital":
+        return hospitalIcon;
+      case "marketplace":
+        return marketplaceIcon;
+      case "library":
+        return libraryIcon;
+      case "cinema":
+        return cinemaIcon;
+      case "taxi":
+        return taxiIcon;
+      case "ice cream":
+        return icecreamIcon;
       case "college":
       case "school":
       case "university":
-      case "kindergarten": return collegeIcon;
+      case "kindergarten":
+        return collegeIcon;
       case "bank":
-      case "atm": return bankIcon;
-      default: return restaurantIcon;
+      case "atm":
+        return bankIcon;
+      default:
+        return restaurantIcon;
     }
   };
-  
 
   const handleStartNewTrip = async () => {
     await roadtripService
@@ -280,7 +294,7 @@ function MapPage() {
   const handleUpdateTrip = async () => {
     await roadtripService
       .updateRoadtrip(roadtrip.id, roadtrip)
-      .then((res) => { })
+      .then((res) => {})
       .catch((err) => {
         toast.error("Failed to update trip");
       });
@@ -385,40 +399,44 @@ function MapPage() {
   return (
     <div className="relative w-screen h-screen">
       {roadtrip.waypoints.length > 0 && (
-        <div className="absolute bg-white z-20 w-[325px] left-2 top-40 max-h-[50vh] shadow-2xl overflow-x-hidden overflow-scroll bg-opacity-20 backdrop-blur-lg rounded-xl drop-shadow-lg scrollbar-hide">
-          <div className="relative w-full h-full">
-            <WaypointListHeader
-              totalDuration={roadtrip.total_time}
-              totalDistance={roadtrip.total_distance}
-              totalWaypoints={roadtrip.waypoints.length}
-              handleClose={handleClearTrip}
-            />
-            <div className="relative pt-12 px-4 pb-4">
-              <h1
-                className="text-3xl text-center mb-2 hover:underline hover:cursor-pointer"
-                onClick={() => {
-                  setRoadtripDetailsForm(roadtrip);
-                  setShowEditTitleDialog(true);
-                }}
-              >
-                {roadtrip.title}
-              </h1>
-              {roadtrip.waypoints.length > 1 && (
-                <p className="items-center mb-4 text-md font-medium text-blue-500 text-center">
-                  Total Distance:{" "}
-                  {parseFloat(roadtrip.total_distance / 1000).toFixed(3)} km
-                </p>
-              )}
-              <WaypointList
-                onUpdateRoute={handleUpdateWaypoint}
-                distanceBetweenWaypoints={roadtrip.distance_between_waypoints}
-                waypoints={roadtrip.waypoints}
-                removeWaypointFromRoute={removeWaypointFromRoute}
-                onEditWaypoint={handleEditWaypoint}
+        <>
+          <div className="absolute bg-white z-20 w-[325px] left-2 top-40 max-h-[50vh] shadow-2xl overflow-x-hidden overflow-scroll bg-opacity-20 backdrop-blur-lg rounded-xl drop-shadow-lg h-full"></div>
+
+          <div className="absolute z-20 w-[325px] left-2 top-40 max-h-[50vh] shadow-2xl overflow-x-hidden overflow-scroll scrollbar-hide h-full rounded-xl">
+            <div className="relative w-full h-full">
+              <WaypointListHeader
+                totalDuration={roadtrip.total_time}
+                totalDistance={roadtrip.total_distance}
+                totalWaypoints={roadtrip.waypoints.length}
+                handleClose={handleClearTrip}
               />
+              <div className="relative pt-12 px-4 pb-4">
+                <h1
+                  className="text-3xl text-center mb-2 hover:underline hover:cursor-pointer"
+                  onClick={() => {
+                    setRoadtripDetailsForm(roadtrip);
+                    setShowEditTitleDialog(true);
+                  }}
+                >
+                  {roadtrip.title}
+                </h1>
+                {roadtrip.waypoints.length > 1 && (
+                  <p className="items-center mb-4 text-md font-medium text-blue-500 text-center">
+                    Total Distance:{" "}
+                    {parseFloat(roadtrip.total_distance / 1000).toFixed(3)} km
+                  </p>
+                )}
+                <WaypointList
+                  onUpdateRoute={handleUpdateWaypoint}
+                  distanceBetweenWaypoints={roadtrip.distance_between_waypoints}
+                  waypoints={roadtrip.waypoints}
+                  removeWaypointFromRoute={removeWaypointFromRoute}
+                  onEditWaypoint={handleEditWaypoint}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       {showEditTitleDialog && (
@@ -495,12 +513,15 @@ function MapPage() {
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           url={
             import.meta.env.VITE_MAPBOX_USERNAME &&
-              import.meta.env.VITE_MAPBOX_STYLE &&
-              import.meta.env.VITE_MAPBOX_TOKEN
-              ? `https://api.mapbox.com/styles/v1/${import.meta.env.VITE_MAPBOX_USERNAME
-              }/${import.meta.env.VITE_MAPBOX_STYLE
-              }/tiles/256/{z}/{x}/{y}@2x?access_token=${import.meta.env.VITE_MAPBOX_TOKEN
-              }`
+            import.meta.env.VITE_MAPBOX_STYLE &&
+            import.meta.env.VITE_MAPBOX_TOKEN
+              ? `https://api.mapbox.com/styles/v1/${
+                  import.meta.env.VITE_MAPBOX_USERNAME
+                }/${
+                  import.meta.env.VITE_MAPBOX_STYLE
+                }/tiles/256/{z}/{x}/{y}@2x?access_token=${
+                  import.meta.env.VITE_MAPBOX_TOKEN
+                }`
               : `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`
           }
         />
