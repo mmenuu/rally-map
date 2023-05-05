@@ -19,13 +19,17 @@ Whether you're planning a weekend getaway or a cross-country adventure, Rally Ma
 - Get directions to your destinations
 - Visualize your trip on an interactive map
 - Add as many stops as you want
+- Add Self-defined stops
 - Reorder stops to optimize your route
 - See estimated travel times and distances
 - Recommendations for nearby attractions, accommodations, and restaurants
-- Search for places by name
-- Search Road trip
-- Search User
+- Search for places by name, position or ID
+- Search Road trip by title, waypoint name, or description, author name
+- Search User Profile by username, email, ID
 - Favorite landmarks
+- Review landmarks
+- Rate landmarks
+- Share your trip with friends
 
 ## Technologies
 - React
