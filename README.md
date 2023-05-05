@@ -13,6 +13,7 @@ Rally Map is built using modern web technologies such as React, and is optimized
 Whether you're planning a weekend getaway or a cross-country adventure, Rally Map is your ultimate road trip companion. Start your journey today!
 
 ## Features
+
 - Create custom itineraries
 - Discover new routes
 - Find interesting landmarks
@@ -32,16 +33,19 @@ Whether you're planning a weekend getaway or a cross-country adventure, Rally Ma
 - Share your trip with friends
 
 ## Technologies
+
 - React
 - Leaflet and React-Leaflet
 - TailwindCSS
 
-
 ## Getting Started
+
 1. Clone the repository
 2. Install dependencies
 3. Start the development server
 4. Open http://localhost:3000 to view it in the browser
+
+recommended: use [pnpm](https://pnpm.io/) to install dependencies
 
 ```bash
 git clone https://github.com/1tpp/rally-map.git
@@ -50,8 +54,16 @@ npm install
 npm run dev
 ```
 
+optional: user [docker](https://www.docker.com/) to run the project
+
+```bash
+docker-compose up
+```
+
 ## Environment Variables
+
 To run this project, you will need to add the following environment variables to your .env file
+
 ```
 VITE_MAPBOX_STYLE=
 VITE_MAPBOX_USERNAME=
@@ -65,7 +77,9 @@ VITE_API_URL=https://rally.fly.dev
 ```
 
 ## Contributing
+
 Contributions are always welcome! Get started by forking the repository and submitting a pull request.
 
 ## License
+
 [LICENSE](./LICENSE.md)
