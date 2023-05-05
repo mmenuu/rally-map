@@ -54,7 +54,7 @@ npm install
 npm run dev
 ```
 
-optional: user [docker](https://www.docker.com/) to run the project
+optional: use [docker](https://www.docker.com/) to run the project
 
 ```bash
 docker-compose up
